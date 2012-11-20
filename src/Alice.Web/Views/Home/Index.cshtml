@@ -3,3 +3,19 @@
 }
 
 @model List<Post>
+
+@foreach (Post post in @Model) {
+    <article>
+        <header>
+            <h2>@post.Title</h2>
+            <aside>
+                发表于 @post.PostDate.ToString("yyyy-MM-dd")
+            </aside>
+            <aside>
+                @String.Join(", ", @post.Tags)
+            </aside>
+        </header>
+        @Html.Raw(post.Excerpt)
+        <a href="/@post.Name" title="继续阅读@post.Title">继续阅读-></a>
+    </article>
+}

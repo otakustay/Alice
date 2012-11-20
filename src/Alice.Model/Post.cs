@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Alice.Model {
     public class Post {
+        public string Name { get; set; }
+
         public string Title { get; set; }
 
         public string Excerpt { get; set; }
