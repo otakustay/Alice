@@ -1,4 +1,4 @@
-create table `BlogEntry` (
+create table `Post` (
   `Title` varchar(200) not null,
   `Content` text not null,
   `Excerpt` text not null,
