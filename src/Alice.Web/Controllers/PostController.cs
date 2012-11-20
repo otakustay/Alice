@@ -15,6 +15,19 @@ namespace Alice.Web.Controllers {
         static PostController() {
             markdown = new Markdown();
             markdown.ExtraMode = true;
+            markdown.NewWindowForExternalLinks = true;
+            markdown.PrepareImage = (tag, tiled) => {
+                string src = tag.attributes["src"];
+                tag.attributes["src"] = "/content/" + src;
+                return true;
+            };
+            markdown.PrepareLink = (tag) => {
+                string href = tag.attributes["href"];
+                if (!href.StartsWith("http") && !href.EndsWith("/")) {
+                    tag.attributes["href"] = "/content/" + href;
+                }
+                return true;
+            };
         }
 
         [HttpGet]
