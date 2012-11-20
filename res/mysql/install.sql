@@ -3,9 +3,9 @@
  * mysql -uPingApp -p
  */
 
-create database `Alice` default character set utf8;
+create database `alice` default character set utf8;
 
-use `Alice`;
+use `alice`;
 
 source create-table-post.sql;
 source create-table-tag.sql;
