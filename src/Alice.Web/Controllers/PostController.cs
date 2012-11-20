@@ -9,10 +9,10 @@ using MarkdownDeep;
 using MySql.Data.MySqlClient;
 
 namespace Alice.Web.Controllers {
-    public class HomeController : Controller {
+    public class PostController : Controller {
         private static readonly Markdown markdown;
 
-        static HomeController() {
+        static PostController() {
             markdown = new Markdown();
             markdown.ExtraMode = true;
         }
@@ -21,7 +21,7 @@ namespace Alice.Web.Controllers {
         // GET: /Home/
 
         [HttpGet]
-        public ActionResult Index(int page = 1) {
+        public ActionResult List(int page = 1) {
             if (page <= 0) {
                 page = 1;
             }

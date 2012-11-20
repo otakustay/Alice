@@ -24,14 +24,14 @@ namespace Alice.Web {
             routes.MapRoute(
                 "List",
                 "{page}",
-                new { controller = "Home", action = "Index", page = 1 },
+                new { controller = "Post", action = "Index", page = 1 },
                 new { page = @"\d+" }
             );
 
             routes.MapRoute(
                 "View",
                 "{name}",
-                new { controller = "Home", action = "ViewPost" }
+                new { controller = "Post", action = "ViewPost" }
             );
 
             routes.MapRoute(
