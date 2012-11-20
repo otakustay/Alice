@@ -30,8 +30,8 @@ namespace Alice.Web {
 
             routes.MapRoute(
                 "View",
-                "{title}",
-                new { controller = "Home", action = "View" }
+                "{name}",
+                new { controller = "Home", action = "ViewPost" }
             );
 
             routes.MapRoute(

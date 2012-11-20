@@ -21,7 +21,7 @@ namespace Alice.Web.Controllers {
         // GET: /Home/
 
         [HttpGet]
-        public ActionResult Index(int page) {
+        public ActionResult Index(int page = 1) {
             if (page <= 0) {
                 page = 1;
             }
@@ -33,23 +33,50 @@ namespace Alice.Web.Controllers {
 
                 MySqlCommand command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
-                command.CommandText = "select * from Post order by PostDate desc limit ?start, ?limit";
+                command.CommandText = "select * from post order by post_date desc limit ?start, ?limit";
                 command.Parameters.AddWithValue("?start", start);
                 command.Parameters.AddWithValue("?limit", limit);
                 List<Post> posts = new List<Post>();
                 using (IDataReader reader = command.ExecuteReader()) {
                     while (reader.Read()) {
                         Post post = new Post();
-                        post.Name = reader["Name"].ToString();
-                        post.Title = reader["Title"].ToString();
-                        post.Content = markdown.Transform(reader["Content"].ToString());
-                        post.Excerpt = markdown.Transform(reader["Excerpt"].ToString());
-                        post.Tags = reader["Tags"].ToString().Split(',');
-                        post.PostDate = (DateTime)reader["PostDate"];
+                        post.Name = reader["name"].ToString();
+                        post.Title = reader["title"].ToString();
+                        post.Content = markdown.Transform(reader["content"].ToString().Trim());
+                        post.Excerpt = markdown.Transform(reader["excerpt"].ToString().Trim());
+                        post.Tags = reader["tags"].ToString().Split(',');
+                        post.PostDate = (DateTime)reader["post_date"];
                         posts.Add(post);
                     }
                 }
                 return View(posts);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ViewPost(string name) {
+            using (MySqlConnection connection = new MySqlConnection(MvcApplication.connectionString)) {
+                connection.Open();
+
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandType = CommandType.Text;
+                command.CommandText = "select * from post where name = ?name";
+                command.Parameters.AddWithValue("?name", name);
+                using (IDataReader reader = command.ExecuteReader()) {
+                    if (reader.Read()) {
+                        Post post = new Post();
+                        post.Name = reader["name"].ToString();
+                        post.Title = reader["title"].ToString();
+                        post.Content = markdown.Transform(reader["content"].ToString().Trim());
+                        post.Excerpt = markdown.Transform(reader["excerpt"].ToString().Trim());
+                        post.Tags = reader["tags"].ToString().Split(',');
+                        post.PostDate = (DateTime)reader["post_date"];
+                        return View(post);
+                    }
+                    else {
+                        return new HttpStatusCodeResult(404);
+                    }
+                }
             }
         }
 
