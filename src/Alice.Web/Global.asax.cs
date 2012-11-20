@@ -24,7 +24,7 @@ namespace Alice.Web {
             routes.MapRoute(
                 "List",
                 "{page}",
-                new { controller = "Post", action = "Index", page = 1 },
+                new { controller = "Post", action = "List", page = 1 },
                 new { page = @"\d+" }
             );
 

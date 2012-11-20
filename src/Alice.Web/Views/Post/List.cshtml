@@ -2,20 +2,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model List<Post>
+@model List<PostExcerpt>
 
-@foreach (Post post in @Model) {
+@foreach (PostExcerpt post in @Model) {
     <article>
         <header>
             <h2>@post.Title</h2>
             <aside>
-                发表于 @post.PostDate.ToString("yyyy-MM-dd")
-            </aside>
-            <aside>
-                @String.Join(", ", @post.Tags)
+                @post.PostDate.ToString("yyyy-MM-dd")
             </aside>
         </header>
         @Html.Raw(post.Excerpt)
         <a href="/@post.Name" title="继续阅读@post.Title">继续阅读-></a>
     </article>
 }
+
+<aside id="pager">
+@for (int i = 1; i <= ViewBag.PageCount; i++) {
+    if (i == ViewBag.PageIndex) {
+        <span>@i</span>
+    }
+    else {
+        <a href="/@i">@i</a>
+    }
+}
+</aside>

@@ -17,27 +17,29 @@ namespace Alice.Web.Controllers {
             markdown.ExtraMode = true;
         }
 
-        //
-        // GET: /Home/
-
         [HttpGet]
         public ActionResult List(int page = 1) {
             if (page <= 0) {
                 page = 1;
             }
             int limit = 10;
-            int start = page * limit + 1;
+            int start = (page - 1)* limit + 1;
 
             using (MySqlConnection connection = new MySqlConnection(MvcApplication.connectionString)) {
                 connection.Open();
 
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandType = CommandType.Text;
-                command.CommandText = "select name, title, post_date, excerpt from post order by post_date desc limit ?start, ?limit";
-                command.Parameters.AddWithValue("?start", start);
-                command.Parameters.AddWithValue("?limit", limit);
+                MySqlCommand commandForCount = connection.CreateCommand();
+                commandForCount.CommandType = CommandType.Text;
+                commandForCount.CommandText = "select count(*) from post";
+                int count = (int)((long)commandForCount.ExecuteScalar());
+
+                MySqlCommand commandForPage = connection.CreateCommand();
+                commandForPage.CommandType = CommandType.Text;
+                commandForPage.CommandText = "select name, title, post_date, excerpt from post order by post_date desc limit ?start, ?limit";
+                commandForPage.Parameters.AddWithValue("?start", start);
+                commandForPage.Parameters.AddWithValue("?limit", limit);
                 List<PostExcerpt> excerpts = new List<PostExcerpt>();
-                using (IDataReader reader = command.ExecuteReader()) {
+                using (IDataReader reader = commandForPage.ExecuteReader()) {
                     while (reader.Read()) {
                         PostExcerpt excerpt = new PostExcerpt() {
                             Name = reader["name"].ToString(),
@@ -48,6 +50,9 @@ namespace Alice.Web.Controllers {
                         excerpts.Add(excerpt);
                     }
                 }
+
+                ViewBag.PageCount = (int)Math.Ceiling((double)count / (double)limit);
+                ViewBag.PageIndex = page;
                 return View(excerpts);
             }
         }
