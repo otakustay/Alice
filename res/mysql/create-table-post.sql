@@ -1,9 +1,9 @@
-create table `Post` (
-  `Name` varchar(200) not null,
-  `Title` varchar(200) not null,
-  `Content` text not null,
-  `Excerpt` text not null,
-  `Tags` varchar(400) not null,
-  `PostDate` datetime not null,
-  PRIMARY KEY (`Name`)
+create table `post` (
+  `name` varchar(200) not null,
+  `title` varchar(200) not null,
+  `content` text not null,
+  `excerpt` text not null,
+  `tag` varchar(400) not null,
+  `post_date` datetime not null,
+  PRIMARY KEY (`name`)
 ) engine=InnoDB default charset=utf8;
