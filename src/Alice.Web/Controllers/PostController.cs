@@ -33,23 +33,22 @@ namespace Alice.Web.Controllers {
 
                 MySqlCommand command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
-                command.CommandText = "select * from post order by post_date desc limit ?start, ?limit";
+                command.CommandText = "select name, title, post_date, excerpt from post order by post_date desc limit ?start, ?limit";
                 command.Parameters.AddWithValue("?start", start);
                 command.Parameters.AddWithValue("?limit", limit);
-                List<Post> posts = new List<Post>();
+                List<PostExcerpt> excerpts = new List<PostExcerpt>();
                 using (IDataReader reader = command.ExecuteReader()) {
                     while (reader.Read()) {
-                        Post post = new Post();
-                        post.Name = reader["name"].ToString();
-                        post.Title = reader["title"].ToString();
-                        post.Content = markdown.Transform(reader["content"].ToString().Trim());
-                        post.Excerpt = markdown.Transform(reader["excerpt"].ToString().Trim());
-                        post.Tags = reader["tags"].ToString().Split(',');
-                        post.PostDate = (DateTime)reader["post_date"];
-                        posts.Add(post);
+                        PostExcerpt excerpt = new PostExcerpt() {
+                            Name = reader["name"].ToString(),
+                            Title = reader["title"].ToString(),
+                            Excerpt = markdown.Transform(reader["excerpt"].ToString().Trim()),
+                            PostDate = (DateTime)reader["post_date"]
+                        };
+                        excerpts.Add(excerpt);
                     }
                 }
-                return View(posts);
+                return View(excerpts);
             }
         }
 
@@ -60,18 +59,17 @@ namespace Alice.Web.Controllers {
 
                 MySqlCommand command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
-                command.CommandText = "select * from post where name = ?name";
+                command.CommandText = "select name, title, post_date, content, tags from post where name = ?name";
                 command.Parameters.AddWithValue("?name", name);
                 using (IDataReader reader = command.ExecuteReader()) {
                     if (reader.Read()) {
-                        Post post = new Post();
-                        post.Name = reader["name"].ToString();
-                        post.Title = reader["title"].ToString();
-                        post.Content = markdown.Transform(reader["content"].ToString().Trim());
-                        post.Excerpt = markdown.Transform(reader["excerpt"].ToString().Trim());
-                        post.Tags = reader["tags"].ToString().Split(',');
-                        post.PostDate = (DateTime)reader["post_date"];
-                        return View(post);
+                        PostEntry entry = new PostEntry();
+                        entry.Name = reader["name"].ToString();
+                        entry.Title = reader["title"].ToString();
+                        entry.Content = markdown.Transform(reader["content"].ToString().Trim());
+                        entry.Tags = reader["tags"].ToString().Split(',');
+                        entry.PostDate = (DateTime)reader["post_date"];
+                        return View(entry);
                     }
                     else {
                         return new HttpStatusCodeResult(404);
