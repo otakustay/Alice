@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Post
+
+<a href="/">回首页</a>
+
+<article>
+        <header>
+            <h2>@Model.Title</h2>
+            <aside>
+                发表于 @Model.PostDate.ToString("yyyy-MM-dd")
+            </aside>
+            <aside>
+                @String.Join(", ", @Model.Tags)
+            </aside>
+        </header>
+        @Html.Raw(Model.Content)
+</article>
