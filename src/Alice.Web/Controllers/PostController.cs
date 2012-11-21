@@ -71,7 +71,7 @@ namespace Alice.Web.Controllers {
 
                 MySqlCommand command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
-                command.CommandText = "select name, title, post_date, content, tags from post where name = ?name";
+                command.CommandText = "select name, title, post_date, update_date, content, tags from post where name = ?name";
                 command.Parameters.AddWithValue("?name", name);
                 using (IDataReader reader = command.ExecuteReader()) {
                     if (reader.Read()) {
@@ -80,7 +80,8 @@ namespace Alice.Web.Controllers {
                             Title = reader["title"].ToString(),
                             Content = markdown.Transform(reader["content"].ToString().Trim()),
                             Tags = reader["tags"].ToString().Split(','),
-                            PostDate = (DateTime)reader["post_date"]
+                            PostDate = (DateTime)reader["post_date"],
+                            UpdateDate = (DateTime)reader["update_date"]
                         };
                         ViewBag.Title = String.Format("{0} - {1}", entry.Title, "宅居 - 宅并技术着");
                         return View(entry);
@@ -102,7 +103,7 @@ namespace Alice.Web.Controllers {
 
                 MySqlCommand commandForPage = connection.CreateCommand();
                 commandForPage.CommandType = CommandType.Text;
-                commandForPage.CommandText = "select name, title, post_date, content, tags from post order by post_date desc limit " + limit;
+                commandForPage.CommandText = "select name, title, post_date, update_date, content, tags from post order by post_date desc limit " + limit;
                 using (IDataReader reader = commandForPage.ExecuteReader()) {
                     while (reader.Read()) {
                         PostEntry entry = new PostEntry() {
@@ -110,7 +111,8 @@ namespace Alice.Web.Controllers {
                             Title = reader["title"].ToString(),
                             Content = markdown.Transform(reader["content"].ToString().Trim()),
                             Tags = reader["tags"].ToString().Split(','),
-                            PostDate = (DateTime)reader["post_date"]
+                            PostDate = (DateTime)reader["post_date"],
+                            UpdateDate = (DateTime)reader["update_date"]
                         };
                         entries.Add(entry);
                     }
@@ -136,7 +138,8 @@ namespace Alice.Web.Controllers {
             item.Title = SyndicationContent.CreatePlaintextContent(entry.Title);
             item.Content = SyndicationContent.CreateHtmlContent(markdown.Transform(entry.Content));
             item.AddPermalink(new Uri("http://otakustay.com/" + entry.Name));
-            item.LastUpdatedTime = new DateTimeOffset(entry.PostDate);
+            item.PublishDate = new DateTimeOffset(entry.PostDate);
+            item.LastUpdatedTime = new DateTimeOffset(entry.UpdateDate);
             item.Authors.Add(me.Clone());
             return item;
         }

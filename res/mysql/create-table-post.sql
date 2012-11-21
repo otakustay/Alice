@@ -5,5 +5,6 @@ create table `post` (
   `excerpt` text not null,
   `tags` varchar(400) not null,
   `post_date` datetime not null,
+  `update_date` datetime not null,
   PRIMARY KEY (`name`)
 ) engine=InnoDB default charset=utf8;

@@ -8,5 +8,7 @@ namespace Alice.Model {
         public string Content { get; set; }
 
         public string[] Tags { get; set; }
+
+        public DateTime UpdateDate { get; set; }
     }
 }
