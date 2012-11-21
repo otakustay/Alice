@@ -109,3 +109,4 @@ UpgradeLog*.XML
 
 # Project
 src/Alice.Web/Content/*
+publish
