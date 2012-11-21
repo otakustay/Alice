@@ -5,7 +5,7 @@
 @foreach (PostExcerpt post in @Model) {
     <article>
         <header>
-            <h2>@post.Title</h2>
+            <h1>@post.Title</h1>
         </header>
         <footer>
             发表于<time datetime="@post.PostDate.ToString("yyyy-MM-dd")">@post.PostDate.ToString("yyyy年%M月%d日")</time>

@@ -3,18 +3,22 @@
 }
 
 @model PostEntry
-
 <a href="/">回首页</a>
 
 <article>
-        <header>
-            <h2>@Model.Title</h2>
-            <aside>
-                发表于 @Model.PostDate.ToString("yyyy-MM-dd")
-            </aside>
-            <aside>
-                @String.Join(", ", @Model.Tags)
-            </aside>
-        </header>
-        @Html.Raw(Model.Content)
+    <header>
+        <h1>@Model.Title</h1>
+    </header>
+    <footer>
+        <span id="post-time">发表于 <time datetime="@Model.PostDate.ToString("yyyy-MM-DD")">@Model.PostDate.ToString("yyyy年%M月%d日")</time></span>
+    </footer>
+    @Html.Raw(Model.Content)
+    <footer id="tags">
+        所属标签
+        <ul>
+            @foreach (string tag in @Model.Tags) {
+                <li>@tag</li>
+            }
+        </ul>
+    </footer>
 </article>
