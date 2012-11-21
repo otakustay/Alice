@@ -22,6 +22,12 @@ namespace Alice.Web {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "Rss2.0",
+                "feed",
+                new { controller = "Post", action = "Feed" }
+            );
+
+            routes.MapRoute(
                 "List",
                 "{page}",
                 new { controller = "Post", action = "List", page = 1 },
