@@ -52,6 +52,7 @@ namespace Alice.Web.Controllers {
                     }
                 }
 
+                ViewBag.Title = "宅居 - 宅并技术着";
                 ViewBag.PageCount = (int)Math.Ceiling((double)count / (double)limit);
                 ViewBag.PageIndex = page;
                 return View(excerpts);
@@ -75,6 +76,7 @@ namespace Alice.Web.Controllers {
                         entry.Content = markdown.Transform(reader["content"].ToString().Trim());
                         entry.Tags = reader["tags"].ToString().Split(',');
                         entry.PostDate = (DateTime)reader["post_date"];
+                        ViewBag.Title = String.Format("{0} - {1}", entry.Title, "宅居 - 宅并技术着");
                         return View(entry);
                     }
                     else {
