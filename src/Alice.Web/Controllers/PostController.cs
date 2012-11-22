@@ -83,6 +83,7 @@ namespace Alice.Web.Controllers {
 
         [ActionName("Comments")]
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult PostComment(Comment comment) {
             comment.PostTime = DateTime.Now;
             comment.Author.IpAddress = Request.UserHostAddress;
