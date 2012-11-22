@@ -42,6 +42,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="MarkdownDeep">
       <HintPath>..\..\res\lib\MarkdownDeep.dll</HintPath>
     </Reference>
@@ -50,6 +56,9 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
@@ -121,6 +130,11 @@
     <Compile Include="Infrastructure\CreatedActionResult.cs" />
     <Compile Include="Infrastructure\NewtonJsonActionResult.cs" />
     <Compile Include="Infrastructure\Rss20ActionResult.cs" />
+    <Compile Include="Models\Mapping\CommentAuthorComponentMap.cs" />
+    <Compile Include="Models\Mapping\CommentEntityMap.cs" />
+    <Compile Include="Models\Mapping\PostEntryEntityMap.cs" />
+    <Compile Include="Models\Mapping\PostExcerptEntityMap.cs" />
+    <Compile Include="Models\Mapping\StringArrayType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +168,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
