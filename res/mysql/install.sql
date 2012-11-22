@@ -9,5 +9,6 @@ use `alice`;
 
 source create-table-post.sql;
 source create-table-tag.sql;
+source create-table-comment.sql;
 
 show tables;
