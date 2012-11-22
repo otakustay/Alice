@@ -98,6 +98,44 @@ namespace Alice.Web.Controllers {
         }
 
         [HttpGet]
+        public ActionResult GetComments(string postName) {
+            List<Comment> comments = new List<Comment>();
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString)) {
+                connection.Open();
+
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandType = CommandType.Text;
+                command.CommandText = "select * from comment where post_name = ?postName order by post_time asc";
+                using (IDataReader reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        Comment comment = new Comment() {
+                            Id = (int)reader["id"],
+                            PostName = reader["post_name"].ToString(),
+                            PostTime = (DateTime)reader["post_time"],
+                            Content = reader["content"].ToString(),
+                            Author = new CommentAuthor() {
+                                Name = reader["author_name"].ToString(),
+                                Email = reader["author_email"].ToString(),
+                                IpAddress = reader["author_ip_address"].ToString(),
+                                UserAgent = reader["author_user_agent"].ToString()
+                            }
+                        };
+                        comments.Add(comment);
+                    }
+                }
+            }
+
+            if (Request.Headers["Accept"].Contains("application/json")) {
+                return new NewtonJsonActionResult(comments);
+            }
+            else {
+                return View(comments);
+            }
+
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
         public ActionResult Feed() {
             List<PostEntry> entries = new List<PostEntry>();
             using (MySqlConnection connection = new MySqlConnection(ConnectionString)) {
