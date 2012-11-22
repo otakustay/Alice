@@ -69,18 +69,16 @@ namespace Alice.Web.Controllers {
         [ActionName("Comments")]
         [HttpGet]
         public ActionResult GetComments(string postName) {
+            if (!Request.AcceptTypes.Contains("application/json")) {
+                return Redirect(Url.Content("~/" + postName));
+            }
+
             IEnumerable<Comment> comments = DbSession.QueryOver<Comment>()
                 .Where(c => c.PostName == postName)
                 .OrderBy(c => c.PostTime).Asc
-                .List()
-                .Select(RenderComment);
+                .List();
 
-            if (Request.Headers["Accept"].Contains("application/json")) {
-                return new NewtonJsonActionResult(comments);
-            }
-            else {
-                return View(comments);
-            }
+            return new NewtonJsonActionResult(comments);
         }
 
         [ActionName("Comments")]
@@ -92,7 +90,7 @@ namespace Alice.Web.Controllers {
 
             DbSession.Save(comment);
 
-            if (Request.Headers["Accept"].Contains("application/json")) {
+            if (Request.AcceptTypes.Contains("application/json")) {
                 return new CreatedActionResult(
                     Url.Content("~/" + comment.PostName),
                     new NewtonJsonActionResult(comment)
@@ -144,12 +142,6 @@ namespace Alice.Web.Controllers {
         private PostEntry RenderEntry(PostEntry entry) {
             entry.Content = Transformer.Transform(entry.Content);
             return entry;
-        }
-
-        private Comment RenderComment(Comment comment) {
-            // TODO: 替换Transformer为SafeMode
-            comment.Content = Transformer.Transform(comment.Content);
-            return comment;
         }
     }
 }
