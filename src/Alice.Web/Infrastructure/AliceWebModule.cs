@@ -4,13 +4,19 @@ using System.Configuration;
 using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Web;
+using Alice.Web.Models.Mapping;
+using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
 using MarkdownDeep;
+using NHibernate;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;
 
 namespace Alice.Web.Infrastructure {
     public class AliceWebModule : NinjectModule {
+        private static readonly ISessionFactory sessionFactory;
+
         public override void Load() {
             Bind<int>().ToConstant(10).Named("PageSize");
 
@@ -43,6 +49,28 @@ namespace Alice.Web.Infrastructure {
 
             string connectionString = ConfigurationManager.ConnectionStrings["MySql"].ConnectionString;
             Bind<string>().ToConstant(connectionString).Named("ConnectionString");
+
+            Bind<ISession>().ToMethod(OpenSession).InTransientScope();
+        }
+
+        private static ISession OpenSession(IContext context) {
+            ISession session = HttpContext.Current.Items["NHibernateSession"] as ISession;
+            if (session == null) {
+                session = sessionFactory.OpenSession();
+                HttpContext.Current.Items["NHibernateSession"] = session;
+            }
+            return session;
+        }
+
+        static AliceWebModule() {
+            string connectionString = ConfigurationManager.ConnectionStrings["PingApp"].ConnectionString;
+            sessionFactory = Fluently.Configure()
+                .Database(MySQLConfiguration.Standard.ConnectionString(connectionString).ShowSql())
+                .Mappings(m => m.FluentMappings.Add<PostExcerptEntityMap>())
+                .Mappings(m => m.FluentMappings.Add<PostEntryEntityMap>())
+                .Mappings(m => m.FluentMappings.Add<CommentEntityMap>())
+                .Mappings(m => m.FluentMappings.Add<CommentAuthorComponentMap>())
+                .BuildSessionFactory();
         }
     }
 }

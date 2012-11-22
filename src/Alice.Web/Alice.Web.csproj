@@ -129,6 +129,7 @@
     <Compile Include="Infrastructure\AliceWebModule.cs" />
     <Compile Include="Infrastructure\CreatedActionResult.cs" />
     <Compile Include="Infrastructure\NewtonJsonActionResult.cs" />
+    <Compile Include="Infrastructure\NHibernateSessionModule.cs" />
     <Compile Include="Infrastructure\Rss20ActionResult.cs" />
     <Compile Include="Models\Mapping\CommentAuthorComponentMap.cs" />
     <Compile Include="Models\Mapping\CommentEntityMap.cs" />
