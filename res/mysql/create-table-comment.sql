@@ -6,6 +6,6 @@ create table `comment` (
   `author_ip_address` varchar(40) not null,
   `author_user_agent` varchar(200) not null,
   `content` text not null,
-  `post_date` datetime not null,
+  `post_time` datetime not null,
   PRIMARY KEY (`id`)
 ) engine=InnoDB default charset=utf8;
