@@ -9,7 +9,7 @@
                     '<p class="author-name">{{author.name}}</p>' +
                     '<time class="post-time" datetime="{{postTime}}">{{prettyTime}}</time>' +
                 '</footer>' +
-                '{{content}}' +
+                '{{&content}}' +
             '</article>' + 
         '</li>';
     var listTemplate = '{{#comments}}' + articleTemplate + '{{/comments}}';
