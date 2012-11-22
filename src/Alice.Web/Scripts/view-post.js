@@ -12,12 +12,18 @@
                 '{{&content}}' +
             '</article>' + 
         '</li>';
-    var listTemplate = '{{#comments}}' + articleTemplate + '{{/comments}}';
+    var sectionTemplate = 
+        '<h1>已有<span>{{count}}</span>个评论</h1>' +
+        '<ol>' + 
+            '{{#comments}}' + 
+            articleTemplate + 
+            '{{/comments}}' +
+        '</ol>';
 
     $.getJSON(
         '/' + postName + '/comments',
         function(data) {
-            var html = Mustache.render(listTemplate, { comments: data });
+            var html = Mustache.render(sectionTemplate, { comments: data, count: data.length });
             $('#comments').html(html);
         }
     );
@@ -26,19 +32,13 @@
     postCommentForm.on(
         'submit',
         function() {
-            var data = {
-                author: {
-                    name: $('[name="comment.author.name"]').val(),
-                    email: $('[name="comment.author.email"]').val()
-                },
-                content: $('[name="comment.content"]').val()
-            };
             $.post(
                 '/' + postName + '/comments',
                 $(this).serialize(),
-                function() {
+                function(data) {
                     var html = Mustache.render(articleTemplate, data);
-                    $('#comments').append(html);
+                    $('#comments > h1 > span').text(function() { return parseInt(this.innerHTML, 10) + 1; });
+                    $('#comments > ol').append(html);
                     postCommentForm[0].reset();
                 },
                 'json'
