@@ -5,13 +5,12 @@ using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Web;
 using Alice.Web.Models.Mapping;
-using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
 using MarkdownDeep;
 using NHibernate;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;
+using Configuration = NHibernate.Cfg.Configuration;
 
 namespace Alice.Web.Infrastructure {
     public class AliceWebModule : NinjectModule {
@@ -64,12 +63,13 @@ namespace Alice.Web.Infrastructure {
 
         static AliceWebModule() {
             string connectionString = ConfigurationManager.ConnectionStrings["MySql"].ConnectionString;
-            sessionFactory = Fluently.Configure()
-                .Database(MySQLConfiguration.Standard.ConnectionString(connectionString).ShowSql())
-                .Mappings(m => m.FluentMappings.Add<PostExcerptEntityMap>())
-                .Mappings(m => m.FluentMappings.Add<PostEntryEntityMap>())
-                .Mappings(m => m.FluentMappings.Add<CommentEntityMap>())
-                .Mappings(m => m.FluentMappings.Add<CommentAuthorComponentMap>())
+            sessionFactory = new Configuration()
+                .SetProperty("dialect", "NHibernate.Dialect.MySQL5Dialect")
+                .SetProperty("connection.provider", "NHibernate.Connection.DriverConnectionProvider")
+                .SetProperty("connection.driver_class", "NHibernate.Driver.MySqlDataDriver")
+                .SetProperty("connection.connection_string", connectionString)
+                .SetProperty("show_sql", "true")
+                .AddAssembly("Alice.Web")
                 .BuildSessionFactory();
         }
     }
