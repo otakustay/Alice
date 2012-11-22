@@ -90,32 +90,16 @@ namespace Alice.Web.Controllers {
             comment.Author.IpAddress = Request.UserHostAddress;
             comment.Author.UserAgent = Request.UserAgent;
 
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString)) {
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandType = CommandType.Text;
-                command.CommandText =
-@"insert into comment (
-    post_name, content, post_time, author_name, author_email, author_ip_address, author_user_agent
-) 
-values (
-    ?postName, ?content, ?postTime, ?authorName, ?authorEmail, ?authorIpAddress, ?authorUserAgent
-)";
-                command.Parameters.AddWithValue("?postName", comment.PostName);
-                command.Parameters.AddWithValue("?content", comment.Content);
-                command.Parameters.AddWithValue("?postTime", comment.PostTime);
-                command.Parameters.AddWithValue("?authorName", comment.Author.Name);
-                command.Parameters.AddWithValue("?authorEmail", comment.Author.Email);
-                command.Parameters.AddWithValue("?authorIpAddress", comment.Author.IpAddress);
-                command.Parameters.AddWithValue("?authorUserAgent", comment.Author.UserAgent);
-                command.ExecuteNonQuery();
+            DbSession.Save(comment);
 
-                if (Request.Headers["Accept"].Contains("application/json")) {
-                    return new CreatedActionResult(Url.Content("~/" + comment.PostName));
-                }
-                else {
-                    return Redirect(Url.Content("~/" + comment.PostName));
-                }
+            if (Request.Headers["Accept"].Contains("application/json")) {
+                return new CreatedActionResult(
+                    Url.Content("~/" + comment.PostName),
+                    new NewtonJsonActionResult(comment)
+                );
+            }
+            else {
+                return Redirect(Url.Content("~/" + comment.PostName));
             }
         }
 

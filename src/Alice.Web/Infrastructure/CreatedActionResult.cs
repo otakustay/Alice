@@ -9,8 +9,11 @@ namespace Alice.Web.Infrastructure {
     public class CreatedActionResult : ActionResult {
         private readonly string resourceUrl;
 
-        public CreatedActionResult(string resourceUrl) {
+        private readonly ActionResult actualResult;
+
+        public CreatedActionResult(string resourceUrl, ActionResult actualResult) {
             this.resourceUrl = resourceUrl;
+            this.actualResult = actualResult;
         }
 
         public override void ExecuteResult(ControllerContext context) {
@@ -19,7 +22,7 @@ namespace Alice.Web.Infrastructure {
             context.HttpContext.Response.StatusCode = 201;
             context.HttpContext.Response.RedirectLocation = resourceUrl;
 
-            context.HttpContext.Response.End();
+            actualResult.ExecuteResult(context);
         }
     }
 }
