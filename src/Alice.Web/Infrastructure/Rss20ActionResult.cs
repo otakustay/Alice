@@ -15,7 +15,7 @@ namespace Alice.Web.Infrastructure {
         }
 
         public override void ExecuteResult(ControllerContext context) {
-            context.HttpContext.Response.ContentType = "application/rss+xml";
+            context.HttpContext.Response.ContentType = "application/rss+xml; charset=utf-8";
 
             Rss20FeedFormatter formatter = feed.GetRss20Formatter();
             using (XmlWriter writer = XmlWriter.Create(context.HttpContext.Response.Output)) {
