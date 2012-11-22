@@ -97,6 +97,7 @@ namespace Alice.Web.Controllers {
             }
         }
 
+        [ActionName("Comments")]
         [HttpGet]
         public ActionResult GetComments(string postName) {
             List<Comment> comments = new List<Comment>();
@@ -106,6 +107,7 @@ namespace Alice.Web.Controllers {
                 MySqlCommand command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
                 command.CommandText = "select * from comment where post_name = ?postName order by post_time asc";
+                command.Parameters.AddWithValue("?postName", postName);
                 using (IDataReader reader = command.ExecuteReader()) {
                     while (reader.Read()) {
                         Comment comment = new Comment() {
@@ -131,8 +133,42 @@ namespace Alice.Web.Controllers {
             else {
                 return View(comments);
             }
+        }
 
-            throw new NotImplementedException();
+        [ActionName("Comments")]
+        [HttpPost]
+        public ActionResult PostComment(Comment comment) {
+            comment.PostTime = DateTime.Now;
+            comment.Author.IpAddress = Request.UserHostAddress;
+            comment.Author.UserAgent = Request.UserAgent;
+
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString)) {
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandType = CommandType.Text;
+                command.CommandText =
+@"insert into comment (
+    post_name, content, post_time, author_name, author_email, author_ip_address, author_user_agent
+) 
+values (
+    ?postName, ?content, ?postTime, ?authorName, ?authorEmail, ?authorIpAddress, ?authorUserAgent
+)";
+                command.Parameters.AddWithValue("?postName", comment.PostName);
+                command.Parameters.AddWithValue("?content", comment.Content);
+                command.Parameters.AddWithValue("?postTime", comment.PostTime);
+                command.Parameters.AddWithValue("?authorName", comment.Author.Name);
+                command.Parameters.AddWithValue("?authorEmail", comment.Author.Email);
+                command.Parameters.AddWithValue("?authorIpAddress", comment.Author.IpAddress);
+                command.Parameters.AddWithValue("?authorUserAgent", comment.Author.UserAgent);
+                command.ExecuteNonQuery();
+
+                if (Request.Headers["Accept"].Contains("application/json")) {
+                    return new CreatedActionResult(Url.Content("~/" + comment.PostName));
+                }
+                else {
+                    return Redirect(Url.Content("~/" + comment.PostName));
+                }
+            }
         }
 
         [HttpGet]

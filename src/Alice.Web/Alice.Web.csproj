@@ -118,12 +118,22 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\AliceWebModule.cs" />
+    <Compile Include="Infrastructure\CreatedActionResult.cs" />
     <Compile Include="Infrastructure\NewtonJsonActionResult.cs" />
     <Compile Include="Infrastructure\Rss20ActionResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <None Include="Scripts\jquery-1.8.2.intellisense.js">
+      <DependentUpon>jquery-1.8.2.js</DependentUpon>
+    </None>
+    <Content Include="Scripts\jquery-1.8.2.js" />
+    <Content Include="Scripts\jquery-1.8.2.min.js">
+      <DependentUpon>jquery-1.8.2.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\mustache.js" />
+    <Content Include="Scripts\view-post.js" />
     <Content Include="Styles\Site.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -145,7 +155,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

@@ -29,6 +29,12 @@ namespace Alice.Web {
             );
 
             routes.MapRoute(
+                "Comments",
+                "{postName}/comments",
+                new { controller = "Post", action = "Comments" }
+            );
+
+            routes.MapRoute(
                 "List",
                 "{page}",
                 new { controller = "Post", action = "List", page = 1 },

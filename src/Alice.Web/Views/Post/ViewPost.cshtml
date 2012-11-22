@@ -1,11 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 @model PostEntry
 <a href="/">回首页</a>
 
-<article>
+<article id="post" data-name="@Model.Name">
     <header>
         <h1>@Model.Title</h1>
     </header>
@@ -22,3 +21,27 @@
         </ul>
     </footer>
 </article>
+
+<ol id="comments"></ol>
+
+<aside id="post-comment">
+    <h1>评论</h1>
+    <form method="post" action="@Url.Content("~/" + @Model.Name + "/comments")">
+    <input type="hidden" name="comment.postName" value="@Model.Name" />
+    <div class="form-row">
+        <input name="comment.author.name" placeholder="昵称" />
+    </div>
+    <div class="form-row">
+        <input name="comment.author.email" placeholder="邮箱" />
+    </div>
+    <div class="form-row">
+        <textarea name="comment.content" placeholder="使用Markdown格式"></textarea>
+    </div>
+    <div class="form-submit">
+        <input type="submit" value="提交" />
+    </div>
+    </form>
+</aside>
+
+<script src="@Url.Content("~/scripts/mustache.js?v=1")" defer="defer"></script>
+<script src="@Url.Content("~/scripts/view-post.js?v=1")" defer="defer"></script>
