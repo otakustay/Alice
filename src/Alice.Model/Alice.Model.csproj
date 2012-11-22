@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comment.cs" />
+    <Compile Include="CommentAuthor.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="PostEntry.cs" />
     <Compile Include="PostExcerpt.cs" />
