@@ -1,4 +1,12 @@
 ﻿var postName = $('#post').data('name');
+var markdown = new MarkdownDeep.Markdown();
+markdown.SafeMode = true;
+markdown.NewWindowForExternalLinks = true;
+markdown.NewWindowForLocalLinks = true;
+
+function transformMarkdown(text, render) {
+    return markdown.Transform(render(text));
+}
 
 // 加载评论
 (function() {
@@ -9,7 +17,7 @@
                     '<p class="author-name">{{author.name}}</p>' +
                     '<time class="post-time" datetime="{{postTime}}">{{prettyTime}}</time>' +
                 '</footer>' +
-                '{{&content}}' +
+                '{{#markdown}}{{content}}{{/markdown}}' +
             '</article>' + 
         '</li>';
     var sectionTemplate = 
@@ -22,8 +30,13 @@
 
     $.getJSON(
         '/' + postName + '/comments',
-        function(data) {
-            var html = Mustache.render(sectionTemplate, { comments: data, count: data.length });
+        function(comments) {
+            var data = { 
+                comments: comments, 
+                count: comments.length, 
+                markdown: function() { return transformMarkdown; }
+            };
+            var html = Mustache.render(sectionTemplate, data);
             $('#comments').html(html);
         }
     );
@@ -36,8 +49,10 @@
                 '/' + postName + '/comments',
                 $(this).serialize(),
                 function(data) {
-                    var html = Mustache.render(articleTemplate, data);
                     $('#comments > h1 > span').text(function() { return parseInt(this.innerHTML, 10) + 1; });
+                    debugger;
+                    data.markdown = function() { return transformMarkdown; };
+                    var html = Mustache.render(articleTemplate, data);
                     $('#comments > ol').append(html);
                     postCommentForm[0].reset();
                 },
