@@ -8,12 +8,16 @@ using FluentNHibernate.Mapping;
 namespace Alice.Web.Models.Mapping {
     public class PostEntryEntityMap : ClassMap<PostEntry> {
         public PostEntryEntityMap() {
+            Table("post");
+
             Id(p => p.Name);
             Map(p => p.PostDate).Column("post_date");
-            Map(p => p.Title).Column("post_title");
+            Map(p => p.Title).Column("title");
             Map(p => p.Content).Column("content");
             Map(p => p.Tags).Column("tags").CustomType<StringArrayType>();
             Map(p => p.UpdateDate).Column("update_date");
+
+            Not.LazyLoad();
         }
     }
 }

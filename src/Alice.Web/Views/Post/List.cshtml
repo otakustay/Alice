@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model List<PostExcerpt>
+@model IEnumerable<PostExcerpt>
 @foreach (PostExcerpt post in @Model) {
     <article>
         <header>

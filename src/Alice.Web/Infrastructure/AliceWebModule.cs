@@ -63,7 +63,7 @@ namespace Alice.Web.Infrastructure {
         }
 
         static AliceWebModule() {
-            string connectionString = ConfigurationManager.ConnectionStrings["PingApp"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["MySql"].ConnectionString;
             sessionFactory = Fluently.Configure()
                 .Database(MySQLConfiguration.Standard.ConnectionString(connectionString).ShowSql())
                 .Mappings(m => m.FluentMappings.Add<PostExcerptEntityMap>())

@@ -14,6 +14,8 @@ namespace Alice.Web.Models.Mapping {
             Map(c => c.PostTime).Column("post_time");
 
             Component(c => c.Author).ColumnPrefix("author_");
+
+            Not.LazyLoad();
         }
     }
 }
