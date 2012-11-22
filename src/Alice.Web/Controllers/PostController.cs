@@ -9,43 +9,33 @@ using MarkdownDeep;
 using MySql.Data.MySqlClient;
 using System.ServiceModel.Syndication;
 using Alice.Web.Infrastructure;
+using Ninject;
 
 namespace Alice.Web.Controllers {
     public class PostController : Controller {
-        private static readonly SyndicationPerson me =
-            new SyndicationPerson("otakustay@live.com", "otakustay", "http://otakustay.com");
+        [Inject, Named("PageSize")]
+        public int PageSize { get; set; }
 
-        private static readonly Markdown markdown;
+        [Inject, Named("BaseUrl")]
+        public string BaseUrl { get; set; }
 
-        static PostController() {
-            markdown = new Markdown();
-            markdown.ExtraMode = true;
-            markdown.NewWindowForExternalLinks = true;
-            markdown.PrepareImage = (tag, tiled) => {
-                string src = tag.attributes["src"];
-                if (src.StartsWith("/")) {
-                    tag.attributes["src"] = "http://otakustay.com" + src;
-                }
-                return true;
-            };
-            markdown.PrepareLink = (tag) => {
-                string href = tag.attributes["href"];
-                if (href.StartsWith("/")) {
-                    tag.attributes["href"] = "http://otakustay.com" + href;
-                }
-                return true;
-            };
-        }
+        [Inject, Named("ConnectionString")]
+        public string ConnectionString { get; set; }
+
+        [Inject]
+        public SyndicationPerson Author { get; set; }
+
+        [Inject]
+        public Markdown Transformer { get; set; }
 
         [HttpGet]
         public ActionResult List(int page = 1) {
             if (page <= 0) {
                 page = 1;
             }
-            int limit = 10;
-            int start = (page - 1) * limit + 1;
+            int start = (page - 1) * PageSize;
 
-            using (MySqlConnection connection = new MySqlConnection(MvcApplication.connectionString)) {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString)) {
                 connection.Open();
 
                 MySqlCommand commandForCount = connection.CreateCommand();
@@ -57,14 +47,14 @@ namespace Alice.Web.Controllers {
                 commandForPage.CommandType = CommandType.Text;
                 commandForPage.CommandText = "select name, title, post_date, excerpt from post order by post_date desc limit ?start, ?limit";
                 commandForPage.Parameters.AddWithValue("?start", start);
-                commandForPage.Parameters.AddWithValue("?limit", limit);
+                commandForPage.Parameters.AddWithValue("?limit", PageSize);
                 List<PostExcerpt> excerpts = new List<PostExcerpt>();
                 using (IDataReader reader = commandForPage.ExecuteReader()) {
                     while (reader.Read()) {
                         PostExcerpt excerpt = new PostExcerpt() {
                             Name = reader["name"].ToString(),
                             Title = reader["title"].ToString(),
-                            Excerpt = markdown.Transform(reader["excerpt"].ToString().Trim()),
+                            Excerpt = Transformer.Transform(reader["excerpt"].ToString().Trim()),
                             PostDate = (DateTime)reader["post_date"]
                         };
                         excerpts.Add(excerpt);
@@ -72,7 +62,7 @@ namespace Alice.Web.Controllers {
                 }
 
                 ViewBag.Title = "宅居 - 宅并技术着";
-                ViewBag.PageCount = (int)Math.Ceiling((double)count / (double)limit);
+                ViewBag.PageCount = (int)Math.Ceiling((double)count / (double)PageSize);
                 ViewBag.PageIndex = page;
                 return View(excerpts);
             }
@@ -80,7 +70,7 @@ namespace Alice.Web.Controllers {
 
         [HttpGet]
         public ActionResult ViewPost(string name) {
-            using (MySqlConnection connection = new MySqlConnection(MvcApplication.connectionString)) {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString)) {
                 connection.Open();
 
                 MySqlCommand command = connection.CreateCommand();
@@ -92,7 +82,7 @@ namespace Alice.Web.Controllers {
                         PostEntry entry = new PostEntry() {
                             Name = reader["name"].ToString(),
                             Title = reader["title"].ToString(),
-                            Content = markdown.Transform(reader["content"].ToString().Trim()),
+                            Content = Transformer.Transform(reader["content"].ToString().Trim()),
                             Tags = reader["tags"].ToString().Split(','),
                             PostDate = (DateTime)reader["post_date"],
                             UpdateDate = (DateTime)reader["update_date"]
@@ -109,21 +99,19 @@ namespace Alice.Web.Controllers {
 
         [HttpGet]
         public ActionResult Feed() {
-            int limit = 10;
-
             List<PostEntry> entries = new List<PostEntry>();
-            using (MySqlConnection connection = new MySqlConnection(MvcApplication.connectionString)) {
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString)) {
                 connection.Open();
 
                 MySqlCommand commandForPage = connection.CreateCommand();
                 commandForPage.CommandType = CommandType.Text;
-                commandForPage.CommandText = "select name, title, post_date, update_date, content, tags from post order by post_date desc limit " + limit;
+                commandForPage.CommandText = "select name, title, post_date, update_date, content, tags from post order by post_date desc limit " + PageSize;
                 using (IDataReader reader = commandForPage.ExecuteReader()) {
                     while (reader.Read()) {
                         PostEntry entry = new PostEntry() {
                             Name = reader["name"].ToString(),
                             Title = reader["title"].ToString(),
-                            Content = markdown.Transform(reader["content"].ToString().Trim()),
+                            Content = Transformer.Transform(reader["content"].ToString().Trim()),
                             Tags = reader["tags"].ToString().Split(','),
                             PostDate = (DateTime)reader["post_date"],
                             UpdateDate = (DateTime)reader["update_date"]
@@ -141,20 +129,20 @@ namespace Alice.Web.Controllers {
                 new DateTimeOffset(entries[0].PostDate),
                 entries.Select(TransformPost)
             );
-            feed.Authors.Add(me.Clone());
+            feed.Authors.Add(Author.Clone());
 
             return new Rss20ActionResult(feed);
         }
 
-        private static SyndicationItem TransformPost(PostEntry entry) {
+        private SyndicationItem TransformPost(PostEntry entry) {
             SyndicationItem item = new SyndicationItem();
             item.Id = entry.Name;
             item.Title = SyndicationContent.CreatePlaintextContent(entry.Title);
-            item.Content = SyndicationContent.CreateHtmlContent(markdown.Transform(entry.Content));
+            item.Content = SyndicationContent.CreateHtmlContent(Transformer.Transform(entry.Content));
             item.AddPermalink(new Uri("http://otakustay.com/" + entry.Name));
             item.PublishDate = new DateTimeOffset(entry.PostDate);
             item.LastUpdatedTime = new DateTimeOffset(entry.UpdateDate);
-            item.Authors.Add(me.Clone());
+            item.Authors.Add(Author.Clone());
             return item;
         }
     }
