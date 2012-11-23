@@ -75,6 +75,7 @@ namespace Alice.Web.Controllers {
                 return new HttpStatusCodeResult(404);
             }
             else {
+                ViewBag.Title = String.Format("{0} - 宅居 - 宅并技术着", entry.Title);
                 return View(RenderEntry(entry));
             }
         }
@@ -130,6 +131,7 @@ namespace Alice.Web.Controllers {
                         .SingleOrDefault();
                     entry = RenderEntry(entry);
                     ViewBag.Comment = comment;
+                    ViewBag.Title = String.Format("{0} - 宅居 - 宅并技术着", entry.Title);
                     return View("ViewPost", entry);
                 }
             }
