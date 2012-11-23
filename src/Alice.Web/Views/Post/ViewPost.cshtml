@@ -35,7 +35,7 @@
             <label for="name" class="validation-error">@DisplayValidationMessage("name")</label>
         </div>
         <div class="form-row">
-            <input id="email" name="comment.author.email"@Html.Raw(ViewBag.Comment == null ? String.Empty : " value=\"" + Html.AttributeEncode(ViewBag.Comment.Author.Email) + "\"") placeholder="昵称" required="required" maxlength="100" />
+            <input id="email" name="comment.author.email"@Html.Raw(ViewBag.Comment == null ? String.Empty : " value=\"" + Html.AttributeEncode(ViewBag.Comment.Author.Email) + "\"") placeholder="邮箱" required="required" maxlength="100" />
             <label for="email" class="validation-error">@DisplayValidationMessage("email")</label>
         </div>
         <div class="form-row">
