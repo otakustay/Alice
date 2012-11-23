@@ -90,11 +90,18 @@
                 '/' + postName + '/comments/',
                 $(this).serialize(),
                 function(data) {
-                    $('#comments > h1 > span').text(function() { return parseInt(this.innerHTML, 10) + 1; });
-                    data.markdown = function() { return transformMarkdown; };
-                    var html = Mustache.render(articleTemplate, data);
-                    $('#comments > ol').append(html);
-                    postCommentForm[0].reset();
+                    if (data.success) {
+                        $('#comments > h1 > span').text(function() { return parseInt(this.innerHTML, 10) + 1; });
+                        data.comment.markdown = function() { return transformMarkdown; };
+                        var html = Mustache.render(articleTemplate, data.comment);
+                        $('#comments > ol').append(html);
+                        postCommentForm[0].reset();
+                    }
+                    else {
+                        for (var name in data.errors) {
+                            $('#' + name + ' ~ label').text(data.errors[name]);
+                        }
+                    }
                 },
                 'json'
             );

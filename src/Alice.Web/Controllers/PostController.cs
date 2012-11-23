@@ -115,12 +115,23 @@ namespace Alice.Web.Controllers {
                 ModelState.AddModelError("content", validationMessages["content"]);
             }
             if (!ModelState.IsValid) {
-                PostEntry entry = DbSession.QueryOver<PostEntry>()
-                    .Where(p => p.Name == comment.PostName)
-                    .SingleOrDefault();
-                entry = RenderEntry(entry);
-                ViewBag.Comment = comment;
-                return View("ViewPost", entry);
+                if (Request.AcceptTypes.Contains("application/json")) {
+                    var result = new {
+                        Success = false,
+                        Errors = ModelState
+                            .Where(m => m.Value.Errors.Any())
+                            .ToDictionary(m => m.Key, m => m.Value.Errors[0].ErrorMessage)
+                    };
+                    return new NewtonJsonActionResult(result);
+                }
+                else {
+                    PostEntry entry = DbSession.QueryOver<PostEntry>()
+                        .Where(p => p.Name == comment.PostName)
+                        .SingleOrDefault();
+                    entry = RenderEntry(entry);
+                    ViewBag.Comment = comment;
+                    return View("ViewPost", entry);
+                }
             }
 
             comment.PostTime = DateTime.Now;
@@ -130,9 +141,13 @@ namespace Alice.Web.Controllers {
             DbSession.Save(comment);
 
             if (Request.AcceptTypes.Contains("application/json")) {
+                var result = new {
+                    Success = true,
+                    Comment = comment
+                };
                 return new CreatedActionResult(
                     Url.Content("~/" + comment.PostName),
-                    new NewtonJsonActionResult(comment)
+                    new NewtonJsonActionResult(result)
                 );
             }
             else {
