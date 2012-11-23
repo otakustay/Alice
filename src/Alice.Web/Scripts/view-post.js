@@ -86,10 +86,13 @@
                 return false;
             }
 
-            $.post(
-                '/' + postName + '/comments/',
-                $(this).serialize(),
-                function(data) {
+            $(':submit').attr('disabled', 'disabled');
+            $.ajax({
+                url: '/' + postName + '/comments/',
+                type: 'post',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(data) {
                     if (data.success) {
                         $('#comments > h1 > span').text(function() { return parseInt(this.innerHTML, 10) + 1; });
                         data.comment.markdown = function() { return transformMarkdown; };
@@ -103,8 +106,8 @@
                         }
                     }
                 },
-                'json'
-            );
+                complete: function() { $(':submit').removeAttr('disabled'); }
+            });
             return false;
         }
     );

@@ -2094,7 +2094,7 @@ b.Append(" />");
         var bSpaceAfter = p.eof() || is_whitespace(p.current());
         p.m_position = savepos + count;
 
-        if (bSpaceBefore || (previous && previous.type === TokenType_closing_mark)) {
+        if (bSpaceBefore || !previous || (previous && previous.type === TokenType_closing_mark)) {
             return this.CreateToken(TokenType_opening_mark, savepos, p.m_position - savepos);
         }
 

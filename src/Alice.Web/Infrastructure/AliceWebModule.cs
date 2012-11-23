@@ -68,7 +68,6 @@ namespace Alice.Web.Infrastructure {
                 .SetProperty("connection.provider", "NHibernate.Connection.DriverConnectionProvider")
                 .SetProperty("connection.driver_class", "NHibernate.Driver.MySqlDataDriver")
                 .SetProperty("connection.connection_string", connectionString)
-                .SetProperty("show_sql", "true")
                 .AddAssembly("Alice.Web")
                 .BuildSessionFactory();
         }
