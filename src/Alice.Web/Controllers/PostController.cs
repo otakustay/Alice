@@ -11,9 +11,22 @@ using System.ServiceModel.Syndication;
 using Alice.Web.Infrastructure;
 using Ninject;
 using NHibernate;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Alice.Web.Controllers {
     public class PostController : Controller {
+        private static readonly Dictionary<string, string> validationMessages = new Dictionary<string, string>() {
+            { "name", "请正确填写昵称" },
+            { "email", "请正确填写邮箱" },
+            { "content", "请填写内容" }
+        };
+
+        private static readonly Regex emailRule = new Regex(
+            @"^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase
+        );
+
         [Inject, Named("PageSize")]
         public int PageSize { get; set; }
 
@@ -70,7 +83,7 @@ namespace Alice.Web.Controllers {
         [HttpGet]
         public ActionResult GetComments(string postName) {
             if (!Request.AcceptTypes.Contains("application/json")) {
-                return Redirect(Url.Content("~/" + postName));
+                return Redirect(Url.Content("~/" + postName + "/"));
             }
 
             IEnumerable<Comment> comments = DbSession.QueryOver<Comment>()
@@ -85,6 +98,31 @@ namespace Alice.Web.Controllers {
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult PostComment(Comment comment) {
+            comment.Author.Name = comment.Author.Name.Trim();
+            comment.Author.Email = comment.Author.Email.Trim();
+
+            // 验证
+            if (String.IsNullOrEmpty(comment.Author.Name) || 
+                comment.Author.Name.Length > 60) {
+                ModelState.AddModelError("name", validationMessages["name"]);
+            }
+            if (String.IsNullOrEmpty(comment.Author.Email) || 
+                comment.Author.Email.Length > 100 ||
+                !emailRule.IsMatch(comment.Author.Email)) {
+                ModelState.AddModelError("email", validationMessages["email"]);
+            }
+            if (String.IsNullOrEmpty(comment.Content.Trim())) {
+                ModelState.AddModelError("content", validationMessages["content"]);
+            }
+            if (!ModelState.IsValid) {
+                PostEntry entry = DbSession.QueryOver<PostEntry>()
+                    .Where(p => p.Name == comment.PostName)
+                    .SingleOrDefault();
+                entry = RenderEntry(entry);
+                ViewBag.Comment = comment;
+                return View("ViewPost", entry);
+            }
+
             comment.PostTime = DateTime.Now;
             comment.Author.IpAddress = Request.UserHostAddress;
             comment.Author.UserAgent = Request.UserAgent;
@@ -98,7 +136,7 @@ namespace Alice.Web.Controllers {
                 );
             }
             else {
-                return Redirect(Url.Content("~/" + comment.PostName));
+                return Redirect(Url.Content("~/" + comment.PostName + "/"));
             }
         }
 
@@ -128,7 +166,7 @@ namespace Alice.Web.Controllers {
             item.Id = entry.Name;
             item.Title = SyndicationContent.CreatePlaintextContent(entry.Title);
             item.Content = SyndicationContent.CreateHtmlContent(Transformer.Transform(entry.Content));
-            item.AddPermalink(new Uri("http://otakustay.com/" + entry.Name));
+            item.AddPermalink(new Uri("http://otakustay.com/" + entry.Name + "/"));
             item.PublishDate = new DateTimeOffset(entry.PostDate);
             item.LastUpdatedTime = new DateTimeOffset(entry.UpdateDate);
             item.Authors.Add(Author.Clone());

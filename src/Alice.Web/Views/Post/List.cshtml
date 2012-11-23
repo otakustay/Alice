@@ -5,14 +5,14 @@
 @foreach (PostExcerpt post in @Model) {
     <article>
         <header>
-            <h1><a href="@Url.Content("~/" + post.Name)">@post.Title</a></h1>
+            <h1><a href="@Url.Content("~/" + post.Name + "/")">@post.Title</a></h1>
         </header>
         <footer>
             发表于<time datetime="@post.PostDate.ToString("yyyy-MM-dd")">@post.PostDate.ToString("yyyy年%M月%d日")</time>
         </footer>
         @Html.Raw(post.Excerpt)
         <footer>
-            <a href="@Url.Content("~/" + post.Name)" title="继续阅读《@post.Title》">继续阅读-></a>
+            <a href="@Url.Content("~/" + post.Name + "/")" title="继续阅读《@post.Title》">继续阅读-></a>
         </footer>
     </article>
 }
