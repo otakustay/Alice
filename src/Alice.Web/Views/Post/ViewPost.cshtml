@@ -39,7 +39,7 @@
             <label for="email" class="validation-error">@DisplayValidationMessage("email")</label>
         </div>
         <div class="form-row">
-            <textarea id="content" name="comment.content" placeholder="使用Markdown格式" required="required">@(ViewBag.Comment == null ? String.Empty : ViewBag.Comment.Content)</textarea>
+            <textarea id="content" name="comment.content" placeholder="使用Markdown格式，在编辑器中写完后复制吧" required="required">@(ViewBag.Comment == null ? String.Empty : ViewBag.Comment.Content)</textarea>
             <label for="content" class="validation-error">@DisplayValidationMessage("content")</label>
         </div>
         <div class="form-submit">
