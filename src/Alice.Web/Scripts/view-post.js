@@ -31,7 +31,7 @@
                     '<p class="author-name">{{author.name}}</p>' +
                     '<time class="post-time" datetime="{{postTime}}">{{prettyTime}}</time>' +
                 '</footer>' +
-                '{{#markdown}}{{content}}{{/markdown}}' +
+                '{{#markdown}}{{&content}}{{/markdown}}' +
             '</article>' + 
         '</li>';
     var sectionTemplate = 
