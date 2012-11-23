@@ -12,8 +12,8 @@
         MarkdownDeep.Markdown.prototype.OnQualifyUrl = function(url) {
             url = qualifyURL(url);
             // MarkdownDeep会转义attribute
-            if (url.indexOf('http:&#x2F;&#x2F;') !== 0 || 
-                url.indexOf('http:&#x2F;&#x2F;') !== 0) {
+            if (url.indexOf('http://') !== 0 && 
+                url.indexOf('https://') !== 0) {
                 return 'http://' + url;
             }
             return url;
