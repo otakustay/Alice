@@ -5,6 +5,19 @@
     markdown.SafeMode = true;
     markdown.NewWindowForExternalLinks = true;
     markdown.NewWindowForLocalLinks = true;
+    // 禁掉链接和href和图片的src上的伪协议，仅允许http和https协议
+    (function() {
+        var qualifyURL = MarkdownDeep.Markdown.prototype.OnQualifyUrl;
+
+        MarkdownDeep.Markdown.prototype.OnQualifyUrl = function(url) {
+            url = qualifyURL(url);
+            if (url.indexOf('http://') !== 0 ||
+                url.indexOf('https://') !== 0) {
+                return 'http://' + url;
+            }
+            return url;
+        }
+    }());
 
     function transformMarkdown(text, render) {
         return markdown.Transform(render(text));
