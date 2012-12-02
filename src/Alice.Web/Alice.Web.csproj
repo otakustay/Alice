@@ -137,7 +137,9 @@
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </None>
-    <EmbeddedResource Include="Models\Mapping\Comment.hbm.xml" />
+    <EmbeddedResource Include="Models\Mapping\Comment.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\Mapping\PostEntry.hbm.xml" />
     <EmbeddedResource Include="Models\Mapping\PostExcerpt.hbm.xml" />
     <Content Include="Scripts\jquery-1.8.2.js" />

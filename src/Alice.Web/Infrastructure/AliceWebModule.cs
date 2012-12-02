@@ -26,7 +26,17 @@ namespace Alice.Web.Infrastructure {
                 new SyndicationPerson("otakustay@live.com", "otakustay", "http://otakustay.com");
             Bind<SyndicationPerson>().ToConstant(me);
 
-            Markdown markdownForPost = new Markdown() {
+            Bind<Markdown>().ToMethod(CreateMarkdownTransformer).InTransientScope();
+
+            string connectionString = ConfigurationManager.ConnectionStrings["MySql"].ConnectionString;
+            Bind<string>().ToConstant(connectionString).Named("ConnectionString");
+
+            Bind<ISession>().ToMethod(OpenSession).InTransientScope();
+        }
+
+        private static Markdown CreateMarkdownTransformer(IContext context) {
+            string baseUrl = context.Kernel.Get<string>("BaseUrl");
+            return new Markdown() {
                 ExtraMode = true,
                 NewWindowForExternalLinks = true,
                 PrepareImage = (tag, tiled) => {
@@ -44,12 +54,6 @@ namespace Alice.Web.Infrastructure {
                     return true;
                 }
             };
-            Bind<Markdown>().ToConstant(markdownForPost);
-
-            string connectionString = ConfigurationManager.ConnectionStrings["MySql"].ConnectionString;
-            Bind<string>().ToConstant(connectionString).Named("ConnectionString");
-
-            Bind<ISession>().ToMethod(OpenSession).InTransientScope();
         }
 
         private static ISession OpenSession(IContext context) {
