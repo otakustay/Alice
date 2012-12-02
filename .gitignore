@@ -110,3 +110,6 @@ UpgradeLog*.XML
 # Project
 src/Alice.Web/Content/*
 publish
+
+#Ignore less compiled file
+src/Alice.Web/Styles/*.css
