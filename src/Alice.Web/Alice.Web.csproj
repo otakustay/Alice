@@ -149,6 +149,12 @@
     <Content Include="Scripts\markdown.js" />
     <Content Include="Scripts\mustache.js" />
     <Content Include="Scripts\view-post.js" />
+    <Content Include="Styles\list.css">
+      <DependentUpon>list.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\list.min.css">
+      <DependentUpon>list.less</DependentUpon>
+    </Content>
     <Content Include="Styles\post.css">
       <DependentUpon>post.less</DependentUpon>
     </Content>
@@ -191,6 +197,10 @@
       <Minify>True</Minify>
     </Content>
     <Content Include="Styles\post.less">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+    </Content>
+    <Content Include="Styles\list.less">
       <Compile>True</Compile>
       <Minify>True</Minify>
     </Content>
