@@ -4,13 +4,15 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
     <script src="@Url.Content("~/scripts/jquery-1.8.2.js")" defer="defer"></script>
+    <link rel="stylesheet" href="@Url.Content("~/styles/site.css")" />
+    @RenderSection("Resource", false)
 </head>
 
 <body>
     <header>
         <hgroup>
-            <h1>宅居 - <strong>裸</strong></h1>
-            <h2>这货<del style="text-decoration: none;">懒得</del><ins style="font-size: 0;">不会</ins>写<abbr title="Cascading Style Sheet">CSS</abbr></h2>
+            <h1>宅居 - <strong>半裸</strong></h1>
+            <h2>最美无非纱后肌玉</h2>
         </hgroup>
     </header>
     @RenderBody()

@@ -2,24 +2,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model PostEntry
+
+@section Resource {
+    <link rel="stylesheet" href="@Url.Content("~/styles/post.css")" />
+}
+
 <a href="/">回首页</a>
 
 <article id="post" data-name="@Model.Name">
-    <header>
+    <header id="title">
         <h1>@Model.Title</h1>
     </header>
-    <footer>
-        <span id="post-time">发表于 <time datetime="@Model.PostDate.ToString("yyyy-MM-DD")">@Model.PostDate.ToString("yyyy年%M月%d日")</time></span>
-    </footer>
-    @Html.Raw(Model.Content)
-    <footer id="tags">
-        所属标签
-        <ul>
+    <footer id="meta">
+        <span id="time">发表于<time datetime="@Model.PostDate.ToString("yyyy-MM-DD")">@Model.PostDate.ToString("yyyy年%M月%d日")</time></span>
+        <ul id="tags">
             @foreach (string tag in @Model.Tags) {
-                <li>@tag</li>
+                <li><span>@tag</span></li>
             }
         </ul>
     </footer>
+    @Html.Raw(Model.Content)
 </article>
 
 <section id="comments">

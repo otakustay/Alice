@@ -1,0 +1,35 @@
+﻿@import "variables.less";
+
+#title > h1 {
+	font-size: @font-size-large;
+	padding: @font-size-large / 3;
+	font-weight: normal;
+	border-bottom: 3px solid @metro;
+}
+
+#meta {
+	text-align: right;
+	font-size: @font-size-small;
+	margin-top: 6px;
+}
+
+#time {
+	display: inline-block;
+	padding: 4px;
+	vertical-align: top;
+}
+
+#tags {
+	.clear-float();
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+
+	li {
+		.metro();
+
+		float: right;
+		padding: 4px 6px;
+		margin: 0 4px;
+	}
+}

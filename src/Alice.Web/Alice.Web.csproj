@@ -149,10 +149,22 @@
     <Content Include="Scripts\markdown.js" />
     <Content Include="Scripts\mustache.js" />
     <Content Include="Scripts\view-post.js" />
+    <Content Include="Styles\post.css">
+      <DependentUpon>post.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\post.min.css">
+      <DependentUpon>post.less</DependentUpon>
+    </Content>
     <Content Include="Styles\site.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
+    <Content Include="Styles\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
     <Content Include="Styles\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\variables.min.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
     <Content Include="Web.config">
@@ -175,6 +187,10 @@
       <Minify>True</Minify>
     </Content>
     <Content Include="Styles\site.less">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+    </Content>
+    <Content Include="Styles\post.less">
       <Compile>True</Compile>
       <Minify>True</Minify>
     </Content>

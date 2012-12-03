@@ -1,2 +1,39 @@
-﻿body {
+﻿@import "variables.less";
+
+body {
+	font-family: @font-family;
+	background-color: @metro-background;
+	min-width: 980px;
+	width: 980px;
+	margin: 0 auto;
+}
+
+// Normalize
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	font-weight: normal;
+}
+a {
+	color: @link-color;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+pre {
+	padding: 1ex 1em;
+	border-left: 2px solid @metro;
+	background-color: @metro-background-dark;
+}
+pre, code {
+	font-family: @font-family;
+}
+p {
+	text-indent: 2em;
+	line-height: 1.5;
+}
+
+// Layout
+body > header:first-of-type {
+	margin-bottom: 30px;
 }

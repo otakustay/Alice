@@ -1,2 +1,26 @@
-﻿body {
+﻿@metro: #91d100;
+@metro-dark: #83ba1f;
+@metro-background: #f4f4f4;
+@metro-background-dark: #dedede;
+
+@link-color: #00749e;
+
+@font-size-small: 14px;
+@font-size-normal: 16px;
+@font-size-large: 32px;
+@font-family: "Consolas", "\5FAE\8F6F\96C5\9ED1", "\5B8B\4F53", monospace;
+
+.metro() {
+	background-color: @metro;
+	color: #fff;
+}
+
+.clear-float() {
+	*zoom: 1;
+	&:after {
+		content:'\0020';
+		display:block;
+		height:0;
+		clear:both;
+	}
 }
