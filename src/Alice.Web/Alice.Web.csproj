@@ -152,25 +152,13 @@
     <Content Include="Styles\list.css">
       <DependentUpon>list.less</DependentUpon>
     </Content>
-    <Content Include="Styles\list.min.css">
-      <DependentUpon>list.less</DependentUpon>
-    </Content>
     <Content Include="Styles\post.css">
-      <DependentUpon>post.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\post.min.css">
       <DependentUpon>post.less</DependentUpon>
     </Content>
     <Content Include="Styles\site.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
-    <Content Include="Styles\site.min.css">
-      <DependentUpon>site.less</DependentUpon>
-    </Content>
     <Content Include="Styles\variables.css">
-      <DependentUpon>variables.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\variables.min.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
     <Content Include="Web.config">

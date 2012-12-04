@@ -1,0 +1,35 @@
+#title > h1 {
+  font-size: 32px;
+  padding: 10.666666666666666px;
+  font-weight: normal;
+  border-bottom: 3px solid #91d100;
+}
+#meta {
+  text-align: right;
+  font-size: 14px;
+  margin-top: 6px;
+}
+#time {
+  display: inline-block;
+  padding: 4px;
+  vertical-align: top;
+}
+#tags {
+  *zoom: 1;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+#tags:after {
+  content: '\0020';
+  display: block;
+  height: 0;
+  clear: both;
+}
+#tags li {
+  background-color: #91d100;
+  color: #fff;
+  float: right;
+  padding: 4px 6px;
+  margin: 0 4px;
+}
