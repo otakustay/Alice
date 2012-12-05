@@ -22,7 +22,7 @@ a:hover {
 }
 pre, code {
 	font-family: @font-family;
-	background-color: @metro-background-dark;
+	background-color: @metro-background-darker;
 }
 pre {
 	padding: 1ex 1em;
@@ -47,4 +47,40 @@ body > header:first-of-type {
 	width: 800px;
 	height: 600px;
 	margin: 0 auto;
+}
+
+// Navigation
+#navigation {
+	margin-bottom: 40px;
+
+	ul {
+		.clear-float();
+
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	li {
+		float: left;
+		width: 100% / 4;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 0 1px;
+
+		a {
+			display: block;
+			font-size: @font-size-larger;
+			line-height: 2.6;
+			background-color: @metro-background-darker;
+			color: @metro-background-dark;
+			text-align: center;
+
+			&:hover {
+				background-color: @metro-highlight;
+				color: #fff;
+				text-decoration: none;
+			}
+		}
+	}
 }

@@ -44,7 +44,7 @@ article .meta ~ *:first-of-type {
   line-height: 32px;
 }
 #pager li > span {
-  background-color: #dedede;
+  background-color: #5a5a5a;
 }
 #pager li > a {
   -moz-box-sizing: border-box;
