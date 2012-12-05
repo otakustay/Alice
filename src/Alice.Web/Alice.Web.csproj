@@ -142,6 +142,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Models\Mapping\PostEntry.hbm.xml" />
     <EmbeddedResource Include="Models\Mapping\PostExcerpt.hbm.xml" />
+    <Content Include="Images\favicon.ico" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
