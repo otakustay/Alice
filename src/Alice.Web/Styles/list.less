@@ -2,9 +2,19 @@
 
 article {
 	margin: 40px 0;
+
+	h1 {
+		border-bottom: 4px solid @metro;
+	}
+
 	.meta {
 		text-align: right;
-		border-bottom: 4px solid @metro;
+		font-size: @font-size-small;
+		padding-top: @font-size-small / 2;
+	}
+
+	.meta ~ *:first-of-type {
+		clear: both;
 	}
 }
 

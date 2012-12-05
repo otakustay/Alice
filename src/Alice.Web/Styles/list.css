@@ -1,9 +1,16 @@
 article {
   margin: 40px 0;
 }
+article h1 {
+  border-bottom: 4px solid #91d100;
+}
 article .meta {
   text-align: right;
-  border-bottom: 4px solid #91d100;
+  font-size: 14px;
+  padding-top: 7px;
+}
+article .meta ~ *:first-of-type {
+  clear: both;
 }
 #pager {
   *zoom: 1;

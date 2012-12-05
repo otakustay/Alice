@@ -9,9 +9,7 @@
 
 @foreach (PostExcerpt post in @Model) {
     <article>
-        <header>
-            <h1><a href="@Url.Content("~/" + post.Name + "/")">@post.Title</a></h1>
-        </header>
+        <h1><a href="@Url.Content("~/" + post.Name + "/")">@post.Title</a></h1>
         <footer class="meta">
             发表于<time datetime="@post.PostDate.ToString("yyyy-MM-dd")">@post.PostDate.ToString("yyyy年%M月%d日")</time>
         </footer>
