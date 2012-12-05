@@ -20,13 +20,16 @@ a {
 a:hover {
 	text-decoration: underline;
 }
+pre, code {
+	font-family: @font-family;
+	background-color: @metro-background-dark;
+}
 pre {
 	padding: 1ex 1em;
 	border-left: 2px solid @metro;
-	background-color: @metro-background-dark;
 }
-pre, code {
-	font-family: @font-family;
+code {
+	padding: 0 .2em;
 }
 p {
 	text-indent: 2em;
