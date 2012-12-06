@@ -81,3 +81,41 @@
 		margin-left: @left-padding;
 	}
 }
+
+#post-comment {
+	background-color: @metro-background-darker;
+	padding: 20px;
+
+	h1 {
+		font-size: @font-size-larger;
+		color: @metro-highlight;
+	}
+
+	input:not([type]), input[type="text"], textarea {
+		width: 50%;
+		padding: 5px;
+		margin-top: 5px;
+	}
+	textarea {
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		width: 100%;
+		height: 140px;
+		resize: none;
+	}
+	input[type="submit"] {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		-ms-appearance: none;
+		-o-appearance: none;
+		appearance: none;
+		border: none;
+		background-color: @metro-dark;
+		color: #fff;
+		padding: 8px 22px;
+
+		&:hover {
+			background-color: @metro-highlight;
+		}
+	}
+}

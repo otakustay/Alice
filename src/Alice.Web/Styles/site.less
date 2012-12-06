@@ -1,7 +1,6 @@
 ﻿@import "variables.less";
 
 body {
-	font-family: @font-family;
 	background-color: @metro-background;
 	min-width: 980px;
 	width: 980px;
@@ -9,6 +8,10 @@ body {
 }
 
 // Normalize
+body, input, textarea {
+	font-family: @font-family;
+	font-size: @font-size-normal;
+}
 h1, h2, h3, h4, h5, h6 {
 	margin: 0;
 	font-weight: normal;
