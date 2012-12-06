@@ -37,7 +37,7 @@
 #comments {
 	margin-top: 40px;
 
-	h1 {
+	&>h1 {
 		font-size: @font-size-larger;
 		border-bottom: 2px solid @metro;
 		padding-bottom: .2ex;
@@ -52,6 +52,9 @@
 
 		&>li {
 			border-bottom: 1px solid @metro;
+			&:last-of-type {
+				border-bottom: none;
+			}
 		}
 	}
 
