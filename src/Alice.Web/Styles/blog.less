@@ -28,17 +28,21 @@
 	display: block;
 	height: 106px;
 	position: relative;
-	color: #fff;
 	background: @metro-dark url(../images/rss.png) center 16px no-repeat;
+	text-indent: -5000px;
+	overflow: hidden;
 
 	&:hover {
 		background-color: @metro-highlight;
 		text-decoration: none;
 	}
 
-	&>span {
+	&::after {
+		content: attr(title);
 		position: absolute;
 		left: 10px;
 		bottom: 4px;
+		color: #fff;
+		text-indent: 0;
 	}
 }

@@ -25,15 +25,19 @@
   display: block;
   height: 106px;
   position: relative;
-  color: #fff;
   background: #83ba1f url(../images/rss.png) center 16px no-repeat;
+  text-indent: -5000px;
+  overflow: hidden;
 }
 #feed:hover {
   background-color: #008a00;
   text-decoration: none;
 }
-#feed > span {
+#feed::after {
+  content: attr(title);
   position: absolute;
   left: 10px;
   bottom: 4px;
+  color: #fff;
+  text-indent: 0;
 }
