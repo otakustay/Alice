@@ -13,9 +13,6 @@ using System.Web.Mvc;
 namespace Alice.Web.Controllers {
     public class ConsoleController : Controller {
         [Inject]
-        public Markdown Transformer { get; set; }
-
-        [Inject]
         public ISession DbSession { get; set; }
 
         public ActionResult Index() {
@@ -36,7 +33,7 @@ namespace Alice.Web.Controllers {
                 post = new FullPost();
             }
             else {
-                storedTags.IntersectWith(post.Tags);
+                storedTags.UnionWith(post.Tags);
             }
             post.Name = name;
             post.Title = lines[0].Split(':')[1].Trim();
@@ -76,7 +73,12 @@ namespace Alice.Web.Controllers {
                 // 被删除的tag在数据库里肯定已经有这一行，只要数量减1就行
                 Tag tag = DbSession.Get<Tag>(tagName);
                 tag.HitCount--;
-                DbSession.Update(tag);
+                if (tag.HitCount == 0) {
+                    DbSession.Delete(tag);
+                }
+                else {
+                    DbSession.Update(tag);
+                }
             }
 
             // 现在的减去数据库里的，就是新添加的tag
