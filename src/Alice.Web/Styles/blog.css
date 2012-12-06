@@ -1,0 +1,39 @@
+#page {
+  *zoom: 1;
+}
+#page:after {
+  content: '\0020';
+  display: block;
+  height: 0;
+  clear: both;
+}
+#main {
+  float: left;
+  width: 750px;
+}
+#sidebar {
+  float: right;
+  width: 220px;
+}
+.skydrive-live-view {
+  display: block;
+  width: 640px;
+  height: 480px;
+  margin: 0 auto;
+}
+#feed {
+  display: block;
+  height: 106px;
+  position: relative;
+  color: #fff;
+  background: #83ba1f url(../images/rss.png) center 16px no-repeat;
+}
+#feed:hover {
+  background-color: #008a00;
+  text-decoration: none;
+}
+#feed > span {
+  position: absolute;
+  left: 10px;
+  bottom: 4px;
+}

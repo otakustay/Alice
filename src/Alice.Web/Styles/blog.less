@@ -1,0 +1,44 @@
+﻿@import "variables.less";
+
+@sidebar-width: 220px;
+
+// Layout
+#page {
+	.clear-float();
+}
+#main {
+	float: left;
+	width: @page-width - @sidebar-width - 10px;
+}
+#sidebar {
+	float: right;
+	width: @sidebar-width;
+}
+
+// Common
+.skydrive-live-view {
+	display: block;
+	width: 640px;
+	height: 480px;
+	margin: 0 auto;
+}
+
+// Sidebar
+#feed {
+	display: block;
+	height: 106px;
+	position: relative;
+	color: #fff;
+	background: @metro-dark url(../images/rss.png) center 16px no-repeat;
+
+	&:hover {
+		background-color: @metro-highlight;
+		text-decoration: none;
+	}
+
+	&>span {
+		position: absolute;
+		left: 10px;
+		bottom: 4px;
+	}
+}

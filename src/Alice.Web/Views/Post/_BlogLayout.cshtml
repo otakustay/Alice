@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Resource {
+    <link rel="stylesheet" href="@Url.Content("~/styles/blog.css")" />
+    @RenderSection("Resource", false)
+}
+
+<div id="page">
+    <div id="main">
+        @RenderBody()
+    </div>
+    <aside id="sidebar">
+        <a id="feed" href="/feed/"><span>订阅博客</span></a>
+    </aside>
+</div>

@@ -1,5 +1,5 @@
 article {
-  margin: 40px 0;
+  margin-bottom: 40px;
 }
 article h1 {
   border-bottom: 4px solid #91d100;
@@ -44,7 +44,7 @@ article .meta ~ *:first-of-type {
   line-height: 32px;
 }
 #pager li > span {
-  background-color: #5a5a5a;
+  background-color: #dedede;
 }
 #pager li > a {
   -moz-box-sizing: border-box;

@@ -44,12 +44,6 @@ p {
 body > header:first-of-type {
   margin-bottom: 30px;
 }
-.skydrive-live-view {
-  display: block;
-  width: 800px;
-  height: 600px;
-  margin: 0 auto;
-}
 #navigation {
   margin-bottom: 40px;
 }
