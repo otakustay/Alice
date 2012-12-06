@@ -175,6 +175,9 @@
     <Content Include="Styles\blog.css">
       <DependentUpon>blog.less</DependentUpon>
     </Content>
+    <Content Include="Styles\console.css">
+      <DependentUpon>console.less</DependentUpon>
+    </Content>
     <Content Include="Styles\list.css">
       <DependentUpon>list.less</DependentUpon>
     </Content>
@@ -220,6 +223,11 @@
     </Content>
     <Content Include="Views\Post\_BlogLayout.cshtml" />
     <Content Include="Styles\blog.less">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+    </Content>
+    <Content Include="Views\Console\Index.cshtml" />
+    <Content Include="Styles\console.less">
       <Compile>True</Compile>
       <Minify>True</Minify>
     </Content>

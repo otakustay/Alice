@@ -1,0 +1,48 @@
+@-webkit-keyframes progressing {
+  0% {
+    background: transparent;
+  }
+  50% {
+    background: #83ba1f;
+  }
+  100% {
+    background: transparent;
+  }
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table th,
+table td {
+  padding: 8px;
+}
+table th {
+  background-color: #91d100;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #fff;
+  line-height: 2;
+  font-size: 24px;
+}
+table th:first-of-type {
+  border-left-color: #91d100;
+}
+table th:last-of-type {
+  border-right-color: #91d100;
+}
+table td {
+  border: 2px solid #91d100;
+}
+table td:first-of-type {
+  border-top: none;
+}
+table tbody > tr:hover {
+  background-color: #008a00;
+  color: #fff;
+}
+table tbody > tr.progressing {
+  -webkit-animation: progressing 2s infinite;
+}
+table tbody > tr.progressing:hover {
+  color: #000;
+}

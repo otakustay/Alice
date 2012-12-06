@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<FileInfo>
+
+@section Resource {
+    <link rel="stylesheet" href="@Url.Content("~/styles/console.css")" />
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th>创建时间</th>
+            <th>最后修改时间</th>
+            <th>更新</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (FileInfo file in Model) {
+            <tr>
+                <td>@Path.GetFileNameWithoutExtension(file.Name)</td>
+                <td>@file.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>@file.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td><span>更新</span></td>
+            </tr>
+        }
+    </tbody>
+</table>

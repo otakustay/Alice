@@ -1,0 +1,62 @@
+﻿@import "variables.less";
+
+@-webkit-keyframes progressing {
+	0% {
+		background: transparent;
+	}
+	50% {
+		background: @metro-dark;
+	}
+	100% {
+		background: transparent;
+	}
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+
+	th, td {
+		padding: 8px;
+	}
+	th {
+		background-color: @metro;
+		border-left: 2px solid #fff;
+		border-right: 2px solid #fff;
+		line-height: 2;
+		font-size: @font-size-larger;
+
+		&:first-of-type {
+			border-left-color: @metro;
+		}
+
+		&:last-of-type {
+			border-right-color: @metro;
+		}
+	}
+	td {
+		border: 2px solid @metro;
+
+		&:first-of-type {
+			border-top: none;
+		}
+	}
+
+	tbody > tr:hover {
+	}
+
+	tbody > tr {
+		&:hover {
+			background-color: @metro-highlight;
+			color: #fff;
+		}
+
+		&.progressing {
+			-webkit-animation: progressing 2s infinite;
+
+			&:hover {
+				color: #000;
+			}
+		}
+	}
+}
