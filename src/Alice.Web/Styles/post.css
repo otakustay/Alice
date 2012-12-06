@@ -90,12 +90,17 @@
   font-size: 24px;
   color: #008a00;
 }
+#post-comment .form-row {
+  margin-top: 5px;
+}
+#post-comment .form-submit {
+  margin-top: 10px;
+}
 #post-comment input:not([type]),
 #post-comment input[type="text"],
 #post-comment textarea {
   width: 50%;
   padding: 5px;
-  margin-top: 5px;
 }
 #post-comment textarea {
   -moz-box-sizing: border-box;
@@ -111,6 +116,7 @@
   -o-appearance: none;
   appearance: none;
   border: none;
+  margin: 0;
   background-color: #83ba1f;
   color: #fff;
   padding: 8px 22px;
