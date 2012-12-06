@@ -20,6 +20,7 @@ namespace Alice.Web.Infrastructure {
             context.HttpContext.Response.ContentType = "application/json";
 
             JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             string text = JsonConvert.SerializeObject(value, Formatting.None, settings);
 

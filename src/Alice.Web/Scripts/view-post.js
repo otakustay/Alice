@@ -24,14 +24,42 @@
         return markdown.Transform(render(text));
     }
 
+    function transformGravatar(text, render) {
+        var email = render(text);
+        var hash = md5(email.toLowerCase());
+        return 'http://www.gravatar.com/avatar/' + hash + '?s=32&d=identicon&r=g';
+    }
+
+    function transformDate(text, render) {
+        function pad(n) {
+            n = n + '';
+            return n.length === 1 ? '0' + n : n;
+        }
+
+        var date = render(text).slice(0, 16).replace('T', ' ');
+
+        return date;
+    }
+
+    var transformers = {
+        markdown: function() { return transformMarkdown; },
+        gravatar: function() { return transformGravatar; },
+        date: function() { return transformDate; }
+    };
+
     var articleTemplate = 
         '<li>' +
             '<article>' +
-                '<footer>' +
-                    '<p class="author-name">{{author.name}}</p>' +
-                    '<time class="post-time" datetime="{{postTime}}">{{prettyTime}}</time>' +
+                '<footer class="meta">' +
+                    '<img class="author-avatar" src="{{#gravatar}}{{&author.email}}{{/gravatar}}" alt="{{author.name}}" />' + 
+                    '<span class="author-name">{{author.name}}</span>' +
+                    '<time class="post-time" datetime="{{#date}}{{&postTime}}{{/date}}">' + 
+                        '{{#date}}{{&postTime}}{{/date}}' + 
+                    '</time>' +
                 '</footer>' +
-                '{{#markdown}}{{&content}}{{/markdown}}' +
+                '<section class="content">' +
+                    '{{#markdown}}{{&content}}{{/markdown}}' +
+                '</section>' +
             '</article>' + 
         '</li>';
     var sectionTemplate = 
@@ -42,17 +70,18 @@
             '{{/comments}}' +
         '</ol>';
 
-    // 加载评论
-    $.getJSON(
-        '/' + postName + '/comments',
-        function(comments) {
-            var data = { 
-                comments: comments, 
-                count: comments.length, 
-                markdown: function() { return transformMarkdown; }
-            };
-            var html = Mustache.render(sectionTemplate, data);
-            $('#comments').html(html);
+    // 加载评论，需要md5库
+    $.getScript(
+        '/scripts/md5.min.js', 
+        function() {
+            $.getJSON(
+                '/' + postName + '/comments',
+                function(comments) {
+                    var data = $.extend({ comments: comments, count: comments.length }, transformers);
+                    var html = Mustache.render(sectionTemplate, data);
+                    $('#comments').html(html);
+                }
+            );
         }
     );
     
@@ -109,7 +138,7 @@
                 success: function(data) {
                     if (data.success) {
                         $('#comments > h1 > span').text(function() { return parseInt(this.innerHTML, 10) + 1; });
-                        data.comment.markdown = function() { return transformMarkdown; };
+                        $.extend(data.comment, transformers);
                         var html = Mustache.render(articleTemplate, data.comment);
                         $('#comments > ol').append(html);
                         postCommentForm[0].reset();

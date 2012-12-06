@@ -33,3 +33,51 @@
 		margin: 0 4px;
 	}
 }
+
+#comments {
+	margin-top: 40px;
+
+	h1 {
+		font-size: @font-size-larger;
+		border-bottom: 2px solid @metro;
+		padding-bottom: .2ex;
+		color: @metro-highlight;
+		font-weight: bold;
+	}
+
+	&>ol {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		&>li {
+			border-bottom: 1px solid @metro;
+		}
+	}
+
+	article {
+		margin: 20px 0;
+	}
+	
+	@avatar-width: 32px;
+	@left-padding: 50px;
+	.meta {
+		.clear-float();
+	}
+	.author-avatar {
+		float: left;
+		overflow: hidden;
+		margin-right: @left-padding - @avatar-width;
+	}
+	.author-name {
+		font-size: @font-size-larger;
+	}
+	.post-time {
+		color: @metro-background-dark;
+		padding-left: 1ex;
+		font-size: @font-size-small;
+	}
+	.content {
+		margin-left: @left-padding;
+	}
+}

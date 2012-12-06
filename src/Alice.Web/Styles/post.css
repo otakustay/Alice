@@ -33,3 +33,49 @@
   padding: 4px 6px;
   margin: 0 4px;
 }
+#comments {
+  margin-top: 40px;
+}
+#comments h1 {
+  font-size: 24px;
+  border-bottom: 2px solid #91d100;
+  padding-bottom: .2ex;
+  color: #008a00;
+  font-weight: bold;
+}
+#comments > ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#comments > ol > li {
+  border-bottom: 1px solid #91d100;
+}
+#comments article {
+  margin: 20px 0;
+}
+#comments .meta {
+  *zoom: 1;
+}
+#comments .meta:after {
+  content: '\0020';
+  display: block;
+  height: 0;
+  clear: both;
+}
+#comments .author-avatar {
+  float: left;
+  overflow: hidden;
+  margin-right: 18px;
+}
+#comments .author-name {
+  font-size: 24px;
+}
+#comments .post-time {
+  color: #5a5a5a;
+  padding-left: 1ex;
+  font-size: 14px;
+}
+#comments .content {
+  margin-left: 50px;
+}
