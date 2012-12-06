@@ -42,10 +42,12 @@
   <ItemGroup>
     <Compile Include="Comment.cs" />
     <Compile Include="CommentAuthor.cs" />
+    <Compile Include="FullPost.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="PostEntry.cs" />
     <Compile Include="PostExcerpt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tag.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
