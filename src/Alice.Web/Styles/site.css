@@ -30,6 +30,8 @@ pre,
 code {
   font-family: "Consolas", "\5FAE\8F6F\96C5\9ED1", "\5B8B\4F53", monospace;
   background-color: #dedede;
+  max-height: 400px;
+  overflow: auto;
 }
 pre {
   padding: 1ex 1em;

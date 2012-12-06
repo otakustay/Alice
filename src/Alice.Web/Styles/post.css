@@ -108,6 +108,7 @@
   width: 100%;
   height: 140px;
   resize: none;
+  overflow: auto;
 }
 #post-comment input[type="submit"] {
   -webkit-appearance: none;
