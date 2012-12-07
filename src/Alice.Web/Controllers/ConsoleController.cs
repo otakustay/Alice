@@ -6,15 +6,51 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Alice.Web.Controllers {
     public class ConsoleController : Controller {
+
+        [Inject]
+        [Named("PasswordHash")]
+        public string PasswordHash { get; set; }
+
         [Inject]
         public ISession DbSession { get; set; }
 
+        [HttpGet]
+        public ActionResult Login() {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(string password) {
+            password += "@alice";
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            byte[] hash = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
+            string result = BitConverter.ToString(hash);
+            if (result == PasswordHash) {
+                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                    1, "admin", DateTime.Now, DateTime.MaxValue, false, String.Empty);
+                HttpCookie cookie = new HttpCookie(
+                    FormsAuthentication.FormsCookieName,
+                    FormsAuthentication.Encrypt(ticket)
+                );
+                Response.Cookies.Add(cookie);
+
+                return Redirect(Url.Content("~/console/"));
+            }
+            else {
+                ViewBag.Fail = true;
+                return View();
+            }
+        }
+
+        [Authorize]
         public ActionResult Index() {
             string dir = Server.MapPath("~/Content");
             IEnumerable<FileInfo> files = new DirectoryInfo(dir)
@@ -23,6 +59,7 @@ namespace Alice.Web.Controllers {
             return View(files);
         }
 
+        [Authorize]
         public void Update(string name) {
             string filename = Server.MapPath("~/Content/" + name + ".md");
             string[] lines = System.IO.File.ReadAllLines(filename);

@@ -18,6 +18,7 @@ namespace Alice.Web.Infrastructure {
 
         public override void Load() {
             Bind<int>().ToConstant(10).Named("PageSize");
+            Bind<string>().ToConstant("06-84-B9-E5-98-A9-64-CE-7B-A1-3F-FD-58-0A-12-6E").Named("PasswordHash");
 
             string baseUrl = "http://otakustay.com";
             Bind<string>().ToConstant(baseUrl).Named("BaseUrl");

@@ -44,13 +44,14 @@ namespace Alice.Web {
             routes.MapRoute(
                 "View",
                 "{name}",
-                new { controller = "Post", action = "ViewPost" }
+                new { controller = "Post", action = "ViewPost" },
+                new { name = @"^[^console]$" }
             );
 
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Post", action = "List", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Post", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }

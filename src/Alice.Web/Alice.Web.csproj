@@ -235,6 +235,7 @@
       <Compile>True</Compile>
       <Minify>True</Minify>
     </Content>
+    <Content Include="Views\Console\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
