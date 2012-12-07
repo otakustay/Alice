@@ -151,6 +151,7 @@
     <Content Include="Dictionaries\Wildcard.txt" />
     <Content Include="Global.asax" />
     <Content Include="Dictionaries\Dict.dct" />
+    <Content Include="_offline.htm" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </None>
