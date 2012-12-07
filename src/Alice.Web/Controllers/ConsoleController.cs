@@ -24,11 +24,15 @@ namespace Alice.Web.Controllers {
 
         [HttpGet]
         public ActionResult Login() {
+            ViewBag.Title = "验证身份";
+
             return View();
         }
 
         [HttpPost]
         public ActionResult Login(string password) {
+            ViewBag.Title = "验证身份";
+
             password += "@alice";
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
             byte[] hash = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
@@ -52,6 +56,8 @@ namespace Alice.Web.Controllers {
 
         [Authorize]
         public ActionResult Index() {
+            ViewBag.Title = "博客列表";
+
             string dir = Server.MapPath("~/Content");
             IEnumerable<FileInfo> files = new DirectoryInfo(dir)
                 .GetFiles()
