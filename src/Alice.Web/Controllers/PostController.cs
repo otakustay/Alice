@@ -19,6 +19,8 @@ using NHibernate.Criterion;
 
 namespace Alice.Web.Controllers {
     public class PostController : Controller {
+        private static readonly Regex stopWords = new Regex(@"[!""\\:\[\]\{\}\(\)\^\+]", RegexOptions.Compiled);
+
         private static readonly Dictionary<string, string> validationMessages = new Dictionary<string, string>() {
             { "name", "请正确填写昵称" },
             { "email", "请正确填写邮箱" },
@@ -184,6 +186,7 @@ namespace Alice.Web.Controllers {
         }
 
         [HttpGet]
+        [ValidateInput(false)]
         public ActionResult Search(string keywords, int page = 1) {
             if (keywords == null) {
                 keywords = String.Empty;
@@ -193,14 +196,15 @@ namespace Alice.Web.Controllers {
                 return Redirect(Url.Content("~/"));
             }
 
+            string safeKeywords = stopWords.Replace(keywords, " ");
             using (IndexSearcher searcher = Kernel.Get<IndexSearcher>()) {
                 BooleanQuery criteria = new BooleanQuery();
                 QueryParser nameParser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, "Name", new PanGuAnalyzer());
-                Query nameQuery = nameParser.Parse(keywords);
+                Query nameQuery = nameParser.Parse(safeKeywords);
                 nameQuery.Boost = 10000;
                 string[] fields = { "Name", "Title", "Content", "Tags" };
                 MultiFieldQueryParser parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30, fields, new PanGuAnalyzer());
-                Query query = parser.Parse(keywords);
+                Query query = parser.Parse(safeKeywords);
                 criteria.Add(nameQuery, Occur.SHOULD);
                 criteria.Add(query, Occur.SHOULD);
                 TopDocs docs = searcher.Search(criteria, 100);
