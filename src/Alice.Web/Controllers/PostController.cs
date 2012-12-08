@@ -205,17 +205,23 @@ namespace Alice.Web.Controllers {
                 criteria.Add(query, Occur.SHOULD);
                 TopDocs docs = searcher.Search(criteria, 100);
 
-                IEnumerable<string> names = docs.ScoreDocs.Select(
-                    d => searcher.Doc(d.Doc).GetField("Name").StringValue);
+                string[] names = docs.ScoreDocs
+                    .Select(d => searcher.Doc(d.Doc).GetField("Name").StringValue)
+                    .ToArray();
 
+                IEnumerable<string> pagedNames = names
+                    .Skip((page - 1) * PageSize)
+                    .Take(PageSize);
                 IEnumerable<PostExcerpt> posts = DbSession.QueryOver<PostExcerpt>()
-                    .Where(Restrictions.InG("Name", names))
+                    .Where(Restrictions.InG("Name", pagedNames))
                     .List()
                     .Select(RenderExcerpt);
 
                 ViewBag.Title = "检索 - " + keywords + " - 宅居 - 宅并技术着";
                 ViewBag.SearchKeywords = keywords;
-                ViewBag.PageCount = 0;
+                ViewBag.PageCount = (int)Math.Ceiling((double)names.Length / (double)PageSize);
+                ViewBag.PageIndex = page;
+                ViewBag.BaseUrl = Url.Content("~/search/" + keywords + "/");
                 return View("List", posts);
             }
         }
