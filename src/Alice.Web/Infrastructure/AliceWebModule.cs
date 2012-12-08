@@ -72,10 +72,11 @@ namespace Alice.Web.Infrastructure {
         }
 
         private IndexWriter CreateIndexWriter(IContext arg) {
+            string dir = ConfigurationManager.AppSettings["LuceneDirectory"];
             IndexWriter writer = new IndexWriter(
-                FSDirectory.Open(new DirectoryInfo(@"f:\database\lucene")),
+                FSDirectory.Open(new DirectoryInfo(dir)),
                 new PanGuAnalyzer(),
-                false,
+                System.IO.Directory.GetFiles(dir, "seg*").Length == 0,
                 IndexWriter.MaxFieldLength.UNLIMITED
             );
 

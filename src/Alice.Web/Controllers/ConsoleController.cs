@@ -1,4 +1,5 @@
 ﻿using Alice.Model;
+using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using MarkdownDeep;
 using NHibernate;
@@ -156,7 +157,25 @@ namespace Alice.Web.Controllers {
         }
 
         private void UpdateIndex(FullPost post) {
-            throw new NotImplementedException();
+            Field name = new Field("Name", post.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            Field title = new Field("Title", post.Title, Field.Store.NO, Field.Index.ANALYZED);
+            Field content = new Field("Content", post.Content, Field.Store.NO, Field.Index.ANALYZED);
+            Field tags = new Field("Tags", String.Join(" ", post.Tags), Field.Store.NO, Field.Index.ANALYZED);
+
+            Document document = new Document();
+            document.Add(name);
+            document.Add(title);
+            document.Add(content);
+            document.Add(tags);
+
+            Indexer.UpdateDocument(new Term("Name", post.Name), document);
+            Indexer.Flush(true, true, true);
+            Indexer.Optimize();
+        }
+
+        protected override void Dispose(bool disposing) {
+            base.Dispose(disposing);
+            Indexer.Dispose();
         }
     }
 }
