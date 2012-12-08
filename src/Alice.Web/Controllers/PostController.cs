@@ -13,6 +13,9 @@ using Ninject;
 using NHibernate;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Lucene.Net.Search;
+using Lucene.Net.QueryParsers;
+using NHibernate.Criterion;
 
 namespace Alice.Web.Controllers {
     public class PostController : Controller {
@@ -44,6 +47,9 @@ namespace Alice.Web.Controllers {
 
         [Inject]
         public ISession DbSession { get; set; }
+
+        [Inject]
+        public IKernel Kernel { get; set; }
 
         [HttpGet]
         public ActionResult List(int page = 1) {
@@ -175,6 +181,43 @@ namespace Alice.Web.Controllers {
             feed.Authors.Add(Author.Clone());
 
             return new Rss20ActionResult(feed);
+        }
+
+        [HttpGet]
+        public ActionResult Search(string keywords, int page = 1) {
+            if (keywords == null) {
+                keywords = String.Empty;
+            }
+            keywords = keywords.Trim();
+            if (keywords.Length == 0) {
+                return Redirect(Url.Content("~/"));
+            }
+
+            using (IndexSearcher searcher = Kernel.Get<IndexSearcher>()) {
+                BooleanQuery criteria = new BooleanQuery();
+                QueryParser nameParser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, "Name", new PanGuAnalyzer());
+                Query nameQuery = nameParser.Parse(keywords);
+                nameQuery.Boost = 10000;
+                string[] fields = { "Name", "Title", "Content", "Tags" };
+                MultiFieldQueryParser parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30, fields, new PanGuAnalyzer());
+                Query query = parser.Parse(keywords);
+                criteria.Add(nameQuery, Occur.SHOULD);
+                criteria.Add(query, Occur.SHOULD);
+                TopDocs docs = searcher.Search(criteria, 100);
+
+                IEnumerable<string> names = docs.ScoreDocs.Select(
+                    d => searcher.Doc(d.Doc).GetField("Name").StringValue);
+
+                IEnumerable<PostExcerpt> posts = DbSession.QueryOver<PostExcerpt>()
+                    .Where(Restrictions.InG("Name", names))
+                    .List()
+                    .Select(RenderExcerpt);
+
+                ViewBag.Title = "检索 - " + keywords + " - 宅居 - 宅并技术着";
+                ViewBag.SearchKeywords = keywords;
+                ViewBag.PageCount = 0;
+                return View("List", posts);
+            }
         }
 
         private SyndicationItem TransformPost(PostEntry entry) {

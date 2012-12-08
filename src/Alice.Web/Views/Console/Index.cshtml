@@ -28,31 +28,26 @@
         }
     </tbody>
     <script>
-        setTimeout(
+        $('tbody').on(
+            'click',
+            'td:last-child',
             function() {
-                $('tbody').on(
-                    'click',
-                    'td:last-child',
-                    function() {
-                        var row = $(this).closest('tr');
+                var row = $(this).closest('tr');
                         
-                        if (row.hasClass('progressing')) {
-                            return;
-                        }
+                if (row.hasClass('progressing')) {
+                    return;
+                }
 
-                        row.addClass('progressing');
-                        var name = row.children('td:first').text();
-                        $.post(
-                            '/console/update/',
-                            { name: name },
-                            function() {
-                                row.removeClass('progressing');
-                            }
-                        );
+                row.addClass('progressing');
+                var name = row.children('td:first').text();
+                $.post(
+                    '/console/update/',
+                    { name: name },
+                    function() {
+                        row.removeClass('progressing');
                     }
                 );
-            },
-            0
+            }
         );
     </script>
 </table>

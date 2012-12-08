@@ -14,6 +14,7 @@ using Configuration = NHibernate.Cfg.Configuration;
 using Lucene.Net.Index;
 using System.IO;
 using Lucene.Net.Store;
+using Lucene.Net.Search;
 
 namespace Alice.Web.Infrastructure {
     public class AliceWebModule : NinjectModule {
@@ -38,6 +39,7 @@ namespace Alice.Web.Infrastructure {
             Bind<ISession>().ToMethod(OpenSession).InTransientScope();
 
             Bind<IndexWriter>().ToMethod(CreateIndexWriter).InTransientScope();
+            Bind<IndexSearcher>().ToMethod(CreateIndexSearcher).InTransientScope();
         }
 
         private static Markdown CreateMarkdownTransformer(IContext context) {
@@ -71,7 +73,7 @@ namespace Alice.Web.Infrastructure {
             return session;
         }
 
-        private IndexWriter CreateIndexWriter(IContext arg) {
+        private static IndexWriter CreateIndexWriter(IContext arg) {
             string dir = ConfigurationManager.AppSettings["LuceneDirectory"];
             IndexWriter writer = new IndexWriter(
                 FSDirectory.Open(new DirectoryInfo(dir)),
@@ -81,6 +83,14 @@ namespace Alice.Web.Infrastructure {
             );
 
             return writer;
+        }
+
+        private static IndexSearcher CreateIndexSearcher(IContext arg) {
+            string dir = ConfigurationManager.AppSettings["LuceneDirectory"];
+            IndexSearcher searcher = new IndexSearcher(
+                FSDirectory.Open(new DirectoryInfo(dir)), true);
+
+            return searcher;
         }
 
         static AliceWebModule() {

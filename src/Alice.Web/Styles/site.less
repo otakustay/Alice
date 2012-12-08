@@ -1,5 +1,12 @@
 ﻿@import "variables.less";
 
+@font-face {
+    font-family: 'FontAwesome';
+    src: url(../images/fontawesome-webfont.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
 	background-color: @metro-background;
 	min-width: 980px;
@@ -65,19 +72,14 @@ body > header:first-of-type {
 		padding: 5px;
 	}
 	textarea {
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
+		.border-box();
 		width: 100%;
 		height: 140px;
 		resize: none;
 		overflow: auto;
 	}
 	input[type="submit"] {
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		-ms-appearance: none;
-		-o-appearance: none;
-		appearance: none;
+		.reset-appearance();
 		border: none;
 		margin: 0;
 		background-color: @metro-dark;
@@ -91,10 +93,10 @@ body > header:first-of-type {
 }
 
 // Navigation
-#navigation {
+#navigation  {
 	margin-bottom: 40px;
 
-	ul {
+	ul  {
 		.clear-float();
 
 		list-style: none;
@@ -102,14 +104,14 @@ body > header:first-of-type {
 		padding: 0;
 	}
 
-	li {
+	li  {
 		float: left;
 		width: 100% / 4;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		padding: 0 1px;
 
-		a {
+		a  {
 			display: block;
 			font-size: @font-size-larger;
 			line-height: 2.6;
@@ -117,7 +119,7 @@ body > header:first-of-type {
 			color: @metro-background-dark;
 			text-align: center;
 
-			&:hover {
+			&:hover  {
 				background-color: @metro-highlight;
 				color: #fff;
 				text-decoration: none;

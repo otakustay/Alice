@@ -19,18 +19,26 @@
         </footer>
     </article>
 }
-<nav id="pager">
-    <h1>更多内容</h1>
-    <ul>
-    @for (int i = 1; i <= ViewBag.PageCount; i++) {
-        <li>
-        @if (i == ViewBag.PageIndex) {
-            <span>@i</span>
-        }
-        else {
-            <a href="/@i"><span>@i</span></a>
-        }
-        </li>
+@{
+    string baseUrl = ViewBag.BaseUrl;
+    if (baseUrl == null) {
+        baseUrl = "/";
     }
-    </ul>
-</nav>
+}
+@if (ViewBag.PageCount > 1) {
+    <nav id="pager">
+        <h1>更多内容</h1>
+        <ul>
+        @for (int i = 1; i <= ViewBag.PageCount; i++) {
+            <li>
+            @if (i == ViewBag.PageIndex) {
+                <span>@i</span>
+            }
+            else {
+                <a href="@(baseUrl + "/" + i)"><span>@i</span></a>
+            }
+            </li>
+        }
+        </ul>
+    </nav>
+}

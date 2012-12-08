@@ -12,6 +12,26 @@
         @RenderBody()
     </div>
     <aside id="sidebar">
-        <a id="feed" href="/feed/" title="订阅博客">订阅博客</a>
+        <section id="search">
+            <form action="/search/" method="get">
+                <input id="keywords" name="keywords"@Html.Raw(ViewBag.SearchKeywords == null ? String.Empty : " value=\"" + Html.AttributeEncode(ViewBag.SearchKeywords) + "\"") placeholder="检索宅居" required="required" maxlength="60" />
+                <button type="submit" id="submit-search" title="检索"></button>
+            </form>
+        </section>
+        <script>
+            $('#search > form').on(
+                'submit',
+                function() {
+                    var keywords = $('#keywords').val().trim();
+                    if (keywords) {
+                        location.href = '/search/' + encodeURIComponent(keywords) + '/';
+                    }
+                    return false;
+                }
+            );
+        </script>
+        <section id="links">
+            <a id="feed" href="/feed/" title="订阅博客">订阅博客</a>
+        </section>
     </aside>
 </div>

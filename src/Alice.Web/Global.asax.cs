@@ -29,6 +29,12 @@ namespace Alice.Web {
             );
 
             routes.MapRoute(
+                "Search",
+                "search/{keywords}/{page}",
+                new { controller = "Post", action = "Search", keywords = UrlParameter.Optional, page = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 "Rss2.0",
                 "feed",
                 new { controller = "Post", action = "Feed" }

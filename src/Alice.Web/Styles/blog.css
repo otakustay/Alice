@@ -21,6 +21,52 @@
   height: 480px;
   margin: 0 auto;
 }
+#sidebar > section {
+  margin-bottom: 20px;
+}
+#sidebar > section > h1 {
+  background-color: #dedede;
+  text-align: right;
+  line-height: 1.6;
+  padding: 0 8px;
+  font-size: 16px;
+}
+#search {
+  position: relative;
+}
+#keywords {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 36px;
+  padding: 6px;
+  border: 1px solid #dedede;
+}
+#submit-search {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: #fff;
+  font-family: FontAwesome;
+  font-size: 0;
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  color: #83ba1f;
+}
+#submit-search::before {
+  content: "\f002";
+  font-size: 30px;
+  line-height: 40px;
+}
+#submit-search:hover {
+  color: #008a00;
+}
 #feed {
   display: block;
   height: 106px;
