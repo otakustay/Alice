@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Hosting;
 
 namespace Alice.Web.Infrastructure {
     class PanGuTokenizer : Tokenizer {
@@ -22,7 +23,7 @@ namespace Alice.Web.Infrastructure {
 
         static PanGuTokenizer() {
             //Init PanGu Segment.
-            string config = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "PanGu.xml");
+            string config = HostingEnvironment.MapPath("~/PanGu.xml");
             Segment.Init(config);
         }
 
