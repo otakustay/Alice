@@ -1,4 +1,5 @@
 ﻿using Alice.Model;
+using Lucene.Net.Index;
 using MarkdownDeep;
 using NHibernate;
 using Ninject;
@@ -14,13 +15,15 @@ using System.Web.Security;
 
 namespace Alice.Web.Controllers {
     public class ConsoleController : Controller {
-
         [Inject]
         [Named("PasswordHash")]
         public string PasswordHash { get; set; }
 
         [Inject]
         public ISession DbSession { get; set; }
+
+        [Inject]
+        public IndexWriter Indexer { get; set; }
 
         [HttpGet]
         public ActionResult Login() {
@@ -85,12 +88,42 @@ namespace Alice.Web.Controllers {
                 DbSession.Save(post);
             }
 
-            UpdateTags(post, storedTags);
-        }
-
-        private void UpdateTags(FullPost post, HashSet<string> storedTags) {
             // 抽取tag的区别
             HashSet<string> currentTags = new HashSet<string>(post.Tags);
+            UpdateTags(currentTags, storedTags);
+
+            // 更新全文索引
+            UpdateIndex(post);
+        }
+
+        private void UpdatePost(string name, FullPost post) {
+            string filename = Server.MapPath("~/Content/" + name + ".md");
+            string[] lines = System.IO.File.ReadAllLines(filename);
+            post.Name = name;
+            post.Title = lines[0].Split(':')[1].Trim();
+            post.PostDate = DateTime.ParseExact(lines[2].Split(':')[1].Trim(), "yyyy-MM-dd", null);
+            post.UpdateDate = DateTime.Today;
+            post.Tags = lines[1].Split(':')[1].Split(',').Select(t => t.Trim()).ToArray();
+
+            StringBuilder excerpt = new StringBuilder();
+            StringBuilder content = new StringBuilder();
+            bool isExcerptRecorded = false;
+            for (int i = 3; i < lines.Length; i++) {
+                string line = lines[i];
+                if (line.Trim() == "<!-- more -->") {
+                    isExcerptRecorded = true;
+                }
+
+                content.AppendLine(line);
+                if (!isExcerptRecorded) {
+                    excerpt.AppendLine(line);
+                }
+            }
+            post.Excerpt = excerpt.ToString().Trim();
+            post.Content = content.ToString().Trim();
+        }
+
+        private void UpdateTags(HashSet<string> currentTags, HashSet<string> storedTags) {
             // 数据库里的减去现在的，就是被删除的tag
             foreach (string tagName in storedTags.Except(currentTags)) {
                 // 被删除的tag在数据库里肯定已经有这一行，只要数量减1就行
@@ -122,31 +155,8 @@ namespace Alice.Web.Controllers {
             }
         }
 
-        private void UpdatePost(string name, FullPost post) {
-            string filename = Server.MapPath("~/Content/" + name + ".md");
-            string[] lines = System.IO.File.ReadAllLines(filename);
-            post.Name = name;
-            post.Title = lines[0].Split(':')[1].Trim();
-            post.PostDate = DateTime.ParseExact(lines[2].Split(':')[1].Trim(), "yyyy-MM-dd", null);
-            post.UpdateDate = DateTime.Today;
-            post.Tags = lines[1].Split(':')[1].Split(',').Select(t => t.Trim()).ToArray();
-
-            StringBuilder excerpt = new StringBuilder();
-            StringBuilder content = new StringBuilder();
-            bool isExcerptRecorded = false;
-            for (int i = 3; i < lines.Length; i++) {
-                string line = lines[i];
-                if (line.Trim() == "<!-- more -->") {
-                    isExcerptRecorded = true;
-                }
-
-                content.AppendLine(line);
-                if (!isExcerptRecorded) {
-                    excerpt.AppendLine(line);
-                }
-            }
-            post.Excerpt = excerpt.ToString().Trim();
-            post.Content = content.ToString().Trim();
+        private void UpdateIndex(FullPost post) {
+            throw new NotImplementedException();
         }
     }
 }

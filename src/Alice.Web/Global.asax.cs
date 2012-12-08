@@ -23,6 +23,12 @@ namespace Alice.Web {
             routes.IgnoreRoute("{*robots}", new { robots = @"(.*/)?robots.txt(/.*)?" });
 
             routes.MapRoute(
+                "Console",
+                "console/{action}",
+                new { controller = "Console", action = "Index" }
+            );
+
+            routes.MapRoute(
                 "Rss2.0",
                 "feed",
                 new { controller = "Post", action = "Feed" }
@@ -44,14 +50,13 @@ namespace Alice.Web {
             routes.MapRoute(
                 "View",
                 "{name}",
-                new { controller = "Post", action = "ViewPost" },
-                new { name = @"^[^console]$" }
+                new { controller = "Post", action = "ViewPost" }
             );
 
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Post", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Post", action = "List", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }

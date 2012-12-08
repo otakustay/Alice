@@ -11,6 +11,9 @@ using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;
 using Configuration = NHibernate.Cfg.Configuration;
+using Lucene.Net.Index;
+using System.IO;
+using Lucene.Net.Store;
 
 namespace Alice.Web.Infrastructure {
     public class AliceWebModule : NinjectModule {
@@ -33,6 +36,8 @@ namespace Alice.Web.Infrastructure {
             Bind<string>().ToConstant(connectionString).Named("ConnectionString");
 
             Bind<ISession>().ToMethod(OpenSession).InTransientScope();
+
+            Bind<IndexWriter>().ToMethod(CreateIndexWriter).InTransientScope();
         }
 
         private static Markdown CreateMarkdownTransformer(IContext context) {
@@ -64,6 +69,17 @@ namespace Alice.Web.Infrastructure {
                 HttpContext.Current.Items["NHibernateSession"] = session;
             }
             return session;
+        }
+
+        private IndexWriter CreateIndexWriter(IContext arg) {
+            IndexWriter writer = new IndexWriter(
+                FSDirectory.Open(new DirectoryInfo(@"f:\database\lucene")),
+                new PanGuAnalyzer(),
+                false,
+                IndexWriter.MaxFieldLength.UNLIMITED
+            );
+
+            return writer;
         }
 
         static AliceWebModule() {

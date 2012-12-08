@@ -135,6 +135,8 @@
     </Compile>
     <Compile Include="Infrastructure\AliceWebModule.cs" />
     <Compile Include="Infrastructure\CreatedActionResult.cs" />
+    <Compile Include="Infrastructure\PanGuAnalyzer.cs" />
+    <Compile Include="Infrastructure\PanGuTokenizer.cs" />
     <Compile Include="Infrastructure\WithStatusCodeActionResult.cs" />
     <Compile Include="Infrastructure\NewtonJsonActionResult.cs" />
     <Compile Include="Infrastructure\NHibernateSessionModule.cs" />
@@ -143,14 +145,28 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Dictionaries\ChsDoubleName1.txt" />
-    <Content Include="Dictionaries\ChsDoubleName2.txt" />
-    <Content Include="Dictionaries\ChsSingleName.txt" />
-    <Content Include="Dictionaries\Stopword.txt" />
-    <Content Include="Dictionaries\Synonym.txt" />
-    <Content Include="Dictionaries\Wildcard.txt" />
+    <Content Include="Dictionaries\ChsDoubleName1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dictionaries\ChsDoubleName2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dictionaries\ChsSingleName.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dictionaries\Stopword.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dictionaries\Synonym.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dictionaries\Wildcard.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Global.asax" />
-    <Content Include="Dictionaries\Dict.dct" />
+    <Content Include="Dictionaries\Dict.dct">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="_offline.htm" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
@@ -168,7 +184,9 @@
     <EmbeddedResource Include="Models\Mapping\Tag.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Content Include="PanGu.xml" />
+    <Content Include="PanGu.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js">
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
