@@ -1,0 +1,18 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<Tag>
+
+@{
+    int minSize = 16;
+    int scale = 8;
+}
+<ul>
+    @foreach (Tag tag in Model) {
+        double ratio = tag.HitCount / ViewBag.MaxHitCount;
+        int size = (int)Math.Round(minSize + scale * ratio);
+        <li>
+            <a href="@Url.Content("~/tags/" + tag.Name + "/")" title="@tag.Name" style="font-size: @(size)px">@tag.Name</a>
+        </li>
+    }
+</ul>

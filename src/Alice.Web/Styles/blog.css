@@ -87,3 +87,13 @@
   color: #fff;
   text-indent: 0;
 }
+#tag-cloud ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#tag-cloud li {
+  display: inline-block;
+  margin: 6px;
+  margin-left: 0;
+}

@@ -230,6 +230,13 @@ namespace Alice.Web.Controllers {
             }
         }
 
+        [ChildActionOnly]
+        public ActionResult TagCloud() {
+            IEnumerable<Tag> tags = DbSession.QueryOver<Tag>().List();
+            ViewBag.MaxHitCount = (double)tags.Max(t => t.HitCount);
+            return View(tags);
+        }
+
         private SyndicationItem TransformPost(PostEntry entry) {
             entry = RenderEntry(entry);
             SyndicationItem item = new SyndicationItem();

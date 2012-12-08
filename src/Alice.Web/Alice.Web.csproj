@@ -258,6 +258,7 @@
       <Minify>True</Minify>
     </Content>
     <Content Include="Views\Console\Login.cshtml" />
+    <Content Include="Views\Post\TagCloud.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
