@@ -29,7 +29,26 @@
     <nav id="pager">
         <h1>更多内容</h1>
         <ul>
-        @for (int i = 1; i <= ViewBag.PageCount; i++) {
+        @{
+            int maxPages = 10;
+            int previous = 4;
+            int post = maxPages - previous;
+
+            int start = ViewBag.PageIndex - previous;
+            int end = start + maxPages - 1;
+
+            if (start < 1) {
+                end -= start;
+                start = 1;
+            }
+            if (end > ViewBag.PageCount) {
+                end = ViewBag.PageCount;
+            }
+            if (end - start + 1 < maxPages) {
+                start = Math.Max(1, end - maxPages);
+            }
+        }
+        @for (int i = start; i <= end; i++) {
             <li>
             @if (i == ViewBag.PageIndex) {
                 <span>@i</span>
