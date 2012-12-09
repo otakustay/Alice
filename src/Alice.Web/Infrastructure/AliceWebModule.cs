@@ -15,6 +15,7 @@ using Lucene.Net.Index;
 using System.IO;
 using Lucene.Net.Store;
 using Lucene.Net.Search;
+using Lucene.Net.Analysis;
 
 namespace Alice.Web.Infrastructure {
     public class AliceWebModule : NinjectModule {
@@ -75,9 +76,15 @@ namespace Alice.Web.Infrastructure {
 
         private static IndexWriter CreateIndexWriter(IContext arg) {
             string dir = ConfigurationManager.AppSettings["LuceneDirectory"];
+            PerFieldAnalyzerWrapper analyzer = new PerFieldAnalyzerWrapper(
+                new PanGuAnalyzer(),
+                new Dictionary<string, Analyzer>() {
+                    { "Tags", new TagAnalyzer() }
+                }
+            );
             IndexWriter writer = new IndexWriter(
                 FSDirectory.Open(new DirectoryInfo(dir)),
-                new PanGuAnalyzer(),
+                analyzer,
                 System.IO.Directory.GetFiles(dir, "seg*").Length == 0,
                 IndexWriter.MaxFieldLength.UNLIMITED
             );

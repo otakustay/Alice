@@ -138,6 +138,7 @@
     <Compile Include="Infrastructure\LocalHostAttribute.cs" />
     <Compile Include="Infrastructure\PanGuAnalyzer.cs" />
     <Compile Include="Infrastructure\PanGuTokenizer.cs" />
+    <Compile Include="Infrastructure\TagAnalyzer.cs" />
     <Compile Include="Infrastructure\WithStatusCodeActionResult.cs" />
     <Compile Include="Infrastructure\NewtonJsonActionResult.cs" />
     <Compile Include="Infrastructure\NHibernateSessionModule.cs" />

@@ -16,6 +16,8 @@ using System.Text.RegularExpressions;
 using Lucene.Net.Search;
 using Lucene.Net.QueryParsers;
 using NHibernate.Criterion;
+using Lucene.Net.Analysis;
+using Lucene.Net.Index;
 
 namespace Alice.Web.Controllers {
     public class PostController : Controller {
@@ -111,11 +113,11 @@ namespace Alice.Web.Controllers {
             comment.Author.Email = comment.Author.Email.Trim();
 
             // 验证
-            if (String.IsNullOrEmpty(comment.Author.Name) || 
+            if (String.IsNullOrEmpty(comment.Author.Name) ||
                 comment.Author.Name.Length > 60) {
                 ModelState.AddModelError("name", validationMessages["name"]);
             }
-            if (String.IsNullOrEmpty(comment.Author.Email) || 
+            if (String.IsNullOrEmpty(comment.Author.Email) ||
                 comment.Author.Email.Length > 100 ||
                 !emailRule.IsMatch(comment.Author.Email)) {
                 ModelState.AddModelError("email", validationMessages["email"]);
@@ -207,26 +209,34 @@ namespace Alice.Web.Controllers {
                 Query query = parser.Parse(safeKeywords);
                 criteria.Add(nameQuery, Occur.SHOULD);
                 criteria.Add(query, Occur.SHOULD);
-                TopDocs docs = searcher.Search(criteria, 100);
 
-                string[] names = docs.ScoreDocs
-                    .Select(d => searcher.Doc(d.Doc).GetField("Name").StringValue)
-                    .ToArray();
-
-                IEnumerable<string> pagedNames = names
-                    .Skip((page - 1) * PageSize)
-                    .Take(PageSize);
-                IEnumerable<PostExcerpt> posts = DbSession.QueryOver<PostExcerpt>()
-                    .Where(Restrictions.InG("Name", pagedNames))
-                    .List()
-                    .Select(RenderExcerpt);
+                int total;
+                IList<PostExcerpt> posts = RetrievePostsFromIndexer(page, searcher, criteria, out total);
 
                 ViewBag.Title = "检索 - " + keywords + " - 宅居 - 宅并技术着";
                 ViewBag.SearchKeywords = keywords;
-                ViewBag.PageCount = (int)Math.Ceiling((double)names.Length / (double)PageSize);
+                ViewBag.PageCount = (int)Math.Ceiling((double)total / (double)PageSize);
                 ViewBag.PageIndex = page;
                 ViewBag.BaseUrl = Url.Content("~/search/" + keywords + "/");
-                return View("List", posts);
+                return View("List", posts.Select(RenderExcerpt));
+            }
+        }
+
+        [HttpGet]
+        [ValidateInput(false)]
+        public ActionResult Tag(string tag, int page = 1) {
+            tag = tag.ToLower();
+            using (IndexSearcher searcher = Kernel.Get<IndexSearcher>()) {
+                Query criteria = new TermQuery(new Term("Tags", tag));
+
+                int total;
+                IList<PostExcerpt> posts = RetrievePostsFromIndexer(page, searcher, criteria, out total);
+
+                ViewBag.Title = "标签 - " + tag + " - 宅居 - 宅并技术着";
+                ViewBag.PageCount = (int)Math.Ceiling((double)total / (double)PageSize);
+                ViewBag.PageIndex = page;
+                ViewBag.BaseUrl = Url.Content("~/tag/" + tag + "/");
+                return View("List", posts.Select(RenderExcerpt));
             }
         }
 
@@ -258,6 +268,23 @@ namespace Alice.Web.Controllers {
         private PostEntry RenderEntry(PostEntry entry) {
             entry.Content = Transformer.Transform(entry.Content);
             return entry;
+        }
+
+        private IList<PostExcerpt> RetrievePostsFromIndexer(int page, IndexSearcher searcher, Query criteria, out int total) {
+            TopDocs docs = searcher.Search(criteria, 100);
+
+            string[] names = docs.ScoreDocs
+                .Select(d => searcher.Doc(d.Doc).GetField("Name").StringValue)
+                .ToArray();
+            total = names.Length;
+
+            IEnumerable<string> pagedNames = names
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize);
+
+            return DbSession.QueryOver<PostExcerpt>()
+                .Where(Restrictions.InG("Name", pagedNames))
+                .List();
         }
     }
 }
