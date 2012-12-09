@@ -147,6 +147,7 @@
                         $.extend(data.comment, transformers);
                         var html = Mustache.render(articleTemplate, data.comment);
                         $('#comments > ol').append(html);
+                        cancelReplyMode();
                         postCommentForm[0].reset();
                     }
                     else {
