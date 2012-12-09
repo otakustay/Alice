@@ -152,6 +152,13 @@ namespace Alice.Web.Controllers {
             comment.Author.IpAddress = Request.UserHostAddress;
             comment.Author.UserAgent = Request.UserAgent;
 
+            if (comment.Target.HasValue) {
+                Comment target = DbSession.Get<Comment>(comment.Target);
+                if (target == null) {
+                    comment.Target = null;
+                }
+            }
+
             DbSession.Save(comment);
 
             if (Request.AcceptTypes.Contains("application/json")) {

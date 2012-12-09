@@ -80,7 +80,42 @@
 		padding-left: 1ex;
 		font-size: @font-size-small;
 	}
-	.content {
+	.content, .actions {
 		margin-left: @left-padding;
+	}
+	.reply {
+		color: @link-color;
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&::before {
+			content: "[";
+		}
+
+		&::after {
+			content: "]";
+		}
+	}
+}
+#cancel-reply {
+	display: inline-block;
+	margin-left: 10px;
+	font-size: @font-size-normal;
+	color: @link-color;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&::before {
+		content: "[";
+	}
+
+	&::after {
+		content: "]";
 	}
 }

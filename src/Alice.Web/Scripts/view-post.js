@@ -4,7 +4,6 @@
     var markdown = new MarkdownDeep.Markdown();
     markdown.SafeMode = true;
     markdown.NewWindowForExternalLinks = true;
-    markdown.NewWindowForLocalLinks = true;
     // 禁掉链接和href和图片的src上的伪协议，仅允许http和https协议
     (function() {
         var qualifyURL = MarkdownDeep.Markdown.prototype.OnQualifyUrl;
@@ -13,7 +12,8 @@
             url = qualifyURL(url);
             // MarkdownDeep会转义attribute
             if (url.indexOf('http://') !== 0 && 
-                url.indexOf('https://') !== 0) {
+                url.indexOf('https://') !== 0 &&
+                url.indexOf('#') !== 0) {
                 return 'http://' + url;
             }
             return url;
@@ -41,25 +41,49 @@
         return date;
     }
 
+    var authorMapping = {};
+
+    function addAuthor(text, render) {
+        var info = render(text).split('-');
+        var id = info[0];
+        var author = info.slice(1).join('-');
+        authorMapping[id] = author;
+        return '';
+    }
+
+    function getAuthorName(text, render) {
+        var id = render(text);
+        return authorMapping[id];
+    }
+
     var transformers = {
         markdown: function() { return transformMarkdown; },
         gravatar: function() { return transformGravatar; },
-        date: function() { return transformDate; }
+        date: function() { return transformDate; },
+        authorName: function() { return getAuthorName; },
+        add: function() { return addAuthor; }
     };
 
     var articleTemplate = 
         '<li>' +
-            '<article>' +
+            '{{#add}}{{id}}-{{&author.name}}{{/add}}' +
+            '<article id="comment-{{id}}">' +
                 '<footer class="meta">' +
-                    '<img class="author-avatar" src="{{#gravatar}}{{&author.email}}{{/gravatar}}" alt="{{author.name}}" />' + 
+                    '<img class="author-avatar" src="{{#gravatar}}{{&author.email}}{{/gravatar}}" alt="{{author.name}}" />' +
                     '<span class="author-name">{{author.name}}</span>' +
-                    '<time class="post-time" datetime="{{#date}}{{&postTime}}{{/date}}">' + 
-                        '{{#date}}{{&postTime}}{{/date}}' + 
+                    '<time class="post-time" datetime="{{#date}}{{&postTime}}{{/date}}">' +
+                        '{{#date}}{{&postTime}}{{/date}}' +
                     '</time>' +
                 '</footer>' +
                 '<section class="content">' +
+                    '{{#target}}' +
+                        '<p>回复 <a href="#comment-{{target}}" title="查看@{{#authorName}}{{target}}{{/authorName}}的发言">{{#authorName}}{{target}}{{/authorName}}</a></p>' +
+                    '{{/target}}' +
                     '{{#markdown}}{{&content}}{{/markdown}}' +
                 '</section>' +
+                '<footer class="actions">' +
+                    '<span title="回复{{author.name}}" class="reply">回复</span>' +
+                '</footer>' +
             '</article>' + 
         '</li>';
     var sectionTemplate = 
@@ -131,7 +155,7 @@
 
             $(':submit').attr('disabled', 'disabled');
             $.ajax({
-                url: '/' + postName + '/comments/',
+                url: postCommentForm.attr('action'),
                 type: 'post',
                 data: $(this).serialize(),
                 dataType: 'json',
@@ -154,4 +178,36 @@
             return false;
         }
     );
+
+    // 回复评论
+    function cancelReplyMode() {
+        $('#post-comment > h1').text('留言评论');
+        $('#cancel-reply').remove();
+        $('input[name="comment.target"]').remove();
+    }
+
+    $('#comments').on(
+        'click',
+        '.reply',
+        function() {
+            cancelReplyMode();
+
+            var container = $(this).closest('article');
+            var authorName = container.find('.author-name').text();
+            var id = container.attr('id').split('-')[1];
+
+            $('#post-comment > h1')
+                .text('回复 @' + authorName)
+                .append('<span id="cancel-reply">退出回复模式</span>');
+            postCommentForm.prepend('<input type="hidden" name="comment.target" value="' + id + '" />');
+
+            var scrollTop = $('#post-comment').offset().top;
+            var win = $(window);
+            var padding = win.height() / 4;
+            if (scrollTop < win.scrollTop() || scrollTop > win.scrollTop + win.height()) {
+                $('html, body').animate({ scrollTop: scrollTop - padding });
+            }
+        }
+    );
+    $('#post-comment > h1').on('click', '#cancel-reply', cancelReplyMode);
 }());

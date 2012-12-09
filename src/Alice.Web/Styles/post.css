@@ -79,6 +79,36 @@
   padding-left: 1ex;
   font-size: 14px;
 }
-#comments .content {
+#comments .content,
+#comments .actions {
   margin-left: 50px;
+}
+#comments .reply {
+  color: #00749e;
+  cursor: pointer;
+}
+#comments .reply:hover {
+  text-decoration: underline;
+}
+#comments .reply::before {
+  content: "[";
+}
+#comments .reply::after {
+  content: "]";
+}
+#cancel-reply {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 16px;
+  color: #00749e;
+  cursor: pointer;
+}
+#cancel-reply:hover {
+  text-decoration: underline;
+}
+#cancel-reply::before {
+  content: "[";
+}
+#cancel-reply::after {
+  content: "]";
 }

@@ -4,6 +4,7 @@
     <id name="Id" column="id">
       <generator class="native" />
     </id>
+    <property name="Target" column="target" />
     <property name="Content" column="content" />
     <property name="PostName" column="post_name" />
     <property name="PostTime" column="post_time" />

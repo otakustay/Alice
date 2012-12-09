@@ -1,5 +1,6 @@
 create table `comment` (
   `id` int not null auto_increment,
+  `target` int null,
   `post_name` varchar(200) not null,
   `author_name` varchar(120) not null,
   `author_email` varchar(200) not null,

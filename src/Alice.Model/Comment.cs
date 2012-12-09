@@ -7,6 +7,8 @@ namespace Alice.Model {
     public class Comment {
         public int Id { get; set; }
 
+        public int? Target { get; set; }
+
         public string PostName { get; set; }
 
         public string Content { get; set; }
