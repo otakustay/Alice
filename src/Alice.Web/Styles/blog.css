@@ -25,11 +25,10 @@
   margin-bottom: 20px;
 }
 #sidebar > section > h1 {
+  font-size: 24px;
   background-color: #dedede;
   text-align: right;
-  line-height: 1.6;
-  padding: 0 8px;
-  font-size: 16px;
+  padding: 6px 8px;
 }
 #search {
   position: relative;

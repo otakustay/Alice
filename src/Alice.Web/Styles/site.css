@@ -49,6 +49,9 @@ code {
 p {
   line-height: 1.5;
 }
+img {
+  max-width: 100%;
+}
 body > header:first-of-type {
   margin-bottom: 30px;
 }
