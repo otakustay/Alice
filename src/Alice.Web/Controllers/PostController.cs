@@ -23,6 +23,8 @@ namespace Alice.Web.Controllers {
     public class PostController : Controller {
         private static readonly Regex stopWords = new Regex(@"[!""\\:\[\]\{\}\(\)\^\+]", RegexOptions.Compiled);
 
+        private static readonly Regex whitespace = new Regex(@"\s+", RegexOptions.Compiled);
+
         private static readonly Dictionary<string, string> validationMessages = new Dictionary<string, string>() {
             { "name", "请正确填写昵称" },
             { "email", "请正确填写邮箱" },
@@ -225,6 +227,19 @@ namespace Alice.Web.Controllers {
         [HttpGet]
         [ValidateInput(false)]
         public ActionResult Tag(string tag, int page = 1) {
+            if (tag == null) {
+                tag = String.Empty;
+            }
+            tag = tag.Trim();
+            if (tag.Length == 0) {
+                return Redirect(Url.Content("~/"));
+            }
+            string[] tags = whitespace.Split(tag);
+            tag = tags[0];
+            if (tags.Length > 1) {
+                return Redirect(Url.Content("~/tag/" + HttpUtility.UrlEncode(tag) + "/"));
+            }
+
             tag = tag.ToLower();
             using (IndexSearcher searcher = Kernel.Get<IndexSearcher>()) {
                 Query criteria = new TermQuery(new Term("Tags", tag));

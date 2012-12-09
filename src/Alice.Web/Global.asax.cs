@@ -32,13 +32,13 @@ namespace Alice.Web {
             routes.MapRoute(
                 "Search",
                 "search/{keywords}/{page}",
-                new { controller = "Post", action = "Search", page = UrlParameter.Optional }
+                new { controller = "Post", action = "Search", keywords = UrlParameter.Optional, page = UrlParameter.Optional }
             );
 
             routes.MapRoute(
                 "Tag",
                 "tag/{tag}/{page}",
-                new { controller = "Post", action = "Tag", page = UrlParameter.Optional }
+                new { controller = "Post", action = "Tag", tag = UrlParameter.Optional, page = UrlParameter.Optional }
             );
 
             routes.MapRoute(
