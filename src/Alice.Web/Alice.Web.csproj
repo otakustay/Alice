@@ -135,7 +135,6 @@
     </Compile>
     <Compile Include="Infrastructure\AliceWebModule.cs" />
     <Compile Include="Infrastructure\CreatedActionResult.cs" />
-    <Compile Include="Infrastructure\LocalHostAttribute.cs" />
     <Compile Include="Infrastructure\PanGuAnalyzer.cs" />
     <Compile Include="Infrastructure\PanGuTokenizer.cs" />
     <Compile Include="Infrastructure\TagAnalyzer.cs" />

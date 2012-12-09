@@ -15,7 +15,6 @@ namespace Alice.Web {
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new LocalHostAttribute());
         }
 
         public static void RegisterRoutes(RouteCollection routes) {
