@@ -157,6 +157,9 @@ namespace Alice.Web.Controllers {
                 if (target == null) {
                     comment.Target = null;
                 }
+                else {
+                    comment.TargetAuthorName = target.Author.Name;
+                }
             }
 
             DbSession.Save(comment);

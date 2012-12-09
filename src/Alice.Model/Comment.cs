@@ -9,6 +9,8 @@ namespace Alice.Model {
 
         public int? Target { get; set; }
 
+        public string TargetAuthorName { get; set; }
+
         public string PostName { get; set; }
 
         public string Content { get; set; }

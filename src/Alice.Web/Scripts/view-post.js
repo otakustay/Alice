@@ -41,32 +41,14 @@
         return date;
     }
 
-    var authorMapping = {};
-
-    function addAuthor(text, render) {
-        var info = render(text).split('-');
-        var id = info[0];
-        var author = info.slice(1).join('-');
-        authorMapping[id] = author;
-        return '';
-    }
-
-    function getAuthorName(text, render) {
-        var id = render(text);
-        return authorMapping[id];
-    }
-
     var transformers = {
         markdown: function() { return transformMarkdown; },
         gravatar: function() { return transformGravatar; },
-        date: function() { return transformDate; },
-        authorName: function() { return getAuthorName; },
-        add: function() { return addAuthor; }
+        date: function() { return transformDate; }
     };
 
     var articleTemplate = 
         '<li>' +
-            '{{#add}}{{id}}-{{&author.name}}{{/add}}' +
             '<article id="comment-{{id}}">' +
                 '<footer class="meta">' +
                     '<img class="author-avatar" src="{{#gravatar}}{{&author.email}}{{/gravatar}}" alt="{{author.name}}" />' +
@@ -77,7 +59,7 @@
                 '</footer>' +
                 '<section class="content">' +
                     '{{#target}}' +
-                        '<p>回复 <a href="#comment-{{target}}" title="查看@{{#authorName}}{{target}}{{/authorName}}的发言">{{#authorName}}{{target}}{{/authorName}}</a></p>' +
+                        '<p>回复 <a href="#comment-{{target}}" title="查看@{{targetAuthorName}}的发言">@{{targetAuthorName}}</a></p>' +
                     '{{/target}}' +
                     '{{#markdown}}{{&content}}{{/markdown}}' +
                 '</section>' +

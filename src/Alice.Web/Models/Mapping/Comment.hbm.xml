@@ -5,6 +5,7 @@
       <generator class="native" />
     </id>
     <property name="Target" column="target" />
+    <property name="TargetAuthorName" column="target_author_name" />
     <property name="Content" column="content" />
     <property name="PostName" column="post_name" />
     <property name="PostTime" column="post_time" />
