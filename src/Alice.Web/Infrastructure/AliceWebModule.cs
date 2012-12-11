@@ -75,7 +75,7 @@ namespace Alice.Web.Infrastructure {
                     if (!src.StartsWith("http://")&& 
                         !src.StartsWith("https://") &&
                         !src.StartsWith("#")) {
-                            tag.attributes["src"] = "http://" + src;
+                        tag.attributes["src"] = "http://" + src;
                     }
                     return true;
                 },
@@ -84,7 +84,10 @@ namespace Alice.Web.Infrastructure {
                     if (!href.StartsWith("http://") &&
                         !href.StartsWith("https://") &&
                         !href.StartsWith("#")) {
-                            tag.attributes["href"] = "http://" + href;
+                        tag.attributes["href"] = "http://" + href;
+                    }
+                    if (!href.StartsWith("#")) {
+                        tag.attributes["target"] = "_blank";
                     }
                     return true;
                 }
