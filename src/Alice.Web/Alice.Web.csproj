@@ -48,6 +48,9 @@
     <Reference Include="Elmah.Mvc">
       <HintPath>..\packages\Elmah.MVC.2.0.2\lib\net40\Elmah.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="GravatarHelper">
+      <HintPath>..\packages\GravatarHelper.3.2.0\lib\Net40\GravatarHelper.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -148,6 +151,7 @@
     <Compile Include="Infrastructure\NewtonJsonActionResult.cs" />
     <Compile Include="Infrastructure\NHibernateSessionModule.cs" />
     <Compile Include="Infrastructure\Rss20ActionResult.cs" />
+    <Compile Include="Models\CommentView.cs" />
     <Compile Include="Models\Mapping\StringArrayType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -266,6 +270,8 @@
     </Content>
     <Content Include="Views\Console\Login.cshtml" />
     <Content Include="Views\Post\TagCloud.cshtml" />
+    <Content Include="Views\Post\Comment.cshtml" />
+    <Content Include="Views\Post\CommentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -32,7 +32,8 @@ namespace Alice.Web.Infrastructure {
                 new SyndicationPerson("otakustay@live.com", "otakustay", "http://otakustay.com");
             Bind<SyndicationPerson>().ToConstant(me);
 
-            Bind<Markdown>().ToMethod(CreateMarkdownTransformer).InTransientScope();
+            Bind<Markdown>().ToMethod(CreateMarkdownTransformer).InTransientScope().Named("Full");
+            Bind<Markdown>().ToMethod(CreateSafeMarkdownTransformer).InTransientScope().Named("Safe");
 
             string connectionString = ConfigurationManager.ConnectionStrings["MySql"].ConnectionString;
             Bind<string>().ToConstant(connectionString).Named("ConnectionString");
@@ -59,6 +60,31 @@ namespace Alice.Web.Infrastructure {
                     string href = tag.attributes["href"];
                     if (href.StartsWith("/")) {
                         tag.attributes["href"] = baseUrl + href;
+                    }
+                    return true;
+                }
+            };
+        }
+
+        private static Markdown CreateSafeMarkdownTransformer(IContext context) {
+            return new Markdown() {
+                ExtraMode = false,
+                NewWindowForExternalLinks = true,
+                PrepareImage = (tag, tiled) => {
+                    string src = tag.attributes["src"];
+                    if (!src.StartsWith("http://")&& 
+                        !src.StartsWith("https://") &&
+                        !src.StartsWith("#")) {
+                            tag.attributes["src"] = "http://" + src;
+                    }
+                    return true;
+                },
+                PrepareLink = (tag) => {
+                    string href = tag.attributes["href"];
+                    if (!href.StartsWith("http://") &&
+                        !href.StartsWith("https://") &&
+                        !href.StartsWith("#")) {
+                            tag.attributes["href"] = "http://" + href;
                     }
                     return true;
                 }

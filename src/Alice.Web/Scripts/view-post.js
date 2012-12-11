@@ -1,96 +1,5 @@
 ﻿(function() {
     var emailRule = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;
-    var postName = $('#post').data('name');
-    var markdown = new MarkdownDeep.Markdown();
-    markdown.SafeMode = true;
-    markdown.NewWindowForExternalLinks = true;
-    // 禁掉链接和href和图片的src上的伪协议，仅允许http和https协议
-    (function() {
-        var qualifyURL = MarkdownDeep.Markdown.prototype.OnQualifyUrl;
-
-        MarkdownDeep.Markdown.prototype.OnQualifyUrl = function(url) {
-            url = qualifyURL(url);
-            // MarkdownDeep会转义attribute
-            if (url.indexOf('http://') !== 0 && 
-                url.indexOf('https://') !== 0 &&
-                url.indexOf('#') !== 0) {
-                return 'http://' + url;
-            }
-            return url;
-        }
-    }());
-
-    function transformMarkdown(text, render) {
-        return markdown.Transform(render(text));
-    }
-
-    function transformGravatar(text, render) {
-        var email = render(text);
-        var hash = md5(email.toLowerCase());
-        return 'http://www.gravatar.com/avatar/' + hash + '?s=32&d=identicon&r=g';
-    }
-
-    function transformDate(text, render) {
-        function pad(n) {
-            n = n + '';
-            return n.length === 1 ? '0' + n : n;
-        }
-
-        var date = render(text).slice(0, 16).replace('T', ' ');
-
-        return date;
-    }
-
-    var transformers = {
-        markdown: function() { return transformMarkdown; },
-        gravatar: function() { return transformGravatar; },
-        date: function() { return transformDate; }
-    };
-
-    var articleTemplate = 
-        '<li>' +
-            '<article id="comment-{{id}}">' +
-                '<footer class="meta">' +
-                    '<img class="author-avatar" src="{{#gravatar}}{{&author.email}}{{/gravatar}}" alt="{{author.name}}" />' +
-                    '<span class="author-name">{{author.name}}</span>' +
-                    '<time class="post-time" datetime="{{#date}}{{&postTime}}{{/date}}">' +
-                        '{{#date}}{{&postTime}}{{/date}}' +
-                    '</time>' +
-                '</footer>' +
-                '<section class="content">' +
-                    '{{#target}}' +
-                        '<p>回复 <a href="#comment-{{target}}" title="查看@{{targetAuthorName}}的发言">@{{targetAuthorName}}</a></p>' +
-                    '{{/target}}' +
-                    '{{#markdown}}{{&content}}{{/markdown}}' +
-                '</section>' +
-                '<footer class="actions">' +
-                    '<span title="回复{{author.name}}" class="reply">回复</span>' +
-                '</footer>' +
-            '</article>' + 
-        '</li>';
-    var sectionTemplate = 
-        '<h1>已有<span>{{count}}</span>个评论<a href="#post-comment" title="发表评论">发表评论</a></h1>' +
-        '<ol>' + 
-            '{{#comments}}' + 
-            articleTemplate + 
-            '{{/comments}}' +
-        '</ol>';
-
-    // 加载评论，需要md5库
-    $.getScript(
-        '/scripts/md5.min.js', 
-        function() {
-            $.getJSON(
-                '/' + postName + '/comments',
-                function(comments) {
-                    var data = $.extend({ comments: comments, count: comments.length }, transformers);
-                    var html = Mustache.render(sectionTemplate, data);
-                    $('#comments').html(html);
-                }
-            );
-        }
-    );
-    
     var postCommentForm = $('#post-comment > form');
 
     // 添加验证
@@ -140,18 +49,16 @@
                 url: postCommentForm.attr('action'),
                 type: 'post',
                 data: $(this).serialize(),
-                dataType: 'json',
                 success: function(data) {
-                    if (data.success) {
+                    // 成功时返回HTML片段，失败时返回错误集合
+                    if (typeof data === 'string') {
                         $('#comments > h1 > span').text(function() { return parseInt(this.innerHTML, 10) + 1; });
-                        $.extend(data.comment, transformers);
-                        var html = Mustache.render(articleTemplate, data.comment);
-                        $('#comments > ol').append(html);
+                        $('#comments > ol').append(data);
                         cancelReplyMode();
                         postCommentForm[0].reset();
                     }
                     else {
-                        for (var name in data.errors) {
+                        for (var name in data) {
                             $('#' + name + ' ~ label').text(data.errors[name]);
                         }
                     }

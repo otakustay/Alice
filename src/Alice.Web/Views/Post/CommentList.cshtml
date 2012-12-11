@@ -1,0 +1,10 @@
+﻿@{
+    Layout = null;
+}
+@model ICollection<CommentView>
+<h1>已有<span>@Model.Count</span>个评论<a href="#post-comment" title="发表评论">发表评论</a></h1>
+<ol>
+    @foreach (CommentView comment in Model) {
+        Html.RenderPartial("Comment", comment);
+    }
+</ol>

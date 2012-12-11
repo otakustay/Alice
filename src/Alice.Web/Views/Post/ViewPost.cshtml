@@ -23,7 +23,7 @@
 </article>
 
 <section id="comments">
-    正在加载评论……
+    @Html.Action("Comments", new { postName = Model.Name })
 </section>
 
 <aside id="post-comment" class="form">

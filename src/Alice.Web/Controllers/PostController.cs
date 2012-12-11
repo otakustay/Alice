@@ -18,6 +18,10 @@ using Lucene.Net.QueryParsers;
 using NHibernate.Criterion;
 using Lucene.Net.Analysis;
 using Lucene.Net.Index;
+using Alice.Web.Models;
+using System.Security.Cryptography;
+using System.Text;
+using System.IO;
 
 namespace Alice.Web.Controllers {
     public class PostController : Controller {
@@ -49,7 +53,12 @@ namespace Alice.Web.Controllers {
         public SyndicationPerson Author { get; set; }
 
         [Inject]
+        [Named("Full")]
         public Markdown Transformer { get; set; }
+
+        [Inject]
+        [Named("Safe")]
+        public Markdown SafeTransformer { get; set; }
 
         [Inject]
         public ISession DbSession { get; set; }
@@ -94,8 +103,8 @@ namespace Alice.Web.Controllers {
 
         [ActionName("Comments")]
         [HttpGet]
-        public ActionResult GetComments(string postName) {
-            if (!Request.AcceptTypes.Contains("application/json")) {
+        public ActionResult Comments(string postName) {
+            if (!ControllerContext.IsChildAction) {
                 return Redirect(Url.Content("~/" + postName + "/"));
             }
 
@@ -103,8 +112,15 @@ namespace Alice.Web.Controllers {
                 .Where(c => c.PostName == postName)
                 .OrderBy(c => c.PostTime).Asc
                 .List();
+            List<CommentView> model = new List<CommentView>();
+            Dictionary<int, string> authors = new Dictionary<int, string>();
+            foreach (Comment comment in comments) {
+                authors[comment.Id] = comment.Author.Name;
+                CommentView view = RenderComment(comment, authors);
+                model.Add(view);
+            }
 
-            return new NewtonJsonActionResult(comments);
+            return View("CommentList", model);
         }
 
         [ActionName("Comments")]
@@ -127,14 +143,12 @@ namespace Alice.Web.Controllers {
             if (String.IsNullOrEmpty(comment.Content.Trim())) {
                 ModelState.AddModelError("content", validationMessages["content"]);
             }
+
             if (!ModelState.IsValid) {
-                if (Request.AcceptTypes.Contains("application/json")) {
-                    var result = new {
-                        Success = false,
-                        Errors = ModelState
-                            .Where(m => m.Value.Errors.Any())
-                            .ToDictionary(m => m.Key, m => m.Value.Errors[0].ErrorMessage)
-                    };
+                if (Request.IsAjaxRequest()) {
+                    Dictionary<string, string> result = ModelState
+                        .Where(m => m.Value.Errors.Any())
+                        .ToDictionary(m => m.Key, m => m.Value.Errors[0].ErrorMessage);
                     return new NewtonJsonActionResult(result);
                 }
                 else {
@@ -152,27 +166,21 @@ namespace Alice.Web.Controllers {
             comment.Author.IpAddress = Request.UserHostAddress;
             comment.Author.UserAgent = Request.UserAgent;
 
+            Dictionary<int, string> targetAuthor = new Dictionary<int, string>();
             if (comment.Target.HasValue) {
                 Comment target = DbSession.Get<Comment>(comment.Target);
+                targetAuthor[comment.Target.Value] = target.Author.Name;
                 if (target == null) {
                     comment.Target = null;
-                }
-                else {
-                    comment.TargetAuthorName = target.Author.Name;
                 }
             }
 
             DbSession.Save(comment);
 
-            if (Request.AcceptTypes.Contains("application/json")) {
-                var result = new {
-                    Success = true,
-                    Comment = comment
-                };
-                return new CreatedActionResult(
-                    Url.Content("~/" + comment.PostName),
-                    new NewtonJsonActionResult(result)
-                );
+            if (Request.IsAjaxRequest()) {
+                CommentView commentView = RenderComment(comment, targetAuthor);
+                ViewResult view = View("Comment", commentView);
+                return new CreatedActionResult(Url.Content("~/" + comment.PostName), view);
             }
             else {
                 return Redirect(Url.Content("~/" + comment.PostName + "/"));
@@ -293,6 +301,21 @@ namespace Alice.Web.Controllers {
         private PostEntry RenderEntry(PostEntry entry) {
             entry.Content = Transformer.Transform(entry.Content);
             return entry;
+        }
+
+        private CommentView RenderComment(Comment comment, IDictionary<int, string> authors) {
+            CommentView view = new CommentView() {
+                Id = comment.Id,
+                Author = comment.Author,
+                Content = SafeTransformer.Transform(comment.Content),
+                PostName = comment.PostName,
+                PostTime = comment.PostTime,
+                Target = comment.Target
+            };
+            if (view.Target.HasValue) {
+                view.TargetAuthorName = authors[view.Target.Value];
+            }
+            return view;
         }
 
         private IList<PostExcerpt> RetrievePostsFromIndexer(int page, IndexSearcher searcher, Query criteria, out int total) {

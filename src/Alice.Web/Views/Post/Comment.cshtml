@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+}
+@model CommentView
+<li>
+    <article id="comment-@Model.Id">
+        <footer class="meta">
+            @Html.Gravatar(Model.Author.Email, 32, "identicon", GravatarRating.G, new { @class = "author-avatar", alt = Model.Author.Name, width = 32, height = 32 })
+            <span class="author-name">@Model.Author.Name</span>
+            <time class="post-time" datetime="@Model.PostTime.ToString("yyyy-MM-dd")">@Model.PostTime.ToString("yyyy-MM-dd HH:mm")</time>
+        </footer>
+        <section class="content">
+            @if (Model.Target.HasValue) {
+                <p>回复 <a href="#comment-@Model.Target" title="查看@("@" + Model.TargetAuthorName)的发言">@("@" + Model.TargetAuthorName)</a></p>
+            }
+            @Html.Raw(Model.Content)
+        </section>
+        <footer class="actions">
+            <span title="回复 @Model.Author.Name" class="reply">回复</span>
+        </footer>
+    </article>
+</li>
