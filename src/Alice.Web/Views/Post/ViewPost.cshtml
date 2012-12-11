@@ -21,9 +21,6 @@
     </footer>
     @Html.Raw(Model.Content)
 </article>
-@{
-    Response.Flush();
-}
 <section id="comments">
     @Html.Action("Comments", new { postName = Model.Name })
 </section>
