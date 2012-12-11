@@ -19,7 +19,18 @@
 	background-color: @metro;
 	color: #fff;
 }
+.metro-highlight() {
+	background-color: @metro-highlight;
+	color: #fff;
+}
 
+.metro-link() {
+	.metro();
+	
+	&:hover {
+		.metro-highlight();
+	}
+}
 .interactive-link() {
 	color: @link-color;
 	font-size: @font-size-normal;

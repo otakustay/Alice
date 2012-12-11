@@ -12,7 +12,7 @@
         double ratio = tag.HitCount / ViewBag.MaxHitCount;
         int size = (int)Math.Round(minSize + scale * ratio);
         <li>
-            <a href="@Url.Content("~/tag/" + tag.Name + "/")" title="共@(tag.HitCount)篇" style="font-size: @(size)px">@tag.Name</a>
+            <a href="@Url.Content("~/tags/" + tag.Name + "/")" title="共@(tag.HitCount)篇" style="font-size: @(size)px">@tag.Name</a>
         </li>
     }
 </ul>

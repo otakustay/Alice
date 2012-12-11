@@ -24,13 +24,17 @@
 	display: inline-block;
 	margin: 0;
 	padding: 0;
+	list-style: none;
 
 	li {
-		.metro();
-
 		float: right;
-		padding: 4px 6px;
-		margin: 0 4px;
+
+		a {
+			.metro-link();
+			display: block;
+			padding: 4px 6px;
+			margin: 0 4px;
+		}
 	}
 }
 

@@ -19,6 +19,7 @@
   display: inline-block;
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 #tags:after {
   content: '\0020';
@@ -27,11 +28,18 @@
   clear: both;
 }
 #tags li {
+  float: right;
+}
+#tags li a {
   background-color: #91d100;
   color: #fff;
-  float: right;
+  display: block;
   padding: 4px 6px;
   margin: 0 4px;
+}
+#tags li a:hover {
+  background-color: #008a00;
+  color: #fff;
 }
 #comments {
   margin-top: 40px;

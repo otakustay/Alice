@@ -15,7 +15,7 @@
         <span id="time">发表于<time datetime="@Model.PostDate.ToString("yyyy-MM-DD")">@Model.PostDate.ToString("yyyy年%M月%d日")</time></span>
         <ul id="tags">
             @foreach (string tag in @Model.Tags) {
-                <li><span>@tag</span></li>
+                <li><a href="@Url.Content("~/tags/" + tag + "/")">@tag</a></li>
             }
         </ul>
     </footer>

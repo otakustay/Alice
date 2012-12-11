@@ -36,7 +36,7 @@ namespace Alice.Web {
 
             routes.MapRoute(
                 "Tag",
-                "tag/{tag}/{page}",
+                "tags/{tag}/{page}",
                 new { controller = "Post", action = "Tag", tag = UrlParameter.Optional, page = UrlParameter.Optional }
             );
 
