@@ -97,8 +97,18 @@ namespace Alice.Web.Controllers {
             }
             else {
                 ViewBag.Title = String.Format("{0} - 宅居 - 宅并技术着", entry.Title);
-                return View(RenderEntry(entry));
+                return View("ViewPost", RenderEntry(entry));
             }
+        }
+
+        [HttpGet]
+        public ActionResult ReplyToComment(string postName, int target) {
+            Comment comment = DbSession.Get<Comment>(target);
+            if (comment == null) {
+                return Redirect(Url.Content("~/" + postName + "/#post-comment"));
+            }
+            ViewBag.ReplyTarget = comment;
+            return ViewPost(postName);
         }
 
         [ActionName("Comments")]

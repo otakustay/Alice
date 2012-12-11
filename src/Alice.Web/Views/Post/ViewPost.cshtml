@@ -28,8 +28,19 @@
     @Html.Action("Comments", new { postName = Model.Name })
 </section>
 <aside id="post-comment" class="form">
-    <h1>留言评论</h1>
-    <form method="post" action="@Url.Content("~/" + @Model.Name + "/comments/")">
+    @if (ViewBag.ReplyTarget == null) {
+        <h1>留言评论</h1>
+    }
+    else {
+        <h1>
+            回复 @("@" + ViewBag.ReplyTarget.Author.Name)
+            <a id="cancel-reply" href="@Url.Content("~/" + Model.Name + "/#post-comment")">退出回复模式</a>
+        </h1>
+    }
+    <form method="post" action="@Url.Content("~/" + Model.Name + "/comments/")">
+        @if (ViewBag.ReplyTarget != null) {
+            <input type="hidden" name="comment.target" value="@ViewBag.ReplyTarget.Id" />
+        }
         <input type="hidden" name="comment.postName" value="@Model.Name" />
         <div class="row">
             <input id="name" name="comment.author.name"@Html.Raw(ViewBag.Comment == null ? String.Empty : " value=\"" + Html.AttributeEncode(ViewBag.Comment.Author.Name) + "\"") placeholder="昵称" required="required" maxlength="60" />

@@ -179,6 +179,7 @@
     <Content Include="Dictionaries\Dict.dct">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="robots.txt" />
     <Content Include="_offline.htm" />
     <Content Include="Images\fontawesome-webfont.ttf" />
     <Content Include="Images\fontawesome-webfont.woff" />
@@ -192,7 +193,7 @@
     <EmbeddedResource Include="Models\Mapping\PostExcerpt.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Content Include="Images\favicon.ico" />
+    <Content Include="favicon.ico" />
     <Content Include="Images\rss.png" />
     <EmbeddedResource Include="Models\Mapping\FullPost.hbm.xml" />
     <EmbeddedResource Include="Models\Mapping\Tag.hbm.xml">

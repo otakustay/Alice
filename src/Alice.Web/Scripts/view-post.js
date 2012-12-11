@@ -74,12 +74,14 @@
         $('#post-comment > h1').text('留言评论');
         $('#cancel-reply').remove();
         $('input[name="comment.target"]').remove();
+        return false;
     }
 
     $('#comments').on(
         'click',
         '.reply',
         function() {
+            debugger;
             cancelReplyMode();
 
             var container = $(this).closest('article');
@@ -94,9 +96,11 @@
             var scrollTop = $('#post-comment').offset().top;
             var win = $(window);
             var padding = win.height() / 4;
-            if (scrollTop < win.scrollTop() || scrollTop > win.scrollTop + win.height()) {
-                $('html, body').animate({ scrollTop: scrollTop - padding });
+            if (scrollTop < win.scrollTop() || scrollTop > win.scrollTop() + win.height()) {
+                $('html, body').stop(true).animate({ scrollTop: scrollTop - padding });
             }
+
+            return false;
         }
     );
     $('#post-comment > h1').on('click', '#cancel-reply', cancelReplyMode);

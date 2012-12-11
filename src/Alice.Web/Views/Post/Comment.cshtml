@@ -16,7 +16,7 @@
             @Html.Raw(Model.Content)
         </section>
         <footer class="actions">
-            <span title="回复 @Model.Author.Name" class="reply">回复</span>
+            <a href="@Url.Content(String.Format("~/{0}/comments/{1}/reply/#post-comment", Model.PostName, Model.Id))" title="回复 @Model.Author.Name" class="reply">回复</a>
         </footer>
     </article>
 </li>
