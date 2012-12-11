@@ -21,11 +21,12 @@
     </footer>
     @Html.Raw(Model.Content)
 </article>
-
+@{
+    Response.Flush();
+}
 <section id="comments">
     @Html.Action("Comments", new { postName = Model.Name })
 </section>
-
 <aside id="post-comment" class="form">
     <h1>留言评论</h1>
     <form method="post" action="@Url.Content("~/" + @Model.Name + "/comments/")">
