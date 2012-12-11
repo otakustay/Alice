@@ -69,6 +69,7 @@ namespace Alice.Web.Infrastructure {
         private static Markdown CreateSafeMarkdownTransformer(IContext context) {
             return new Markdown() {
                 ExtraMode = false,
+                SafeMode = true,
                 NewWindowForExternalLinks = true,
                 PrepareImage = (tag, tiled) => {
                     string src = tag.attributes["src"];
