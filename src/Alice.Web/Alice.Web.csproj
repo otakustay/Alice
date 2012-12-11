@@ -206,8 +206,6 @@
       <DependentUpon>jquery-1.8.2.js</DependentUpon>
     </Content>
     <Content Include="Scripts\markdown.js" />
-    <Content Include="Scripts\md5.min.js" />
-    <Content Include="Scripts\mustache.js" />
     <Content Include="Scripts\view-post.js" />
     <Content Include="Styles\blog.css">
       <DependentUpon>blog.less</DependentUpon>
