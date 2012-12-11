@@ -69,7 +69,7 @@
             '</article>' + 
         '</li>';
     var sectionTemplate = 
-        '<h1>已有<span>{{count}}</span>个评论</h1>' +
+        '<h1>已有<span>{{count}}</span>个评论<a href="#post-comment" title="发表评论">发表评论</a></h1>' +
         '<ol>' + 
             '{{#comments}}' + 
             articleTemplate + 

@@ -43,6 +43,22 @@
   color: #008a00;
   font-weight: bold;
 }
+#comments > h1 > a {
+  display: inline-block;
+  margin-left: 10px;
+  color: #00749e;
+  font-size: 16px;
+  cursor: pointer;
+}
+#comments > h1 > a:hover {
+  text-decoration: underline;
+}
+#comments > h1 > a::before {
+  content: "[";
+}
+#comments > h1 > a::after {
+  content: "]";
+}
 #comments > ol {
   list-style: none;
   margin: 0;
@@ -85,6 +101,7 @@
 }
 #comments .reply {
   color: #00749e;
+  font-size: 16px;
   cursor: pointer;
 }
 #comments .reply:hover {
@@ -99,8 +116,8 @@
 #cancel-reply {
   display: inline-block;
   margin-left: 10px;
-  font-size: 16px;
   color: #00749e;
+  font-size: 16px;
   cursor: pointer;
 }
 #cancel-reply:hover {

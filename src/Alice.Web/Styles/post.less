@@ -43,6 +43,12 @@
 		padding-bottom: .2ex;
 		color: @metro-highlight;
 		font-weight: bold;
+
+		&>a {
+			display: inline-block;
+			margin-left: 10px;
+			.interactive-link();
+		}
 	}
 
 	&>ol {
@@ -84,38 +90,11 @@
 		margin-left: @left-padding;
 	}
 	.reply {
-		color: @link-color;
-		cursor: pointer;
-
-		&:hover {
-			text-decoration: underline;
-		}
-
-		&::before {
-			content: "[";
-		}
-
-		&::after {
-			content: "]";
-		}
+		.interactive-link();
 	}
 }
 #cancel-reply {
 	display: inline-block;
 	margin-left: 10px;
-	font-size: @font-size-normal;
-	color: @link-color;
-	cursor: pointer;
-
-	&:hover {
-		text-decoration: underline;
-	}
-
-	&::before {
-		content: "[";
-	}
-
-	&::after {
-		content: "]";
-	}
+	.interactive-link();
 }

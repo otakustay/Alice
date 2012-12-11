@@ -20,6 +20,24 @@
 	color: #fff;
 }
 
+.interactive-link() {
+	color: @link-color;
+	font-size: @font-size-normal;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&::before {
+		content: "[";
+	}
+
+	&::after {
+		content: "]";
+	}
+}
+
 .clear-float() {
 	*zoom: 1;
 	&:after {

@@ -22,6 +22,10 @@
     @Html.Raw(Model.Content)
 </article>
 
+<section id="comments">
+    正在加载评论……
+</section>
+
 <aside id="post-comment" class="form">
     <h1>留言评论</h1>
     <form method="post" action="@Url.Content("~/" + @Model.Name + "/comments/")">
@@ -43,10 +47,6 @@
         </div>
     </form>
 </aside>
-
-<section id="comments">
-    正在加载评论……
-</section>
 
 <script src="@Url.Content("~/scripts/mustache.js?v=1")" defer="defer"></script>
 <script src="@Url.Content("~/scripts/markdown.js?v=2")" defer="defer"></script>
