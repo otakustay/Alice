@@ -41,6 +41,12 @@ namespace Alice.Web {
             );
 
             routes.MapRoute(
+                "Archive",
+                "archive/{year}/{month}/{page}",
+                new { controller = "Post", action = "Archive", page = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 "Rss2.0",
                 "feed",
                 new { controller = "Post", action = "Feed" }

@@ -271,6 +271,7 @@
     <Content Include="Views\Post\TagCloud.cshtml" />
     <Content Include="Views\Post\Comment.cshtml" />
     <Content Include="Views\Post\CommentList.cshtml" />
+    <Content Include="Views\Post\ArchiveList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -290,6 +290,41 @@ namespace Alice.Web.Controllers {
             return View(tags);
         }
 
+        [HttpGet]
+        public ActionResult Archive(int year, int month, int? page = 1) {
+            DateTime startDate = new DateTime(year, month, 1);
+            DateTime endDate = startDate.AddMonths(1);
+            IQueryOver<PostExcerpt, PostExcerpt> query = DbSession.QueryOver<PostExcerpt>()
+                .Where(p => p.PostDate >= startDate)
+                .And(p => p.PostDate < endDate);
+            int start = (page.Value - 1) * PageSize;
+
+            int count = query.RowCount();
+            IList<PostExcerpt> excerpts = query
+                .OrderBy(p => p.PostDate).Desc
+                .Skip(start)
+                .Take(PageSize)
+                .List();
+
+
+            ViewBag.Title = String.Format("{0}年{1}月归档 - 宅居 - 宅并技术着", year, month);
+            ViewBag.PageCount = (int)Math.Ceiling((double)count / (double)PageSize);
+            ViewBag.PageIndex = page;
+            ViewBag.BaseUrl = Url.Content(String.Format("~/archive/{0}/{1}/", year, month));
+            return View("List", excerpts.Select(RenderExcerpt));
+        }
+
+        [ChildActionOnly]
+        public ActionResult ArchiveList() {
+            Dictionary<DateTime, int> archive = DbSession.CreateCriteria<PostExcerpt>()
+                .SetProjection(Projections.Property<PostExcerpt>(p => p.PostDate))
+                .List<DateTime>()
+                .GroupBy(d => new DateTime(d.Year, d.Month, 1))
+                .OrderByDescending(g => g.Key)
+                .ToDictionary(g => g.Key, g => g.Count());
+            return View("ArchiveList", archive);
+        }
+
         private SyndicationItem TransformPost(PostEntry entry) {
             entry = RenderEntry(entry);
             SyndicationItem item = new SyndicationItem();

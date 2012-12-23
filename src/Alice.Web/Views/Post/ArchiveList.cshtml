@@ -1,0 +1,15 @@
+﻿@{
+    Layout = null;
+}
+@model Dictionary<DateTime, int>
+@{
+    string urlTemplate = "~/archive/{0}/{1}/";
+}
+<ol>
+    @foreach (KeyValuePair<DateTime, int> pair in Model) {
+        <li>
+            <a href="@Url.Content(String.Format(urlTemplate, pair.Key.Year, pair.Key.Month))">@(pair.Key.Year)年@(pair.Key.Month)月</a>
+            <span>(@pair.Value)</span>
+        </li>
+    }
+</ol>

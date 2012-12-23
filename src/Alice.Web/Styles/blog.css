@@ -96,3 +96,11 @@
   margin: 6px;
   margin-left: 0;
 }
+#archive ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#archive li {
+  margin: 8px 0;
+}
