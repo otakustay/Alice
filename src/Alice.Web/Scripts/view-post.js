@@ -36,6 +36,13 @@
         return isValid;
     }
 
+    function resetPostCommentForm() {
+        postCommentForm[0].reset();
+        // 如果有过评论记录，把邮箱和昵称取出
+        $('#name').val(localStorage.getItem('comment.author.name') || '');
+        $('#email').val(localStorage.getItem('comment.author.email') || '');
+    }
+
     // 提交评论
     postCommentForm.on(
         'submit',
@@ -55,7 +62,7 @@
                         $('#comments > h1 > span').text(function() { return parseInt(this.innerHTML, 10) + 1; });
                         $('#comments > ol').append(data);
                         cancelReplyMode();
-                        postCommentForm[0].reset();
+                        resetPostCommentForm();
                     }
                     else {
                         for (var name in data) {
@@ -65,6 +72,10 @@
                 },
                 complete: function() { $(':submit').removeAttr('disabled'); }
             });
+
+            // 保存昵称和邮件地址
+            localStorage.setItem('comment.author.name', $('#name').val().trim());
+            localStorage.setItem('comment.author.email', $('#email').val().trim());
             return false;
         }
     );
@@ -104,4 +115,6 @@
         }
     );
     $('#post-comment > h1').on('click', '#cancel-reply', cancelReplyMode);
+
+    resetPostCommentForm();
 }());
