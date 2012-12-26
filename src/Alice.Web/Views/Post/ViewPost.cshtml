@@ -22,7 +22,7 @@
     @Html.Raw(Model.Content)
 </article>
 <section id="comments">
-    @Html.Action("Comments", new { postName = Model.Name })
+    @Html.Action("CommentList", new { postName = Model.Name })
 </section>
 <aside id="post-comment" class="form">
     @if (ViewBag.ReplyTarget == null) {

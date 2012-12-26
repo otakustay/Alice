@@ -111,9 +111,8 @@ namespace Alice.Web.Controllers {
             return ViewPost(postName);
         }
 
-        [ActionName("Comments")]
-        [HttpGet]
-        public ActionResult Comments(string postName) {
+        [ChildActionOnly]
+        public ActionResult CommentList(string postName) {
             if (!ControllerContext.IsChildAction) {
                 return Redirect(Url.Content("~/" + postName + "/"));
             }

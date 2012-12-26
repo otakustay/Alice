@@ -53,12 +53,6 @@ namespace Alice.Web {
             );
 
             routes.MapRoute(
-                "Comments",
-                "{postName}/comments",
-                new { controller = "Post", action = "Comments" }
-            );
-
-            routes.MapRoute(
                 "Reply",
                 "{postName}/comments/{target}/reply",
                 new { controller = "Post", action = "ReplyToComment" }
