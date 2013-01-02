@@ -8,6 +8,7 @@
     <property name="Content" column="content" />
     <property name="PostName" column="post_name" />
     <property name="PostTime" column="post_time" />
+    <property name="Audited" column="audited" />
 
     <component name="Author" class="CommentAuthor">
       <property name="Email" column="author_email" />
