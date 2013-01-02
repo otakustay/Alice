@@ -151,6 +151,7 @@
     <Compile Include="Infrastructure\NewtonJsonActionResult.cs" />
     <Compile Include="Infrastructure\NHibernateSessionModule.cs" />
     <Compile Include="Infrastructure\Rss20ActionResult.cs" />
+    <Compile Include="Models\CommentAuditionView.cs" />
     <Compile Include="Models\CommentView.cs" />
     <Compile Include="Models\Mapping\StringArrayType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -269,9 +270,10 @@
     </Content>
     <Content Include="Views\Console\Login.cshtml" />
     <Content Include="Views\Post\TagCloud.cshtml" />
-    <Content Include="Views\Post\Comment.cshtml" />
+    <Content Include="Views\Shared\Comment.cshtml" />
     <Content Include="Views\Post\CommentList.cshtml" />
     <Content Include="Views\Post\ArchiveList.cshtml" />
+    <Content Include="Views\Console\Comments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

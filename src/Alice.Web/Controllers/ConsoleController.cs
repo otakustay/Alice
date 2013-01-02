@@ -1,8 +1,10 @@
 ﻿using Alice.Model;
+using Alice.Web.Models;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using MarkdownDeep;
 using NHibernate;
+using NHibernate.Criterion;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,14 @@ namespace Alice.Web.Controllers {
 
         [Inject]
         public IndexWriter Indexer { get; set; }
+
+        [Inject]
+        [Named("PageSize")]
+        public int PageSize { get; set; }
+
+        [Inject]
+        [Named("Safe")]
+        public Markdown SafeTransformer { get; set; }
 
         [HttpGet]
         public ActionResult Login() {
@@ -95,6 +105,28 @@ namespace Alice.Web.Controllers {
 
             // 更新全文索引
             UpdateIndex(post);
+        }
+
+        [Authorize]
+        public ViewResult Comments(int page = 1) {
+            IList<Comment> comments = DbSession.QueryOver<Comment>()
+                .OrderBy(c => c.PostName).Desc
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize + 1)
+                .List();
+
+            IEnumerable<string> names = comments.Take(PageSize).Select(c => c.PostName);
+            IDictionary<string, PostExcerpt> posts = DbSession.QueryOver<PostExcerpt>()
+                .Where(Restrictions.InG("Name", names))
+                .List()
+                .ToDictionary(p => p.Name);
+
+            ViewBag.Title = "评论审核";
+            ViewBag.PageIndex = page;
+            ViewBag.HasNextPage = comments.Count > PageSize;
+            ViewBag.HasPreviousPage = page > 1;
+
+            return View(comments.Take(PageSize).Select(c => RenderCommentView(c, posts)));
         }
 
         private void UpdatePost(string name, FullPost post) {
@@ -171,6 +203,19 @@ namespace Alice.Web.Controllers {
             Indexer.UpdateDocument(new Term("Name", post.Name), document);
             Indexer.Flush(true, true, true);
             Indexer.Optimize();
+        }
+
+        private CommentAuditionView RenderCommentView(Comment comment, IDictionary<string, PostExcerpt> posts) {
+            return new CommentAuditionView() {
+                Id = comment.Id, 
+                Audited = comment.Audited, 
+                Author = comment.Author, 
+                Content = SafeTransformer.Transform(comment.Content), 
+                Post = posts[comment.PostName], 
+                PostName = comment.PostName, 
+                PostTime = comment.PostTime, 
+                Target = comment.Target
+            };
         }
 
         protected override void Dispose(bool disposing) {

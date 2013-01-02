@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<Comment>
+@section Resource {
+    <link rel="stylesheet" href="@Url.Content("~/styles/console.css")" />
+}
+
+<ol id="list">
+    @foreach (Comment comment in Model) {
+        @Html.Partial("Comment", comment, new ViewDataDictionary() { { "RequirePost", true } })
+    }
+</ol>
+
+<footer id="pager">
+    @if (ViewBag.HasPreviousPage) {
+        <a href="@Url.Content("~/console/comments/" + (ViewBag.PageIndex - 1))">上一页</a>
+    }
+    @if (ViewBag.HasNextPage) {
+        <a href="@Url.Content("~/console/comments/" + (ViewBag.PageIndex + 1))">下一页</a>        
+    }
+</footer>

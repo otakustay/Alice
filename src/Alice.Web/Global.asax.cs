@@ -29,6 +29,13 @@ namespace Alice.Web {
             );
 
             routes.MapRoute(
+                "AuditComment",
+                "console/comments/{page}",
+                new { controller = "Console", action = "Comments" },
+                new { page = @"\d+" }
+            );
+
+            routes.MapRoute(
                 "Search",
                 "search/{keywords}/{page}",
                 new { controller = "Post", action = "Search", keywords = UrlParameter.Optional, page = UrlParameter.Optional }
