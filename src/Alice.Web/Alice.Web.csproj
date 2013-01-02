@@ -181,6 +181,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="robots.txt" />
+    <Content Include="Scripts\opoa-blog.js" />
     <Content Include="_offline.htm" />
     <Content Include="Images\fontawesome-webfont.ttf" />
     <Content Include="Images\fontawesome-webfont.woff" />

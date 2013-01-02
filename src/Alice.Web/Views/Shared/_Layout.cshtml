@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
-    <script src="@Url.Content("~/scripts/jquery-1.8.2.js")"></script>
-    <link rel="stylesheet" href="@Url.Content("~/styles/site.css")" />
+    <script src="@Url.Content("~/scripts/jquery-1.8.2.js")" data-persist="persist"></script>
+    <link rel="stylesheet" href="@Url.Content("~/styles/site.css")" data-persist="persist" />
     @RenderSection("Resource", false)
     <link rel="icon" href="/favicon.ico" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -27,7 +27,7 @@
     </nav>
     @RenderBody()
     <script>
-        (function() {
+        function loadHolmes() {
             var hostname = location.hostname.toLowerCase();
             if (hostname !== 'localhost' && hostname.indexOf('127.0.0.') !== 0) {
                 var script = document.createElement('script');
@@ -36,7 +36,8 @@
                 var placeholder = document.getElementsByTagName('script')[0];
                 placeholder.parentNode.insertBefore(script, placeholder);
             }
-        }());
+        }
+        loadHolmes();
     </script>
 </body>
 </html>
