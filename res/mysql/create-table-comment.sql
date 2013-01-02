@@ -9,5 +9,6 @@ create table `comment` (
   `author_user_agent` varchar(200) not null,
   `content` text not null,
   `post_time` datetime not null,
+  `audited` boolean not null
   PRIMARY KEY (`id`)
 ) engine=InnoDB default charset=utf8;

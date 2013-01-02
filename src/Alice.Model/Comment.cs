@@ -16,5 +16,7 @@ namespace Alice.Model {
         public DateTime PostTime { get; set; }
 
         public CommentAuthor Author { get; set; }
+
+        public bool Audited { get; set; }
     }
 }
