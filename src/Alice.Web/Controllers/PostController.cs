@@ -119,6 +119,7 @@ namespace Alice.Web.Controllers {
 
             IEnumerable<Comment> comments = DbSession.QueryOver<Comment>()
                 .Where(c => c.PostName == postName)
+                .Where(c => c.Audited)
                 .OrderBy(c => c.PostTime).Asc
                 .List();
             List<CommentView> model = new List<CommentView>();
