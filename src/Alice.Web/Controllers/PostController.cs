@@ -174,6 +174,7 @@ namespace Alice.Web.Controllers {
             comment.PostTime = DateTime.Now;
             comment.Author.IpAddress = Request.UserHostAddress;
             comment.Author.UserAgent = Request.UserAgent;
+            comment.Audited = true; // 默认为已审核，有需要的再屏蔽
 
             Dictionary<int, string> targetAuthor = new Dictionary<int, string>();
             if (comment.Target.HasValue) {
