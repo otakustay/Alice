@@ -7,7 +7,10 @@
     // 因此使用一个标记位去除这一次
     var firstHit = navigator.userAgent.indexOf('AppleWebKit') < 0;
     var styleSelector = 'head > link[rel="stylesheet"]:not([data-persist])';
-    var scriptSelector = 'head > script:not([data-persist])'
+    var scriptSelector = 'head > script:not([data-persist])';
+
+    // 模拟浏览器，只能有一个页面加载，第2次点击时第1个加载必须中断
+    var xhr;
 
     function updatePage(html) {
         var doc = document.createElement('html');
@@ -20,7 +23,7 @@
         $(scriptSelector).remove();
         doc.find(scriptSelector).appendTo('head');
 
-        $('#main').html(doc.find('#main').html());
+        $('#main').hide().html(doc.find('#main').html()).fadeIn();
 
         loadHolmes();
 
@@ -28,9 +31,15 @@
     }
 
     function loadPage(url, pushHistoryState) {
+        if (xhr) {
+            xhr.abort();
+        }
+
         $.get(
             url,
             function(html) {
+                xhr = null;
+
                 var doc = updatePage(html);
 
                 if (pushHistoryState) {
