@@ -1,8 +1,9 @@
 ﻿@{
     Layout = null;
 }
-@model CommentView
+@model Comment
 @{
+    CommentView commentView = Model as CommentView;
     CommentAuditionView auditionView = Model as CommentAuditionView;
 }
 <li>
@@ -16,12 +17,12 @@
             }
         </footer>
         <section class="content">
-            @if (Model.Target.HasValue) {
-                <p>回复 <a href="#comment-@Model.Target" title="查看@("@" + Model.TargetAuthorName)的发言">@("@" + Model.TargetAuthorName)</a></p>
+            @if (commentView != null && commentView.Target.HasValue) {
+                <p>回复 <a href="#comment-@Model.Target" title="查看@("@" + commentView.TargetAuthorName)的发言">@("@" + commentView.TargetAuthorName)</a></p>
             }
             @Html.Raw(Model.Content)
         </section>
-        @if (auditionView == null) {
+        @if (commentView != null) {
             <footer class="actions">
                 <a href="@Url.Content(String.Format("~/{0}/comments/{1}/reply/#post-comment", Model.PostName, Model.Id))" title="回复 @Model.Author.Name" class="reply">回复</a>
             </footer>
