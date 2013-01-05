@@ -1,4 +1,5 @@
 ﻿using Alice.Model;
+using Alice.Web.Infrastructure;
 using Alice.Web.Models;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
@@ -127,6 +128,19 @@ namespace Alice.Web.Controllers {
             ViewBag.HasPreviousPage = page > 1;
 
             return View(comments.Take(PageSize).Select(c => RenderCommentView(c, posts)));
+        }
+
+        [Authorize]
+        public ActionResult AuditComment(int id, bool audited) {
+            Comment comment = DbSession.Load<Comment>(id);
+            if (comment == null) {
+                return new EmptyResult();
+            }
+
+            comment.Audited = audited;
+            DbSession.Update(comment);
+
+            return new NewtonJsonActionResult(comment.Audited);
         }
 
         private void UpdatePost(string name, FullPost post) {

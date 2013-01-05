@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="@Url.Content("~/styles/console.css")" />
 }
 
-<ol id="list">
+<ol id="comments">
     @foreach (Comment comment in Model) {
-        @Html.Partial("Comment", comment, new ViewDataDictionary() { { "RequirePost", true } })
+        @Html.Partial("Comment", comment)
     }
 </ol>
 
@@ -21,3 +21,28 @@
         <a href="@Url.Content("~/console/comments/" + (ViewBag.PageIndex + 1))">下一页</a>        
     }
 </footer>
+<script>
+    $('#comments').on(
+        'click',
+        '.actions > span',
+        function() {
+            var target = $(this);
+            var article = target.closest('article');
+            var action = target.data('action');
+            var id = article.attr('id').split('-')[1];
+            
+            $.post(
+                '/console/comments/' + id + '/audit/',
+                { audited: action === 'accept' },
+                function(audited) {
+                    debugger;
+                    if (audited == null) {
+                        return;
+                    }
+
+                    article.attr('data-status', audited ? 'accepted' : 'rejected');
+                }
+            );
+        }
+    );
+</script>

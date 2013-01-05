@@ -6,8 +6,18 @@
     CommentView commentView = Model as CommentView;
     CommentAuditionView auditionView = Model as CommentAuditionView;
 }
+@functions {
+    public string GetStatusAttribute(CommentAuditionView auditionView) {
+        if (auditionView != null) {
+            return " data-status=\"" + (auditionView.Audited ? "accepted" : "rejected") + "\"";
+        }
+        else {
+            return String.Empty;
+        }
+    }
+}
 <li>
-    <article id="comment-@Model.Id">
+    <article id="comment-@Model.Id"@Html.Raw(GetStatusAttribute(auditionView))>
         <footer class="meta">
             @Html.Gravatar(Model.Author.Email, 32, "identicon", GravatarRating.G, new { @class = "author-avatar", alt = Model.Author.Name, width = 32, height = 32 })
             <span class="author-name">@Model.Author.Name</span>
@@ -22,10 +32,14 @@
             }
             @Html.Raw(Model.Content)
         </section>
-        @if (commentView != null) {
-            <footer class="actions">
+        <footer class="actions">
+            @if (commentView != null) {
                 <a href="@Url.Content(String.Format("~/{0}/comments/{1}/reply/#post-comment", Model.PostName, Model.Id))" title="回复 @Model.Author.Name" class="reply">回复</a>
-            </footer>
-        }
+            }
+            @if (auditionView != null) {
+                <span data-action="reject">屏蔽</span>
+                <span data-action="accept">取消屏蔽</span>
+            }
+        </footer>
     </article>
 </li>

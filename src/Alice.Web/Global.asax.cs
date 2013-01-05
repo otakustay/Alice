@@ -30,6 +30,12 @@ namespace Alice.Web {
 
             routes.MapRoute(
                 "AuditComment",
+                "console/comments/{id}/audit",
+                new { controller = "Console", action = "AuditComment" }
+            );
+
+            routes.MapRoute(
+                "ManageComment",
                 "console/comments/{page}",
                 new { controller = "Console", action = "Comments" },
                 new { page = @"\d+" }

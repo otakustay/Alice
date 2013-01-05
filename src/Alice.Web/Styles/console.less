@@ -12,7 +12,11 @@
 	}
 }
 
-table {
+.actions > span {
+	.interactive-link();
+}
+
+#posts {
 	width: 100%;
 	border-collapse: collapse;
 
@@ -58,5 +62,52 @@ table {
 				color: #000;
 			}
 		}
+	}
+}
+
+#comments {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+
+	article {
+		margin: 10px 0;
+		padding: 10px 0;
+		border-bottom: 1px solid @metro-highlight;
+	}
+	
+	@avatar-width: 32px;
+	@left-padding: 50px;
+	.meta {
+		.clear-float();
+	}
+	.author-avatar {
+		float: left;
+		overflow: hidden;
+		margin-right: @left-padding - @avatar-width;
+	}
+	.author-name {
+		font-size: @font-size-larger;
+	}
+	.post-time {
+		color: @metro-background-dark;
+	}
+	.target-post {
+		font-weight: bold;
+
+		&::before {
+			content: "《";
+		}
+		&::after {
+			content: "》";
+		}
+	}
+	.content {
+		margin-left: @left-padding;
+	}
+
+	article[data-status="accepted"] .actions > span[data-action="accept"],
+	article[data-status="rejected"] .actions > span[data-action="reject"] {
+		display: none;
 	}
 }

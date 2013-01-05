@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="@Url.Content("~/styles/console.css")" />
 }
 
-<table>
+<table id="posts">
     <thead>
         <tr>
             <th>名称</th>
@@ -23,31 +23,31 @@
                 <td>@Path.GetFileNameWithoutExtension(file.Name)</td>
                 <td>@file.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
                 <td>@file.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                <td><span>更新</span></td>
+                <td class="actions"><span>更新</span></td>
             </tr>
         }
     </tbody>
-    <script>
-        $('tbody').on(
-            'click',
-            'td:last-child',
-            function() {
-                var row = $(this).closest('tr');
-                        
-                if (row.hasClass('progressing')) {
-                    return;
-                }
-
-                row.addClass('progressing');
-                var name = row.children('td:first').text();
-                $.post(
-                    '/console/update/',
-                    { name: name },
-                    function() {
-                        row.removeClass('progressing');
-                    }
-                );
-            }
-        );
-    </script>
 </table>
+<script>
+    $('tbody').on(
+        'click',
+        'td:last-child',
+        function() {
+            var row = $(this).closest('tr');
+                        
+            if (row.hasClass('progressing')) {
+                return;
+            }
+
+            row.addClass('progressing');
+            var name = row.children('td:first').text();
+            $.post(
+                '/console/update/',
+                { name: name },
+                function() {
+                    row.removeClass('progressing');
+                }
+            );
+        }
+    );
+</script>

@@ -9,40 +9,100 @@
     background: transparent;
   }
 }
-table {
+.actions > span {
+  color: #00749e;
+  font-size: 16px;
+  cursor: pointer;
+}
+.actions > span:hover {
+  text-decoration: underline;
+}
+.actions > span::before {
+  content: "[";
+}
+.actions > span::after {
+  content: "]";
+}
+#posts {
   width: 100%;
   border-collapse: collapse;
 }
-table th,
-table td {
+#posts th,
+#posts td {
   padding: 8px;
 }
-table th {
+#posts th {
   background-color: #91d100;
   border-left: 2px solid #fff;
   border-right: 2px solid #fff;
   line-height: 2;
   font-size: 24px;
 }
-table th:first-of-type {
+#posts th:first-of-type {
   border-left-color: #91d100;
 }
-table th:last-of-type {
+#posts th:last-of-type {
   border-right-color: #91d100;
 }
-table td {
+#posts td {
   border: 2px solid #91d100;
 }
-table td:first-of-type {
+#posts td:first-of-type {
   border-top: none;
 }
-table tbody > tr:hover {
+#posts tbody > tr:hover {
   background-color: #008a00;
   color: #fff;
 }
-table tbody > tr.progressing {
+#posts tbody > tr.progressing {
   -webkit-animation: progressing 2s infinite;
 }
-table tbody > tr.progressing:hover {
+#posts tbody > tr.progressing:hover {
   color: #000;
+}
+#comments {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#comments article {
+  margin: 10px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid #008a00;
+}
+#comments .meta {
+  *zoom: 1;
+}
+#comments .meta:after {
+  content: '\0020';
+  display: block;
+  height: 0;
+  clear: both;
+}
+#comments .author-avatar {
+  float: left;
+  overflow: hidden;
+  margin-right: 18px;
+}
+#comments .author-name {
+  font-size: 24px;
+}
+#comments .post-time {
+  color: #5a5a5a;
+}
+#comments .target-post {
+  font-weight: bold;
+}
+#comments .target-post::before {
+  content: "《";
+}
+#comments .target-post::after {
+  content: "》";
+}
+#comments .content {
+  margin-left: 50px;
+}
+#comments article[data-status="accepted"] .actions > span[data-action="accept"],
+#comments article[data-status="rejected"] .actions > span[data-action="reject"] {
+  display: none;
 }
