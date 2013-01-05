@@ -2,10 +2,6 @@
     if (!history || !history.pushState) {
         return;
     }
-    // webkit在onload之后会触发一次popstate事件
-    // 导致第一次进入时有一次无意义的ajax请求加载当前页面
-    // 因此使用一个标记位去除这一次
-    var firstHit = navigator.userAgent.indexOf('AppleWebKit') < 0;
     var styleSelector = 'head > link[rel="stylesheet"]:not([data-persist])';
     var scriptSelector = 'head > script:not([data-persist])';
 
@@ -66,23 +62,29 @@
         }
     );
 
+    // 由于进入下一个页面后再退回时，会触发popstate事件，且e.state为null导致后退无效
+    // 因此在这一步需要先把history.state设置一下，以便后退可以生效
+    function setInitialState() {
+        var html = document.documentElement.outerHTML;
+        history.replaceState(html, document.title);
+    }
+    $(document).ready(setInitialState);
+
     window.addEventListener(
         'popstate',
         function(e) {
-            if (!firstHit) {
-                firstHit = true;
-                return;
-            }
-
             var html = e.state;
             if (html) {
                 updatePage(html);
 
                 e.preventDefault();
             }
-            else {
-                loadPage(location.pathname, false);
-            }
         }
     );
+
+    // TODO: 坑爹的是，如果点击了页面中的一个<a>导致hash的变化，再后退
+    // 此时同样有popstate事件，同样有e.state
+    // 且由于不能看后退前是什么URL，无法分辨是“来自另一页”还是“仅hash发生变化”
+    // 因此只能原样执行popstate事件的处理函数，导致一个fadeIn的效果
+    // 此问题暂无解决方案，History Interface的设计并不合理，应当提供relatedURL之类的属性标识来源
 }());
