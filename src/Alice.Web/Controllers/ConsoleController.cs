@@ -111,7 +111,8 @@ namespace Alice.Web.Controllers {
         [Authorize]
         public ViewResult Comments(int page = 1) {
             IList<Comment> comments = DbSession.QueryOver<Comment>()
-                .OrderBy(c => c.PostName).Desc
+                .OrderBy(c => c.Audited).Desc
+                .ThenBy(c => c.PostTime).Desc
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize + 1)
                 .List();

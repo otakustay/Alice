@@ -23,7 +23,7 @@
             <span class="author-name">@Model.Author.Name</span>
             <time class="post-time" datetime="@Model.PostTime.ToString("yyyy-MM-dd")">@Model.PostTime.ToString("yyyy-MM-dd HH:mm")</time>
             @if (auditionView != null) {
-                <span class="target-post">@auditionView.Post.Title</span>
+                <a href="@Url.Content("~/" + Model.PostName + "/")" target="_blank" class="target-post">@auditionView.Post.Title</a>
             }
         </footer>
         <section class="content">
