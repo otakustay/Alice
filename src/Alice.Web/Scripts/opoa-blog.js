@@ -26,7 +26,7 @@
         return doc;
     }
 
-    function loadPage(url, pushHistoryState) {
+    function loadPage(url) {
         if (xhr) {
             xhr.abort();
         }
@@ -38,9 +38,7 @@
 
                 var doc = updatePage(html);
 
-                if (pushHistoryState) {
-                    history.pushState(html, doc.find('title').text(), url);
-                }
+                history.pushState(html, doc.find('title').text(), url);
             },
             'html'
         );
@@ -56,11 +54,25 @@
                 return;
             }
 
-            loadPage(href, true);
+            loadPage(href);
 
             return false;
         }
     );
+
+    $('#search > form')
+        .off('submit')
+        .on(
+            'submit',
+            function() {
+                var keywords = $('#keywords').val().trim();
+                if (keywords) {
+                    var url = '/search/' + encodeURIComponent(keywords) + '/';
+                    loadPage(url);
+                }
+                return false;
+            }
+        );
 
     // 由于进入下一个页面后再退回时，会触发popstate事件，且e.state为null导致后退无效
     // 因此在这一步需要先把history.state设置一下，以便后退可以生效
