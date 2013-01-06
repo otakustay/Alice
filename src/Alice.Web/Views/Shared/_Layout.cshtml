@@ -30,11 +30,13 @@
         function loadHolmes() {
             var hostname = location.hostname.toLowerCase();
             if (hostname !== 'localhost' && hostname.indexOf('127.0.0.') !== 0) {
-                var script = document.createElement('script');
-                script.async = true;
-                script.src = 'http://hm.baidu.com/h.js?77710a53fa85528362c49b970165efe6';
-                var placeholder = document.getElementsByTagName('script')[0];
-                placeholder.parentNode.insertBefore(script, placeholder);
+                $('#holmes').remove();
+                $('<script />')
+                    .attr('async', 'async')
+                    .attr('src', 'http://hm.baidu.com/h.js?77710a53fa85528362c49b970165efe6')
+                    .attr('data-persist', 'persist')
+                    .attr('id', 'holmes')
+                    .appendTo('head');
             }
         }
         loadHolmes();
