@@ -48,7 +48,7 @@
 
     $('#page').on(
         'click',
-        'a',
+        'a:not(#feed)',
         function() {
             var href = $(this).attr('href');
 
