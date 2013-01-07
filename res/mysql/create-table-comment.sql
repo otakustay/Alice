@@ -7,6 +7,7 @@ create table `comment` (
   `author_email` varchar(200) not null,
   `author_ip_address` varchar(40) not null,
   `author_user_agent` varchar(200) not null,
+  `referrer` varchar(200) not null,
   `content` text not null,
   `post_time` datetime not null,
   `audited` boolean not null

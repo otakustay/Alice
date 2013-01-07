@@ -176,6 +176,10 @@ namespace Alice.Web.Controllers {
             comment.Author.IpAddress = Request.UserHostAddress;
             comment.Author.UserAgent = Request.UserAgent;
             comment.Audited = true; // 默认为已审核，有需要的再屏蔽
+            comment.Referrer = Request.UrlReferrer == null ? String.Empty : Request.UrlReferrer.ToString();
+            if (comment.Referrer.Length > 200) {
+                comment.Referrer = comment.Referrer.Substring(0, 200);
+            }
 
             Dictionary<int, string> targetAuthor = new Dictionary<int, string>();
             if (comment.Target.HasValue) {

@@ -13,6 +13,8 @@ namespace Alice.Model {
 
         public string Content { get; set; }
 
+        public string Referrer { get; set; }
+
         public DateTime PostTime { get; set; }
 
         public CommentAuthor Author { get; set; }
