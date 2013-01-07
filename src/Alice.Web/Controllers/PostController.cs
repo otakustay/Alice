@@ -22,6 +22,9 @@ using Alice.Web.Models;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
+using System.Net;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
 
 namespace Alice.Web.Controllers {
     public class PostController : Controller {
@@ -191,6 +194,10 @@ namespace Alice.Web.Controllers {
             }
 
             DbSession.Save(comment);
+
+            // 审核评论要有网络交互，异步进行不影响用户收到响应
+            Task task = new Task(() => AuditComment(comment, Kernel)); ;
+            task.Start();
 
             if (Request.IsAjaxRequest()) {
                 CommentView commentView = RenderComment(comment, targetAuthor);
@@ -383,6 +390,12 @@ namespace Alice.Web.Controllers {
             return DbSession.QueryOver<PostExcerpt>()
                 .Where(Restrictions.InG("Name", pagedNames))
                 .List();
+        }
+
+        private static void AuditComment(Comment comment, IKernel Kernel) {
+            using (Akismet akismet = Kernel.Get<Akismet>()) {
+                akismet.AuditComment(comment);
+            }
         }
     }
 }

@@ -42,6 +42,10 @@ namespace Alice.Web.Infrastructure {
 
             Bind<IndexWriter>().ToMethod(CreateIndexWriter).InTransientScope();
             Bind<IndexSearcher>().ToMethod(CreateIndexSearcher).InTransientScope();
+
+            Bind<Akismet>().To<Akismet>()
+                .InTransientScope()
+                .WithConstructorArgument("apiKey", "903d4ade58ed");
         }
 
         private static Markdown CreateMarkdownTransformer(IContext context) {
@@ -96,6 +100,9 @@ namespace Alice.Web.Infrastructure {
         }
 
         private static ISession OpenSession(IContext context) {
+            if (HttpContext.Current == null) {
+                return sessionFactory.OpenSession();
+            }
             ISession session = HttpContext.Current.Items["NHibernateSession"] as ISession;
             if (session == null) {
                 session = sessionFactory.OpenSession();

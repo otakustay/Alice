@@ -142,6 +142,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Akismet.cs" />
     <Compile Include="Infrastructure\AliceWebModule.cs" />
     <Compile Include="Infrastructure\CreatedActionResult.cs" />
     <Compile Include="Infrastructure\PanGuAnalyzer.cs" />
