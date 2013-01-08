@@ -55,14 +55,12 @@ article {
 }
 
 #pager li > a {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	.border-box();
 	padding: (@full-size - @circle-size) / 2;
 	
 	&>span {
+		.metro();
 		display: block;
-		color: #fff;
-		background-color: @metro;
 		border-radius: 50%;
 		text-indent: -500%;
 		overflow: hidden;
@@ -78,13 +76,13 @@ article {
 		padding: 0;
 		text-decoration: none;
 		&>span {
+			.metro-highlight();
 			width: 100%;
 			height: 100%;
 			line-height: @full-size;
 			margin: 0;
 			border-radius: 0;
 			text-indent: 0;
-			background-color: @metro-highlight;
 		}
 	}
 }

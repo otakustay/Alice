@@ -52,11 +52,11 @@
   font-weight: bold;
 }
 #comments > h1 > a {
-  display: inline-block;
-  margin-left: 10px;
   color: #00749e;
   font-size: 16px;
   cursor: pointer;
+  display: inline-block;
+  margin-left: 10px;
 }
 #comments > h1 > a:hover {
   text-decoration: underline;
@@ -68,9 +68,9 @@
   content: "]";
 }
 #comments > ol {
-  list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
+  list-style: none;
 }
 #comments > ol > li {
   border-bottom: 1px solid #91d100;

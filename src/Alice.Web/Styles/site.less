@@ -83,14 +83,13 @@ body > header:first-of-type {
 	}
 	input[type="submit"] {
 		.reset-appearance();
+		.metro-interactive();
 		border: none;
 		margin: 0;
-		background-color: @metro-dark;
-		color: #fff;
 		padding: 8px 22px;
 
 		&:hover {
-			background-color: @metro-highlight;
+			.metro-highlight();
 		}
 	}
 }
@@ -101,17 +100,13 @@ body > header:first-of-type {
 
 	ul  {
 		.clear-float();
-
-		list-style: none;
-		margin: 0;
-		padding: 0;
+		.reset-list();
 	}
 
 	li  {
+		.border-box();
 		float: left;
 		width: 100% / 4;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
 		padding: 0 1px;
 
 		a  {
@@ -123,8 +118,7 @@ body > header:first-of-type {
 			text-align: center;
 
 			&:hover  {
-				background-color: @metro-highlight;
-				color: #fff;
+				.metro-highlight();
 				text-decoration: none;
 			}
 		}

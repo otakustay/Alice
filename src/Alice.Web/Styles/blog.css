@@ -67,15 +67,20 @@
   color: #008a00;
 }
 #feed {
+  background-color: #83ba1f;
+  color: #fff;
   display: block;
   height: 106px;
   position: relative;
-  background: #83ba1f url(../images/rss.png) center 16px no-repeat;
+  background-image: url(../images/rss.png);
+  background-position: center 16px;
+  background-repeat: no-repeat;
   text-indent: -5000px;
   overflow: hidden;
 }
 #feed:hover {
   background-color: #008a00;
+  color: #fff;
   text-decoration: none;
 }
 #feed::after {

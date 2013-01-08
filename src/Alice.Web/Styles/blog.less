@@ -70,15 +70,18 @@
 
 // Links
 #feed {
+	.metro-interactive();
 	display: block;
 	height: 106px;
 	position: relative;
-	background: @metro-dark url(../images/rss.png) center 16px no-repeat;
+	background-image: url(../images/rss.png);
+	background-position: center 16px;
+	background-repeat: no-repeat;
 	text-indent: -5000px;
 	overflow: hidden;
 
 	&:hover {
-		background-color: @metro-highlight;
+		.metro-highlight();
 		text-decoration: none;
 	}
 

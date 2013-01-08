@@ -49,16 +49,14 @@
 		font-weight: bold;
 
 		&>a {
+			.interactive-link();
 			display: inline-block;
 			margin-left: 10px;
-			.interactive-link();
 		}
 	}
 
 	&>ol {
-		list-style: none;
-		margin: 0;
-		padding: 0;
+		.reset-list();
 
 		&>li {
 			border-bottom: 1px solid @metro;
