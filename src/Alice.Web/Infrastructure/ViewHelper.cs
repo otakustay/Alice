@@ -12,7 +12,9 @@ namespace Alice.Web.Infrastructure {
             { "blog-day.css", 1 }, { "blog-night.css", 1 },
             { "list-day.css", 1 }, { "list-night.css", 1 },
             { "post-day.css", 1 }, { "post-night.css", 1 },
-            { "console-day.css", 1 }, { "console-night.css", 1 }
+            { "console-day.css", 1 }, { "console-night.css", 1 },
+            { "jquery-1.8.2.js", 1 }, { "markdown.js", 1 },
+            { "view-post.js", 1 }, { "opoa-blog.js", 1 }
         };
 
         public static string Style(this UrlHelper url, string name) {
@@ -21,6 +23,11 @@ namespace Alice.Web.Infrastructure {
             string cssFilename = String.Format("{0}-{1}.css", name, themeType);
 
             return url.Content("~/styles/" + cssFilename + "?v=" + version[cssFilename]);
+        }
+
+        public static string Script(this UrlHelper url, string name) {
+            string filename = name + ".js";
+            return url.Content("~/scripts/" + filename + "?v=" + version[filename]);
         }
     }
 }

@@ -57,7 +57,7 @@
     </form>
 </aside>
 
-<script src="@Url.Content("~/scripts/view-post.js?v=6")" defer="defer"></script>
+<script src="@Url.Script("view-post")" defer="defer"></script>
 
 @helper DisplayValidationMessage(string name) {
     ModelState state = ViewData.ModelState[name];
