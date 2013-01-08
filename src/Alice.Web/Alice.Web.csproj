@@ -183,6 +183,12 @@
     </Content>
     <Content Include="robots.txt" />
     <Content Include="Scripts\opoa-blog.js" />
+    <Content Include="Styles\theme-day.css">
+      <DependentUpon>theme-day.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\theme-night.css">
+      <DependentUpon>theme-night.less</DependentUpon>
+    </Content>
     <Content Include="_offline.htm" />
     <Content Include="Images\fontawesome-webfont.ttf" />
     <Content Include="Images\fontawesome-webfont.woff" />
@@ -276,6 +282,14 @@
     <Content Include="Views\Post\CommentList.cshtml" />
     <Content Include="Views\Post\ArchiveList.cshtml" />
     <Content Include="Views\Console\Comments.cshtml" />
+    <Content Include="Styles\theme-night.less">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+    </Content>
+    <Content Include="Styles\theme-day.less">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
