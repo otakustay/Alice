@@ -5,11 +5,11 @@
   font-style: normal;
 }
 body {
-  background-color: #f4f4f4;
+  background-color: #232323;
   min-width: 980px;
   width: 980px;
   margin: 0 auto;
-  color: #000000;
+  color: #cccccc;
 }
 body,
 input,
@@ -27,7 +27,7 @@ h6 {
   font-weight: normal;
 }
 a {
-  color: #00749e;
+  color: #1b859a;
   text-decoration: none;
 }
 a:hover {
@@ -36,13 +36,13 @@ a:hover {
 pre,
 code {
   font-family: "Consolas", "\5FAE\8F6F\96C5\9ED1", "\5B8B\4F53", monospace;
-  background-color: #dedede;
+  background-color: #323232;
   max-height: 400px;
   overflow: auto;
 }
 pre {
   padding: 1ex 1em;
-  border-left: 2px solid #91d100;
+  border-left: 2px solid #006fb0;
 }
 code {
   padding: 0 .2em;
@@ -57,12 +57,12 @@ body > header:first-of-type {
   margin-bottom: 30px;
 }
 .form {
-  background-color: #dedede;
+  background-color: #323232;
   padding: 20px;
 }
 .form h1 {
   font-size: 24px;
-  color: #008a00;
+  color: #1ba1e2;
 }
 .form .row {
   margin-top: 5px;
@@ -91,14 +91,14 @@ body > header:first-of-type {
   -ms-appearance: none;
   -o-appearance: none;
   appearance: none;
-  background-color: #83ba1f;
+  background-color: #034888;
   color: #fff;
   border: none;
   margin: 0;
   padding: 8px 22px;
 }
 .form input[type="submit"]:hover {
-  background-color: #008a00;
+  background-color: #1ba1e2;
   color: #fff;
 }
 #navigation {
@@ -127,12 +127,12 @@ body > header:first-of-type {
   display: block;
   font-size: 24px;
   line-height: 2.6;
-  background-color: #dedede;
-  color: #5a5a5a;
+  background-color: #323232;
+  color: #f0f0f0;
   text-align: center;
 }
 #navigation li a:hover {
-  background-color: #008a00;
+  background-color: #1ba1e2;
   color: #fff;
   text-decoration: none;
 }

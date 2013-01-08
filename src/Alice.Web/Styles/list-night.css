@@ -2,7 +2,7 @@ article {
   margin-bottom: 40px;
 }
 article h1 {
-  border-bottom: 4px solid #91d100;
+  border-bottom: 4px solid #006fb0;
 }
 article .meta {
   text-align: right;
@@ -44,7 +44,7 @@ article .meta ~ *:first-of-type {
   line-height: 32px;
 }
 #pager li > span {
-  background-color: #dedede;
+  background-color: #323232;
 }
 #pager li > a {
   -moz-box-sizing: border-box;
@@ -52,7 +52,7 @@ article .meta ~ *:first-of-type {
   padding: 10px;
 }
 #pager li > a > span {
-  background-color: #91d100;
+  background-color: #006fb0;
   color: #fff;
   display: block;
   border-radius: 50%;
@@ -70,7 +70,7 @@ article .meta ~ *:first-of-type {
   text-decoration: none;
 }
 #pager li > a:hover > span {
-  background-color: #008a00;
+  background-color: #1ba1e2;
   color: #fff;
   width: 100%;
   height: 100%;

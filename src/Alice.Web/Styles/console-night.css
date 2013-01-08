@@ -3,14 +3,14 @@
     background: transparent;
   }
   50% {
-    background: #83ba1f;
+    background: #034888;
   }
   100% {
     background: transparent;
   }
 }
 .actions > span {
-  color: #00749e;
+  color: #1b859a;
   font-size: 16px;
   cursor: pointer;
 }
@@ -32,26 +32,26 @@
   padding: 8px;
 }
 #posts th {
-  background-color: #91d100;
+  background-color: #006fb0;
   border-left: 2px solid #fff;
   border-right: 2px solid #fff;
   line-height: 2;
   font-size: 24px;
 }
 #posts th:first-of-type {
-  border-left-color: #91d100;
+  border-left-color: #006fb0;
 }
 #posts th:last-of-type {
-  border-right-color: #91d100;
+  border-right-color: #006fb0;
 }
 #posts td {
-  border: 2px solid #91d100;
+  border: 2px solid #006fb0;
 }
 #posts td:first-of-type {
   border-top: none;
 }
 #posts tbody > tr:hover {
-  background-color: #008a00;
+  background-color: #1ba1e2;
   color: #fff;
 }
 #posts tbody > tr.progressing {
@@ -68,7 +68,7 @@
 #comments article {
   margin: 10px 0;
   padding: 10px 0;
-  border-bottom: 1px solid #008a00;
+  border-bottom: 1px solid #1ba1e2;
 }
 #comments .meta {
   *zoom: 1;
@@ -88,7 +88,7 @@
   font-size: 24px;
 }
 #comments .post-time {
-  color: #5a5a5a;
+  color: #f0f0f0;
 }
 #comments .target-post {
   font-weight: bold;

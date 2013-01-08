@@ -2,7 +2,7 @@
   font-size: 32px;
   padding: 10.666666666666666px;
   font-weight: normal;
-  border-bottom: 3px solid #91d100;
+  border-bottom: 3px solid #006fb0;
 }
 #meta {
   text-align: right;
@@ -31,14 +31,14 @@
   float: right;
 }
 #tags li a {
-  background-color: #91d100;
+  background-color: #006fb0;
   color: #fff;
   display: block;
   padding: 4px 6px;
   margin: 0 4px;
 }
 #tags li a:hover {
-  background-color: #008a00;
+  background-color: #1ba1e2;
   color: #fff;
 }
 #comments {
@@ -46,13 +46,13 @@
 }
 #comments > h1 {
   font-size: 24px;
-  border-bottom: 2px solid #91d100;
+  border-bottom: 2px solid #006fb0;
   padding-bottom: .2ex;
-  color: #008a00;
+  color: #1ba1e2;
   font-weight: bold;
 }
 #comments > h1 > a {
-  color: #00749e;
+  color: #1b859a;
   font-size: 16px;
   cursor: pointer;
   display: inline-block;
@@ -73,7 +73,7 @@
   list-style: none;
 }
 #comments > ol > li {
-  border-bottom: 1px solid #91d100;
+  border-bottom: 1px solid #006fb0;
 }
 #comments > ol > li:last-of-type {
   border-bottom: none;
@@ -99,7 +99,7 @@
   font-size: 24px;
 }
 #comments .post-time {
-  color: #5a5a5a;
+  color: #f0f0f0;
   padding-left: 1ex;
   font-size: 14px;
 }
@@ -108,7 +108,7 @@
   margin-left: 50px;
 }
 #comments .reply {
-  color: #00749e;
+  color: #1b859a;
   font-size: 16px;
   cursor: pointer;
 }
@@ -124,7 +124,7 @@
 #cancel-reply {
   display: inline-block;
   margin-left: 10px;
-  color: #00749e;
+  color: #1b859a;
   font-size: 16px;
   cursor: pointer;
 }
