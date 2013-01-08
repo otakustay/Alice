@@ -3,6 +3,7 @@
         return;
     }
     var styleSelector = 'head > link[rel="stylesheet"]:not([data-persist])';
+    var allStyleSelector = 'head > link[rel="stylesheet"]';
     var scriptSelector = 'head > script:not([data-persist])';
 
     // 模拟浏览器，只能有一个页面加载，第2次点击时第1个加载必须中断
@@ -13,8 +14,19 @@
         doc.innerHTML = html;
         doc = $(doc);
 
-        $(styleSelector).remove();
-        doc.find(styleSelector).appendTo('head');
+        // 小心根据时间变化导致主题的变动，如果主题有变动，则所有css均需完全加载
+        // .data的读和.attr的写不同步，统一用.attr
+        var currentTheme = $('body').attr('data-theme');
+        var targetTheme = doc.find('body').attr('data-theme');
+        if (targetTheme === currentTheme) {
+            $(styleSelector).remove();
+            doc.find(styleSelector).appendTo('head');
+        }
+        else {
+            $('body').attr('data-theme', targetTheme);
+            $(allStyleSelector).remove();
+            doc.find(allStyleSelector).appendTo('head');
+        }
 
         $(scriptSelector).remove();
         doc.find(scriptSelector).appendTo('head');
