@@ -4,7 +4,7 @@
 @model IEnumerable<PostExcerpt>
 
 @section Resource {
-    <link rel="stylesheet" href="@Url.Content("~/styles/list.css")" />
+    <link rel="stylesheet" href="@Url.Style("list")" />
 }
 
 @foreach (PostExcerpt post in @Model) {
