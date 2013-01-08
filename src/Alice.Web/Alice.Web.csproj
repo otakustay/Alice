@@ -148,6 +148,7 @@
     <Compile Include="Infrastructure\PanGuAnalyzer.cs" />
     <Compile Include="Infrastructure\PanGuTokenizer.cs" />
     <Compile Include="Infrastructure\TagAnalyzer.cs" />
+    <Compile Include="Infrastructure\ViewHelper.cs" />
     <Compile Include="Infrastructure\WithStatusCodeActionResult.cs" />
     <Compile Include="Infrastructure\NewtonJsonActionResult.cs" />
     <Compile Include="Infrastructure\NHibernateSessionModule.cs" />
@@ -183,11 +184,33 @@
     </Content>
     <Content Include="robots.txt" />
     <Content Include="Scripts\opoa-blog.js" />
+    <None Include="Styles\build.sh" />
+    <Content Include="Styles\blog.css">
+      <DependentUpon>blog.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\console.css">
+      <DependentUpon>console.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\list.css">
+      <DependentUpon>list.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\post.css">
+      <DependentUpon>post.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
     <Content Include="Styles\theme-day.css">
       <DependentUpon>theme-day.less</DependentUpon>
     </Content>
     <Content Include="Styles\theme-night.css">
       <DependentUpon>theme-night.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\theme.css">
+      <DependentUpon>theme.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
     </Content>
     <Content Include="_offline.htm" />
     <Content Include="Images\fontawesome-webfont.ttf" />
@@ -217,24 +240,6 @@
     </Content>
     <Content Include="Scripts\markdown.js" />
     <Content Include="Scripts\view-post.js" />
-    <Content Include="Styles\blog.css">
-      <DependentUpon>blog.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\console.css">
-      <DependentUpon>console.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\list.css">
-      <DependentUpon>list.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\post.css">
-      <DependentUpon>post.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\site.css">
-      <DependentUpon>site.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\variables.css">
-      <DependentUpon>variables.less</DependentUpon>
-    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -287,6 +292,10 @@
       <Minify>True</Minify>
     </Content>
     <Content Include="Styles\theme-day.less">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+    </Content>
+    <Content Include="Styles\theme.less">
       <Compile>True</Compile>
       <Minify>True</Minify>
     </Content>
