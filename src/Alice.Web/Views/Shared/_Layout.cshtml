@@ -27,7 +27,9 @@
     </nav>
     @RenderBody()
     <script>
-        function loadHolmes() {
+        var _hmt = window._hmt || [];
+        var loadHolmes = $.noop;
+        (function() {
             var hostname = location.hostname.toLowerCase();
             if (hostname !== 'localhost' && hostname.indexOf('127.0.0.') !== 0) {
                 $('#holmes').remove();
@@ -38,9 +40,12 @@
                 script.id = 'holmes';
                 var placeholder = document.getElementsByTagName('script')[0];
                 placeholder.parentNode.insertBefore(script, placeholder);
+
+                loadHolmes = function() {
+                    _hmt.push(['_trackPageview', location.pathname + location.search]);
+                };
             }
-        }
-        loadHolmes();
+        }());
     </script>
 </body>
 </html>

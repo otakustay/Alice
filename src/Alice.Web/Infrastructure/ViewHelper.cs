@@ -14,7 +14,7 @@ namespace Alice.Web.Infrastructure {
             { "post-day.css", 1 }, { "post-night.css", 1 },
             { "console-day.css", 1 }, { "console-night.css", 1 },
             { "jquery-1.8.2.js", 1 }, { "markdown.js", 1 },
-            { "view-post.js", 1 }, { "opoa-blog.js", 2 }
+            { "view-post.js", 1 }, { "opoa-blog.js", 3 }
         };
 
         public static string Style(this UrlHelper url, string name) {

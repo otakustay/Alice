@@ -33,8 +33,6 @@
 
         $('#main').hide().html(doc.find('#main').html()).fadeIn();
 
-        loadHolmes();
-
         return doc;
     }
 
@@ -51,6 +49,7 @@
                 var doc = updatePage(html);
 
                 history.pushState(html, doc.find('title').text(), url);
+                loadHolmes();
             },
             'html'
         );
@@ -100,7 +99,7 @@
             var html = e.state;
             if (html) {
                 updatePage(html);
-
+                loadHolmes();
                 e.preventDefault();
             }
         }
