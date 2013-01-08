@@ -1,0 +1,138 @@
+@font-face {
+  font-family: 'FontAwesome';
+  src: url(../images/fontawesome-webfont.woff) format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  background-color: #f4f4f4;
+  min-width: 980px;
+  width: 980px;
+  margin: 0 auto;
+  color: #000000;
+}
+body,
+input,
+textarea {
+  font-family: "Consolas", "\5FAE\8F6F\96C5\9ED1", "\5B8B\4F53", monospace;
+  font-size: 16px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: normal;
+}
+a {
+  color: #00749e;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+pre,
+code {
+  font-family: "Consolas", "\5FAE\8F6F\96C5\9ED1", "\5B8B\4F53", monospace;
+  background-color: #dedede;
+  max-height: 400px;
+  overflow: auto;
+}
+pre {
+  padding: 1ex 1em;
+  border-left: 2px solid #91d100;
+}
+code {
+  padding: 0 .2em;
+}
+p {
+  line-height: 1.5;
+}
+img {
+  max-width: 100%;
+}
+body > header:first-of-type {
+  margin-bottom: 30px;
+}
+.form {
+  background-color: #dedede;
+  padding: 20px;
+}
+.form h1 {
+  font-size: 24px;
+  color: #008a00;
+}
+.form .row {
+  margin-top: 5px;
+}
+.form .submit {
+  margin-top: 10px;
+}
+.form input:not([type]),
+.form input[type="text"],
+.form input[type="password"],
+.form textarea {
+  width: 50%;
+  padding: 5px;
+}
+.form textarea {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 140px;
+  resize: none;
+  overflow: auto;
+}
+.form input[type="submit"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background-color: #83ba1f;
+  color: #fff;
+  border: none;
+  margin: 0;
+  padding: 8px 22px;
+}
+.form input[type="submit"]:hover {
+  background-color: #008a00;
+  color: #fff;
+}
+#navigation {
+  margin-bottom: 40px;
+}
+#navigation ul {
+  *zoom: 1;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#navigation ul:after {
+  content: '\0020';
+  display: block;
+  height: 0;
+  clear: both;
+}
+#navigation li {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 25%;
+  padding: 0 1px;
+}
+#navigation li a {
+  display: block;
+  font-size: 24px;
+  line-height: 2.6;
+  background-color: #dedede;
+  color: #5a5a5a;
+  text-align: center;
+}
+#navigation li a:hover {
+  background-color: #008a00;
+  color: #fff;
+  text-decoration: none;
+}

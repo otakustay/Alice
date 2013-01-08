@@ -1,0 +1,139 @@
+#title > h1 {
+  font-size: 32px;
+  padding: 10.666666666666666px;
+  font-weight: normal;
+  border-bottom: 3px solid #91d100;
+}
+#meta {
+  text-align: right;
+  font-size: 14px;
+  margin-top: 6px;
+}
+#time {
+  display: inline-block;
+  padding: 4px;
+  vertical-align: top;
+}
+#tags {
+  *zoom: 1;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#tags:after {
+  content: '\0020';
+  display: block;
+  height: 0;
+  clear: both;
+}
+#tags li {
+  float: right;
+}
+#tags li a {
+  background-color: #91d100;
+  color: #fff;
+  display: block;
+  padding: 4px 6px;
+  margin: 0 4px;
+}
+#tags li a:hover {
+  background-color: #008a00;
+  color: #fff;
+}
+#comments {
+  margin-top: 40px;
+}
+#comments > h1 {
+  font-size: 24px;
+  border-bottom: 2px solid #91d100;
+  padding-bottom: .2ex;
+  color: #008a00;
+  font-weight: bold;
+}
+#comments > h1 > a {
+  color: #00749e;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 10px;
+}
+#comments > h1 > a:hover {
+  text-decoration: underline;
+}
+#comments > h1 > a::before {
+  content: "[";
+}
+#comments > h1 > a::after {
+  content: "]";
+}
+#comments > ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#comments > ol > li {
+  border-bottom: 1px solid #91d100;
+}
+#comments > ol > li:last-of-type {
+  border-bottom: none;
+}
+#comments article {
+  margin: 20px 0;
+}
+#comments .meta {
+  *zoom: 1;
+}
+#comments .meta:after {
+  content: '\0020';
+  display: block;
+  height: 0;
+  clear: both;
+}
+#comments .author-avatar {
+  float: left;
+  overflow: hidden;
+  margin-right: 18px;
+}
+#comments .author-name {
+  font-size: 24px;
+}
+#comments .post-time {
+  color: #5a5a5a;
+  padding-left: 1ex;
+  font-size: 14px;
+}
+#comments .content,
+#comments .actions {
+  margin-left: 50px;
+}
+#comments .reply {
+  color: #00749e;
+  font-size: 16px;
+  cursor: pointer;
+}
+#comments .reply:hover {
+  text-decoration: underline;
+}
+#comments .reply::before {
+  content: "[";
+}
+#comments .reply::after {
+  content: "]";
+}
+#cancel-reply {
+  display: inline-block;
+  margin-left: 10px;
+  color: #00749e;
+  font-size: 16px;
+  cursor: pointer;
+}
+#cancel-reply:hover {
+  text-decoration: underline;
+}
+#cancel-reply::before {
+  content: "[";
+}
+#cancel-reply::after {
+  content: "]";
+}

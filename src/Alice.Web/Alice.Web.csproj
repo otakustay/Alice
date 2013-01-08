@@ -184,34 +184,17 @@
     </Content>
     <Content Include="robots.txt" />
     <Content Include="Scripts\opoa-blog.js" />
-    <None Include="Styles\build.sh" />
-    <Content Include="Styles\blog.css">
-      <DependentUpon>blog.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\console.css">
-      <DependentUpon>console.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\list.css">
-      <DependentUpon>list.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\post.css">
-      <DependentUpon>post.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\site.css">
-      <DependentUpon>site.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\theme-day.css">
-      <DependentUpon>theme-day.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\theme-night.css">
-      <DependentUpon>theme-night.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\theme.css">
-      <DependentUpon>theme.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\variables.css">
-      <DependentUpon>variables.less</DependentUpon>
-    </Content>
+    <Content Include="Styles\blog-day.css" />
+    <Content Include="Styles\blog-night.css" />
+    <Content Include="Styles\build.sh" />
+    <Content Include="Styles\console-day.css" />
+    <Content Include="Styles\console-night.css" />
+    <Content Include="Styles\list-day.css" />
+    <Content Include="Styles\list-night.css" />
+    <Content Include="Styles\post-day.css" />
+    <Content Include="Styles\post-night.css" />
+    <Content Include="Styles\site-day.css" />
+    <Content Include="Styles\site-night.css" />
     <Content Include="_offline.htm" />
     <Content Include="Images\fontawesome-webfont.ttf" />
     <Content Include="Images\fontawesome-webfont.woff" />
@@ -356,6 +339,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>sh $(ProjectDir)Styles\build.sh</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
