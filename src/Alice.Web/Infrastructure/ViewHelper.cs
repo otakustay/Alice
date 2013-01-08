@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Alice.Web.Infrastructure {
     public static class ViewHelper {
-        private static Dictionary<string, int> version = new Dictionary<string, int>() {
+        private static readonly Dictionary<string, int> version = new Dictionary<string, int>() {
             { "site-day.css", 1 }, { "site-night.css", 1 },
             { "blog-day.css", 1 }, { "blog-night.css", 1 },
             { "list-day.css", 1 }, { "list-night.css", 1 },
