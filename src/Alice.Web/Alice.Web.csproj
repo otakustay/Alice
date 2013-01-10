@@ -142,7 +142,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Akismet.cs" />
+    <Compile Include="Infrastructure\CommentProcessor.cs" />
     <Compile Include="Infrastructure\AliceWebModule.cs" />
     <Compile Include="Infrastructure\CreatedActionResult.cs" />
     <Compile Include="Infrastructure\PanGuAnalyzer.cs" />
@@ -282,6 +282,7 @@
       <Compile>True</Compile>
       <Minify>True</Minify>
     </Content>
+    <None Include="Views\_ReplyMailTemplate.tpl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

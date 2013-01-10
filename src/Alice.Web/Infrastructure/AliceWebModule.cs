@@ -24,6 +24,8 @@ namespace Alice.Web.Infrastructure {
         public override void Load() {
             Bind<int>().ToConstant(10).Named("PageSize");
             Bind<string>().ToConstant("06-84-B9-E5-98-A9-64-CE-7B-A1-3F-FD-58-0A-12-6E").Named("PasswordHash");
+            Bind<string>().ToConstant("宅居").Named("SiteName");
+            Bind<string>().ToConstant("otakustay@live.com").Named("Email");
 
             string baseUrl = "http://otakustay.com";
             Bind<string>().ToConstant(baseUrl).Named("BaseUrl");
@@ -43,7 +45,7 @@ namespace Alice.Web.Infrastructure {
             Bind<IndexWriter>().ToMethod(CreateIndexWriter).InTransientScope();
             Bind<IndexSearcher>().ToMethod(CreateIndexSearcher).InTransientScope();
 
-            Bind<Akismet>().To<Akismet>()
+            Bind<CommentProcessor>().ToSelf()
                 .InTransientScope()
                 .WithConstructorArgument("apiKey", "903d4ade58ed");
         }

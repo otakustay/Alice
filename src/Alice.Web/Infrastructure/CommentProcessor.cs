@@ -5,12 +5,16 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Web;
+using System.Web.Hosting;
 
 namespace Alice.Web.Infrastructure {
-    public class Akismet : IDisposable {
+    public class CommentProcessor : IDisposable {
         private readonly string restUrl;
 
         private readonly string baseUrl;
@@ -19,16 +23,26 @@ namespace Alice.Web.Infrastructure {
 
         private readonly ISession session;
 
-        public Akismet(
-            [Named("BaseUrl")] string baseUrl, string apiKey, 
+        private readonly string siteName;
+
+        private readonly string email;
+
+        private readonly string template =
+            File.ReadAllText(HostingEnvironment.MapPath("~/Views/_ReplyMailTemplate.tpl"));
+
+        public CommentProcessor(
+            [Named("Email")] string email, [Named("SiteName")] string siteName,
+            [Named("BaseUrl")] string baseUrl, string apiKey,
             [Named("Safe")] Markdown transformer, ISession session) {
+            this.email = email;
+            this.siteName = siteName;
             this.restUrl = String.Format("http://{0}.rest.akismet.com/1.1/comment-check", apiKey);
             this.baseUrl = baseUrl;
             this.transformer = transformer;
             this.session = session;
         }
 
-        public void AuditComment(Comment comment) {
+        private void AuditComment(Comment comment) {
             NameValueCollection parameters = HttpUtility.ParseQueryString(String.Empty);
             parameters.Add("blog", baseUrl + "/");
             parameters.Add("user_ip", comment.Author.IpAddress);
@@ -49,6 +63,39 @@ namespace Alice.Web.Infrastructure {
                     comment.Audited = false;
                     session.Update(comment);
                 }
+            }
+        }
+
+        private void NotifyReplyTarget(Comment comment) {
+            Comment replyTarget = session.Get<Comment>(comment.Target.Value);
+            PostExcerpt post = session.Get<PostExcerpt>(comment.PostName);
+            if (replyTarget != null) {
+                MailMessage message = new MailMessage(
+                    new MailAddress(email, siteName),
+                    new MailAddress(replyTarget.Author.Email, replyTarget.Author.Name)
+                );
+                message.Subject = String.Format("你在 {0} 的评论收到了回复", post.Title);
+                message.Body = String.Format(
+                    template,
+                    replyTarget.Author.Name, post.Title,
+                    transformer.Transform(replyTarget.Content),
+                    comment.Author.Name,
+                    transformer.Transform(comment.Content),
+                    baseUrl, post.Name, comment.Id
+                );
+                message.IsBodyHtml = true;
+                message.SubjectEncoding = Encoding.UTF8;
+                message.BodyEncoding = Encoding.UTF8;
+                using (SmtpClient client = new SmtpClient()) {
+                    client.Send(message);
+                }
+            }
+        }
+
+        public void Process(Comment comment) {
+            AuditComment(comment);
+            if (comment.Audited && comment.Target.HasValue) {
+                NotifyReplyTarget(comment);
             }
         }
 

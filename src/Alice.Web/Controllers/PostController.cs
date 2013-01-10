@@ -25,6 +25,7 @@ using System.IO;
 using System.Net;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Ninject.Parameters;
 
 namespace Alice.Web.Controllers {
     public class PostController : Controller {
@@ -196,7 +197,7 @@ namespace Alice.Web.Controllers {
             DbSession.Save(comment);
 
             // 审核评论要有网络交互，异步进行不影响用户收到响应
-            Task task = new Task(() => AuditComment(comment, Kernel)); ;
+            Task task = new Task(() => ProcessComment(comment, Kernel)); ;
             task.Start();
 
             if (Request.IsAjaxRequest()) {
@@ -392,9 +393,9 @@ namespace Alice.Web.Controllers {
                 .List();
         }
 
-        private static void AuditComment(Comment comment, IKernel Kernel) {
-            using (Akismet akismet = Kernel.Get<Akismet>()) {
-                akismet.AuditComment(comment);
+        private static void ProcessComment(Comment comment, IKernel Kernel) {
+            using (CommentProcessor processor = Kernel.Get<CommentProcessor>()) {
+                processor.Process(comment);
             }
         }
     }
