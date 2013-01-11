@@ -32,6 +32,7 @@
         doc.find(scriptSelector).appendTo('head');
 
         $('#main').hide().html(doc.find('#main').html()).fadeIn();
+        $('html, body').stop(false, true).animate({ scrollTop: 0 }, 'fast');
 
         return doc;
     }
