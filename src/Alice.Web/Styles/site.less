@@ -9,8 +9,9 @@
 
 body {
 	background-color: @metro-background;
-	min-width: 980px;
-	width: 980px;
+	min-width: @page-width;
+	width: @page-width;
+	padding: 0 10px 10px;
 	margin: 0 auto;
 	color: @font-color;
 }
@@ -122,6 +123,31 @@ body > header:first-of-type {
 				.metro-highlight();
 				text-decoration: none;
 			}
+		}
+	}
+}
+
+// Footer
+#footer {
+	.clear-float();
+	padding-top: 20px;
+	margin-top: 20px;
+	border-top: 2px solid @metro;
+}
+#copyright {
+	float: left;
+	font-weight: normal;
+}
+#profileLinks > ul {
+	.reset-list();
+	.clear-float();
+	float: right;
+	li {
+		float: left;
+		padding: 0 1em;
+		border-right: 1px solid @metro;
+		&:last-of-type {
+			border-right: none;
 		}
 	}
 }
