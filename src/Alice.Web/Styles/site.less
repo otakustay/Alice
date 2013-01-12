@@ -54,7 +54,22 @@ img {
 
 // Layout
 body > header:first-of-type {
-	margin-bottom: 30px;
+	margin-bottom: 10px;
+	h1 {
+		font-size: 4em;
+		display: inline-block;
+	}
+	h2 {
+		font-size: 2em;
+		display: inline-block;
+		&::before {
+			content: "●";
+			padding: 0 .3em;
+		}
+	}
+	h3 {
+		font-size: 1em;
+	}
 }
 .form {
 	background-color: @metro-background-darker;

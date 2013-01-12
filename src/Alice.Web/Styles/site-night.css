@@ -55,7 +55,22 @@ img {
   max-width: 100%;
 }
 body > header:first-of-type {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+}
+body > header:first-of-type h1 {
+  font-size: 4em;
+  display: inline-block;
+}
+body > header:first-of-type h2 {
+  font-size: 2em;
+  display: inline-block;
+}
+body > header:first-of-type h2::before {
+  content: "●";
+  padding: 0 .3em;
+}
+body > header:first-of-type h3 {
+  font-size: 1em;
 }
 .form {
   background-color: #323232;
