@@ -8,13 +8,13 @@ using System.Web.Mvc;
 namespace Alice.Web.Infrastructure {
     public static class ViewHelper {
         private static readonly Dictionary<string, int> version = new Dictionary<string, int>() {
-            { "site-day.css", 1 }, { "site-night.css", 1 },
+            { "site-day.css", 2 }, { "site-night.css", 2 },
             { "blog-day.css", 1 }, { "blog-night.css", 1 },
             { "list-day.css", 1 }, { "list-night.css", 1 },
             { "post-day.css", 1 }, { "post-night.css", 1 },
             { "console-day.css", 1 }, { "console-night.css", 1 },
             { "jquery-1.8.2.js", 1 }, { "markdown.js", 1 },
-            { "view-post.js", 1 }, { "opoa-blog.js", 3 }
+            { "view-post.js", 1 }, { "opoa-blog.js", 4 }
         };
 
         public static string Style(this UrlHelper url, string name) {
