@@ -10,5 +10,16 @@ namespace Alice.Model {
         public string[] Tags { get; set; }
 
         public DateTime UpdateDate { get; set; }
+
+        public PostEntry Clone() {
+            return new PostEntry() {
+                Name = Name,
+                Title = Title,
+                PostDate = PostDate,
+                Content = Content,
+                Tags = (string[])Tags.Clone(),
+                UpdateDate = UpdateDate
+            };
+        }
     }
 }

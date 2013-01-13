@@ -352,11 +352,13 @@ namespace Alice.Web.Controllers {
         }
 
         private PostExcerpt RenderExcerpt(PostExcerpt excerpt) {
+            excerpt = excerpt.Clone();
             excerpt.Excerpt = Transformer.Transform(excerpt.Excerpt);
             return excerpt;
         }
 
         private PostEntry RenderEntry(PostEntry entry) {
+            entry = entry.Clone();
             entry.Content = Transformer.Transform(entry.Content);
             return entry;
         }
