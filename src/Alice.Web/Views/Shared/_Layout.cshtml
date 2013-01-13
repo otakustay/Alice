@@ -8,6 +8,14 @@
     @RenderSection("Resource", false)
     <link rel="icon" href="/favicon.ico" />
     <link rel="shortcut icon" href="/favicon.ico" />
+    <script>
+        (function() {
+            var tags = ['header', 'aside', 'footer', 'nav', 'section', 'article', 'hgroup', 'time'];
+            for (var i = 0; i < tags.length; i++) {
+                document.createElement(tags[i]);
+            }
+        }());
+    </script>
 </head>
 
 <body data-theme="@Html.Theme()">

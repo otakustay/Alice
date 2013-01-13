@@ -8,7 +8,7 @@ using System.Web.Mvc;
 namespace Alice.Web.Infrastructure {
     public static class ViewHelper {
         private static readonly Dictionary<string, int> version = new Dictionary<string, int>() {
-            { "site-day.css", 3 }, { "site-night.css", 3 },
+            { "site-day.css", 4 }, { "site-night.css", 4 },
             { "blog-day.css", 1 }, { "blog-night.css", 1 },
             { "list-day.css", 1 }, { "list-night.css", 1 },
             { "post-day.css", 1 }, { "post-night.css", 1 },

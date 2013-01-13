@@ -12,6 +12,18 @@ body {
   margin: 0 auto;
   color: #000000;
 }
+header,
+aside,
+footer,
+nav,
+section,
+article,
+hgroup {
+  display: block;
+}
+time {
+  display: inline;
+}
 body,
 input,
 textarea {
