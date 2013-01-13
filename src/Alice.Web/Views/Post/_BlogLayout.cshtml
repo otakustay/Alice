@@ -4,6 +4,7 @@
 
 @section Resource {
     <link rel="stylesheet" href="@Url.Style("blog")" data-persist="persist"/>
+    <link rel="alternate" type="application/rss+xml" href="/feed/" title="订阅本博客" />
     @RenderSection("Resource", false)
     <script src="@Url.Script("opoa-blog")" defer="defer" async="async" data-persist="persist"></script>
 }
