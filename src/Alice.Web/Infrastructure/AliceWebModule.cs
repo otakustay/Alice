@@ -68,6 +68,14 @@ namespace Alice.Web.Infrastructure {
                         tag.attributes["href"] = baseUrl + href;
                     }
                     return true;
+                },
+                FormatCodeBlock = (transformer, input) => {
+                    StringReader reader = new StringReader(input);
+                    string firstLine = reader.ReadLine().Trim();
+                    bool hasLanguage = firstLine.StartsWith(":::");
+                    string language = hasLanguage ? firstLine.Substring(3) : "text";
+                    string code = hasLanguage ? reader.ReadToEnd() : input;
+                    return "<pre data-language=\"" + language + "\"><code>" + code + "</code></pre>\n\n";
                 }
             };
         }
@@ -79,7 +87,7 @@ namespace Alice.Web.Infrastructure {
                 NewWindowForExternalLinks = true,
                 PrepareImage = (tag, tiled) => {
                     string src = tag.attributes["src"];
-                    if (!src.StartsWith("http://")&& 
+                    if (!src.StartsWith("http://") &&
                         !src.StartsWith("https://") &&
                         !src.StartsWith("#")) {
                         tag.attributes["src"] = "http://" + src;
@@ -97,6 +105,14 @@ namespace Alice.Web.Infrastructure {
                         tag.attributes["target"] = "_blank";
                     }
                     return true;
+                },
+                FormatCodeBlock = (transformer, input) => {
+                    StringReader reader = new StringReader(input);
+                    string firstLine = reader.ReadLine().Trim();
+                    bool hasLanguage = firstLine.StartsWith(":::");
+                    string language = hasLanguage ? firstLine.Substring(3) : "text";
+                    string code = hasLanguage ? reader.ReadToEnd() : input;
+                    return "<pre data-language=\"" + language + "\"><code>" + code + "</code></pre>\n\n";
                 }
             };
         }
