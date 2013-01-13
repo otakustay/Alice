@@ -167,6 +167,36 @@ body > header:first-of-type h3 {
 #copyright {
   float: left;
   font-weight: normal;
+  position: relative;
+}
+#copyright > blockquote {
+  position: absolute;
+  bottom: 1.4em;
+  left: 0;
+  background-color: #323232;
+  z-index: 999;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+#copyright > blockquote p {
+  margin: .5em;
+}
+#copyright:hover > blockquote {
+  width: 490px;
+  height: auto;
+  padding: .5em;
+  border: 1px solid #006fb0;
+  opacity: 1;
+  -webkit-transition: opacity 0.3s linear;
+  -moz-transition: opacity 0.3s linear;
+  -ms-transition: opacity 0.3s linear;
+  -o-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
 }
 #profileLinks > ul {
   padding: 0;

@@ -61,3 +61,11 @@
 	margin: 0;
 	list-style: none;
 }
+
+.transition(@property, @time, @effect) {
+	-webkit-transition: @property @time @effect;
+	-moz-transition: @property @time @effect;
+	-ms-transition: @property @time @effect;
+	-o-transition: @property @time @effect;
+	transition: @property @time @effect;
+}
