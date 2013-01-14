@@ -54,15 +54,25 @@ namespace Alice.Web.Infrastructure {
             parameters.Add("comment_author_email", comment.Author.Email);
             parameters.Add("comment_content", transformer.Transform(comment.Content));
 
-            string post = parameters.ToString();
+            bool isSpam = CheckSpam(parameters.ToString());
+
+            if (!isSpam) {
+                parameters.Set("comment_content", comment.Content);
+                isSpam = CheckSpam(parameters.ToString());
+            }
+
+            if (isSpam) {
+                comment.Audited = false;
+                session.Update(comment);
+            }
+        }
+
+        private bool CheckSpam(string parameters) {
             using (WebClient client = new WebClient()) {
                 client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 client.Headers.Add("User-Agent", "otakustay/1.0.1 | Akismet/2.5.3");
-                string result = client.UploadString(restUrl, post);
-                if (result == "true") {
-                    comment.Audited = false;
-                    session.Update(comment);
-                }
+                string result = client.UploadString(restUrl, parameters);
+                return result == "true";
             }
         }
 
