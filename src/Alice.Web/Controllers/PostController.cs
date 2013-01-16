@@ -188,7 +188,7 @@ namespace Alice.Web.Controllers {
             Dictionary<int, string> targetAuthor = new Dictionary<int, string>();
             if (comment.Target.HasValue) {
                 Comment target = DbSession.Get<Comment>(comment.Target);
-                // 防止CFRS攻击，评论只能评论同一文章下的
+                // 防止CSRF攻击，评论只能评论同一文章下的
                 if (target == null || target.PostName != comment.PostName) {
                     comment.Target = null;
                 }
