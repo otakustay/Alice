@@ -61,6 +61,11 @@ namespace Alice.Web.Infrastructure {
                 isSpam = CheckSpam(parameters.ToString());
             }
 
+            if (!isSpam) {
+                // 至少要有一个非ASCII字符
+                isSpam = comment.Content.All(c => c <= 255);
+            }
+
             if (isSpam) {
                 comment.Audited = false;
                 session.Update(comment);
