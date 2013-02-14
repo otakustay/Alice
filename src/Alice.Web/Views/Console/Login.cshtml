@@ -1,10 +1,11 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model String
 
 <div class="form">
     <h1>验证身份</h1>
-    <form method="post" action="@Url.Content("~/console/login/")">
+    <form method="post" action="@Url.Content("~/console/login/?returnUrl=" + Model)">
         <div class="row">
             <input type="password" name="password" placeholder="管理密码" autofocus="autofocus" required="required" maxlength="30" />
             @if (ViewBag.Fail != null) {

@@ -38,14 +38,14 @@ namespace Alice.Web.Controllers {
         public Markdown SafeTransformer { get; set; }
 
         [HttpGet]
-        public ActionResult Login() {
+        public ActionResult Login(string returnUrl = "") {
             ViewBag.Title = "验证身份";
 
-            return View();
+            return View((object)returnUrl);
         }
 
         [HttpPost]
-        public ActionResult Login(string password) {
+        public ActionResult Login(string password, string returnUrl = "") {
             ViewBag.Title = "验证身份";
 
             password += "@alice";
@@ -61,7 +61,7 @@ namespace Alice.Web.Controllers {
                 );
                 Response.Cookies.Add(cookie);
 
-                return Redirect(Url.Content("~/console/"));
+                return Redirect(String.IsNullOrEmpty(returnUrl) ? Url.Content("~/console/") : returnUrl);
             }
             else {
                 ViewBag.Fail = true;
