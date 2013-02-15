@@ -54,16 +54,16 @@ namespace Alice.Web.Infrastructure {
             parameters.Add("comment_author_email", comment.Author.Email);
             parameters.Add("comment_content", transformer.Transform(comment.Content));
 
-            bool isSpam = CheckSpam(parameters.ToString());
+            // 至少要有一个非ASCII字符
+            bool isSpam = comment.Content.All(c => c <= 255);
 
             if (!isSpam) {
-                parameters.Set("comment_content", comment.Content);
                 isSpam = CheckSpam(parameters.ToString());
             }
 
             if (!isSpam) {
-                // 至少要有一个非ASCII字符
-                isSpam = comment.Content.All(c => c <= 255);
+                parameters.Set("comment_content", comment.Content);
+                isSpam = CheckSpam(parameters.ToString());
             }
 
             if (isSpam) {
