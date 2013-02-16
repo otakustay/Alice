@@ -282,7 +282,9 @@
       <Compile>True</Compile>
       <Minify>True</Minify>
     </Content>
-    <None Include="Views\_ReplyMailTemplate.tpl" />
+    <None Include="Views\_ReplyMailTemplate.tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

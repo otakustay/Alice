@@ -27,8 +27,15 @@ namespace Alice.Web.Infrastructure {
 
         private readonly string email;
 
-        private readonly string template =
-            File.ReadAllText(HostingEnvironment.MapPath("~/Views/_ReplyMailTemplate.tpl"));
+        private static readonly string template;
+
+        static CommentProcessor() {
+            // MONO下的HostingEnvironment.MapPath和MS .NET不同，没有HttpContext.Current的时候会返回null
+            // 因此先去获取App_Data，再从App_Data找到对应的文件
+            string applicationRoot = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), "..");
+            string path = Path.Combine(applicationRoot, "Views", "_ReplyMailTemplate.tpl");
+            template = File.ReadAllText(path);
+        }
 
         public CommentProcessor(
             [Named("Email")] string email, [Named("SiteName")] string siteName,
